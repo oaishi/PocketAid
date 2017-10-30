@@ -1,36 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/profile"
+            android:title="Your Profile" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_checkup"
+            android:icon="@android:drawable/ic_input_get"
+            android:title="Virtual CheckUp" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_first_aid"
+            android:icon="@drawable/ic_extension_black_24dp"
+            android:title="First Aid Guide" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_symptoms"
+            android:icon="@drawable/ic_loyalty_black_24dp"
+            android:title="Disease Symptoms" />
+        <item
+            android:id="@+id/nav_tests"
+            android:icon="@drawable/ic_invert_colors_black_24dp"
+            android:title="Self Tests" />
+
+        <item
+            android:id="@+id/nav_reminder"
+            android:icon="@android:drawable/ic_lock_idle_alarm"
+            android:title="Reminder" />
+
+        <item
+            android:id="@+id/nav_message"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Emergency Contact" />
+
+        <item
+            android:id="@+id/nav_hospitals"
+            android:icon="@drawable/ic_local_hospital_black_24dp"
+            android:title="Nearby Hopspitals" />
+
+        <item
+            android:id="@+id/nav_fav"
+            android:icon="@drawable/ic_favorite_black_24dp"
+            android:title="Favourite List" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
-
 </menu>
