@@ -85,31 +85,42 @@ public class HomePage extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-
+            drawer.closeDrawer(GravityCompat.START);
+            displayToast("profile");
         } else if (id == R.id.nav_checkup) {
-
+            drawer.closeDrawer(GravityCompat.START);
+            displayToast("profile");
         } else if (id == R.id.nav_first_aid) {
-
+            drawer.closeDrawer(GravityCompat.START);
+            displayToast("profile");
         } else if (id == R.id.nav_symptoms) {
-
+            drawer.closeDrawer(GravityCompat.START);
+            displayToast("profile");
         } else if (id == R.id.nav_tests) {
-
+            drawer.closeDrawer(GravityCompat.START);
+            displayToast("profile");
         } else if (id == R.id.nav_reminder) {
-
+            drawer.closeDrawer(GravityCompat.START);
+            displayToast("profile");
         }else if (id == R.id.nav_message) {
-
+            drawer.closeDrawer(GravityCompat.START);
+            displayToast("profile");
         }else if (id == R.id.nav_hospitals) {
-
+            drawer.closeDrawer(GravityCompat.START);
+            displayToast("profile");
         }else if (id == R.id.nav_fav) {
-
+            drawer.closeDrawer(GravityCompat.START);
+            displayToast("profile");
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    public void displayToast(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
 }
