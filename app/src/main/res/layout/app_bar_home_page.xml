@@ -21,6 +21,12 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="@dimen/recycle_margin"
+        android:id="@+id/my_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -31,6 +37,5 @@
         android:tint="@color/TealDark"
         app:backgroundTint="@color/Teal"
         app:srcCompat="@android:drawable/star_off" />
-
 
 </android.support.design.widget.CoordinatorLayout>

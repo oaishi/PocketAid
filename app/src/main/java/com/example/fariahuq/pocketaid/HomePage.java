@@ -1,11 +1,15 @@
 package com.example.fariahuq.pocketaid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,8 +23,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private static RecyclerView recyclerView;
+    private static ArrayList<DataModel> data;
+    static View.OnClickListener myOnClickListener;
+    private static ArrayList<Integer> removedItems;
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +60,66 @@ public class HomePage extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+       ////recycle view
+       myOnClickListener = new MyOnClickListener(this);
+
+       recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+       recyclerView.setHasFixedSize(true);
+
+       layoutManager = new LinearLayoutManager(this);
+       recyclerView.setLayoutManager(layoutManager);
+       recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+       data = new ArrayList<DataModel>();
+       for (int i = 0; i < MyData.nameArray.length; i++) {
+           data.add(new DataModel(
+                   MyData.nameArray[i],
+                   MyData.versionArray[i],
+                   MyData.id_[i],
+                   MyData.drawableArray[i]
+           ));
+       }
+
+       removedItems = new ArrayList<Integer>();
+
+       adapter = new CustomAdapter(data);
+       recyclerView.setAdapter(adapter);
+    }
+
+
+    private static class MyOnClickListener implements View.OnClickListener {
+
+        private final Context context;
+
+        private MyOnClickListener(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public void onClick(View v) {
+            removeItem(v);
+        }
+
+        private void removeItem(View v) {
+            int selectedItemPosition = recyclerView.getChildPosition(v);
+            RecyclerView.ViewHolder viewHolder
+                    = recyclerView.findViewHolderForPosition(selectedItemPosition);
+            TextView textViewName
+                    = (TextView) viewHolder.itemView.findViewById(R.id.textViewName);
+            String selectedName = (String) textViewName.getText();
+            int selectedItemId = -1;
+            for (int i = 0; i < MyData.nameArray.length; i++) {
+                if (selectedName.equals(MyData.nameArray[i])) {
+                    selectedItemId = MyData.id_[i];
+                }
+            }
+            removedItems.add(selectedItemId);
+            data.remove(selectedItemPosition);
+            adapter.notifyItemRemoved(selectedItemPosition);
+        }
     }
 
     @Override
