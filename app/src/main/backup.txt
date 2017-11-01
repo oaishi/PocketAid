@@ -1,3 +1,12 @@
+<include
+        layout="@layout/content_home_page"
+        android:visibility="invisible" />
+
+/// app_bar_home_page.xml
+
+
+
+content_home_page.xml
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
