@@ -100,10 +100,10 @@ public class HomePage extends AppCompatActivity
 
         @Override
         public void onClick(View v) {
-            removeItem(v);
+            //removeItem(v);
         }
 
-        private void removeItem(View v) {
+       /* private void removeItem(View v) {
             int selectedItemPosition = recyclerView.getChildPosition(v);
             RecyclerView.ViewHolder viewHolder
                     = recyclerView.findViewHolderForPosition(selectedItemPosition);
@@ -119,7 +119,7 @@ public class HomePage extends AppCompatActivity
             removedItems.add(selectedItemId);
             data.remove(selectedItemPosition);
             adapter.notifyItemRemoved(selectedItemPosition);
-        }
+        }*/
     }
 
     @Override
