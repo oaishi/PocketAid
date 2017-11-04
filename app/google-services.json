@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1067475144258",
+    "firebase_url": "https://pocketaid-5aa14.firebaseio.com",
+    "project_id": "pocketaid-5aa14",
+    "storage_bucket": "pocketaid-5aa14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1067475144258:android:d010f0792411ac93",
+        "android_client_info": {
+          "package_name": "com.example.fariahuq.pocketaid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1067475144258-skkufshr014tgue97jv76jrqh1e76fuu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fariahuq.pocketaid",
+            "certificate_hash": "0f854233de59012755687067cd893bd95a03f5b1"
+          }
+        },
+        {
+          "client_id": "1067475144258-ar832bpojhgbr97vmfu2dkk777ccsv43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2UddSAm9ZiczF1fCFWe36aQc16Q_fgwk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1067475144258-ar832bpojhgbr97vmfu2dkk777ccsv43.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
