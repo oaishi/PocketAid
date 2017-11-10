@@ -2,6 +2,7 @@ package com.example.fariahuq.pocketaid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -32,16 +33,20 @@ public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static RecyclerView.Adapter adapter;
+    private SharedPreferences mPreferences;
     private RecyclerView.LayoutManager layoutManager;
     private static RecyclerView recyclerView;
     private static ArrayList<DataModel> data;
     static View.OnClickListener myOnClickListener;
     private static ArrayList<Integer> removedItems;
+    private int clickCounter;
+    private final String COUNT_KEY = "count";
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mPreferences = getSharedPreferences("com.example.fariahuq.pocketaid", MODE_PRIVATE);
+        clickCounter = mPreferences.getInt(COUNT_KEY, 0);
         setContentView(R.layout.activity_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -90,8 +95,20 @@ public class HomePage extends AppCompatActivity
 
        adapter = new CustomAdapter(data);
        recyclerView.setAdapter(adapter);
+
+       if(clickCounter==0)
+           loaddata();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    private void loaddata()
+    {
+
+    }
 
     private static class MyOnClickListener implements View.OnClickListener {
 
