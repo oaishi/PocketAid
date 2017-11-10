@@ -5,9 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 import static com.example.fariahuq.pocketaid.R.drawable.aid;
 
 /**
@@ -29,8 +31,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLOUMN_IMAGE="imagesrc";
     public static final String COLOUMN_FAVOURITE="fav";
 
-    public static final String COLOUMN_PRODUCTNAME="productname";
-
     public static final String TABLE_AID="aid";
     public static final String TABLE_AID_ITEM="aiditem";
 
@@ -45,8 +45,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String TABLE_FAVOURITE_SYMPTOMS="favsymptom";
 
     public static final String TABLE_CONTACT="contacts";
-    public static final String TABLE_PRODUCTS="products";
-
 
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -65,6 +63,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS"+TABLE_AID_ITEM);
         db.execSQL("DROP TABLE IF EXISTS"+TABLE_SELFTEST_ITEM);
         db.execSQL("DROP TABLE IF EXISTS"+TABLE_SYMPTOMS_ITEM);
+        db.execSQL("DROP TABLE IF EXISTS"+TABLE_FAVOURITE_AID);
+        db.execSQL("DROP TABLE IF EXISTS"+TABLE_FAVOURITE_SYMPTOMS);
+        db.execSQL("DROP TABLE IF EXISTS"+TABLE_FAVOURITE_TEST);
         onCreate(db);
 
     }
@@ -74,28 +75,28 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String query = "CREATE TABLE " + TABLE_AID + "(" +
-                COLOUMN_ID + " INTEGER PRIMARY KEY, " +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLOUMN_TITLE + " TEXT, " + COLOUMN_IMAGE + " TEXT, " + COLOUMN_FAVOURITE + " INTEGER " +
                 ");";
 
         db.execSQL(query);
 
         query = "CREATE TABLE " + TABLE_SELFTEST + "(" +
-                COLOUMN_ID + " INTEGER PRIMARY KEY, " +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLOUMN_TITLE + " TEXT, " + COLOUMN_IMAGE + " TEXT, " +COLOUMN_FAVOURITE + " INTEGER " +
                 ");";
 
         db.execSQL(query);
 
         query = "CREATE TABLE " + TABLE_SYMPTOMS + "(" +
-                COLOUMN_ID + " INTEGER PRIMARY KEY, " +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLOUMN_TITLE + " TEXT, "+COLOUMN_IMAGE + " TEXT, "  +COLOUMN_FAVOURITE + " INTEGER " +
                 ");";
 
         db.execSQL(query);
 
         query = "CREATE TABLE " + TABLE_AID_ITEM + "(" +
-                COLOUMN_ID + " INTEGER PRIMARY KEY, " +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLOUMN_TITLE + " TEXT, " +COLOUMN_DESC + " TEXT, " +
                 COLOUMN_FID + " INTEGER, " +COLOUMN_IMAGE + " TEXT "  +
                 ");";
@@ -103,7 +104,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.execSQL(query);
 
         query = "CREATE TABLE " + TABLE_SYMPTOMS_ITEM + "(" +
-                COLOUMN_ID + " INTEGER PRIMARY KEY, " +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLOUMN_TITLE + " TEXT, " +COLOUMN_DESC + " TEXT, " +
                 COLOUMN_FID + " INTEGER, " +COLOUMN_IMAGE + " TEXT "  +
                 ");";
@@ -111,9 +112,27 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.execSQL(query);
 
         query = "CREATE TABLE " + TABLE_SELFTEST_ITEM + "(" +
-                COLOUMN_ID + " INTEGER PRIMARY KEY, " +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLOUMN_TITLE + " TEXT, " + COLOUMN_DESC + " TEXT, " +
                 COLOUMN_FID + " INTEGER, " +COLOUMN_IMAGE + " TEXT "  +
+                ");";
+
+        db.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_FAVOURITE_AID + "(" +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLOUMN_FID + " INTEGER "  +
+                ");";
+
+        db.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_FAVOURITE_TEST + "(" +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLOUMN_FID + " INTEGER "  +
+                ");";
+
+        db.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_FAVOURITE_SYMPTOMS + "(" +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLOUMN_FID + " INTEGER "  +
                 ");";
 
         db.execSQL(query);
@@ -156,7 +175,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    public void addProducttoaiditem(AidItem aiditem,long id)
+    public void addProducttoaiditem(AidItem aiditem,int id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,aiditem.getImage());
@@ -168,7 +187,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttosymptomsitem(SymptomsItem sympitem,long id)
+    public void addProducttosymptomsitem(SymptomsItem sympitem,int id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,sympitem.getImage());
@@ -180,7 +199,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttoselftestitem(SelfTestItem selfitem,long id)
+    public void addProducttoselftestitem(SelfTestItem selfitem,int id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,selfitem.getImage());
@@ -192,39 +211,266 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteProduct(String productname){
+    public void addProducttofavaid(int id)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COLOUMN_FID,id);
+        SQLiteDatabase db= getWritableDatabase();
+        db.insert(TABLE_FAVOURITE_AID,null,values);
+        db.close();
+    }
+
+    public void addProducttofavtest(int id)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COLOUMN_FID,id);
+        SQLiteDatabase db= getWritableDatabase();
+        db.insert(TABLE_FAVOURITE_TEST,null,values);
+        db.close();
+    }
+
+    public void addProducttofavsymptoms(int id)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COLOUMN_FID,id);
+        SQLiteDatabase db= getWritableDatabase();
+        db.insert(TABLE_FAVOURITE_SYMPTOMS,null,values);
+        db.close();
+    }
+
+    public void deleteProductfromfavaid(int id){
 
         SQLiteDatabase db =getWritableDatabase();
 
-        db.execSQL("DELETE FROM " + TABLE_PRODUCTS + " WHERE " + COLOUMN_PRODUCTNAME + "=\"" + productname + "\";");
+        db.execSQL("DELETE FROM " + TABLE_FAVOURITE_AID + " WHERE " + COLOUMN_FID + " = " + id + ";");
 
     }
 
+    public void deleteProductfromfavselftest(int id){
 
-    public ArrayList<String> databasetostring(){
+        SQLiteDatabase db =getWritableDatabase();
 
-        ArrayList<String> listItems = new ArrayList<>();;
+        db.execSQL("DELETE FROM " + TABLE_FAVOURITE_TEST + " WHERE " + COLOUMN_FID + " = " + id + ";");
+
+    }
+
+    public void deleteProductfromfavsymptoms(int id){
+
+        SQLiteDatabase db =getWritableDatabase();
+
+        db.execSQL("DELETE FROM " + TABLE_FAVOURITE_SYMPTOMS + " WHERE " + COLOUMN_FID + " = " + id + ";");
+
+    }
+
+    public ArrayList<Aid> databasetostringaid(){
+
+        ArrayList<Aid> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
-
-        String query = "SELECT * FROM " + TABLE_PRODUCTS + " WHERE 1";
+        String query = "SELECT * FROM " + TABLE_AID + " WHERE 1";
 
         Cursor c =db.rawQuery(query,null);
 
         c.moveToFirst();
-
         while (!c.isAfterLast())
-
         {
-
-            if(c.getString(c.getColumnIndex("productname"))!=null)
-
-            {
-                listItems.add(c.getString(c.getColumnIndex("productname")));
-            }
-
+            Aid ad = new Aid();
+            ad.setId(c.getInt(c.getColumnIndex(COLOUMN_ID)));
+            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
+            ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
+            ad.setFavourite(c.getInt(c.getColumnIndex(COLOUMN_FAVOURITE)));
+            listItems.add(ad);
             c.moveToNext();
         }
+        db.close();
+        return listItems;
+    }
 
+    public ArrayList<SelfTest> databasetostringtest(){
+
+        ArrayList<SelfTest> listItems = new ArrayList<>();;
+        SQLiteDatabase db= getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_SELFTEST + " WHERE 1";
+
+        Cursor c =db.rawQuery(query,null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            SelfTest ad = new SelfTest();
+            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
+            ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
+            ad.setFavourite(c.getInt(c.getColumnIndex(COLOUMN_FAVOURITE)));
+            listItems.add(ad);
+            c.moveToNext();
+        }
+        db.close();
+        return listItems;
+    }
+
+    public ArrayList<Symptoms> databasetostringsymptoms(){
+
+        ArrayList<Symptoms> listItems = new ArrayList<>();;
+        SQLiteDatabase db= getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_SYMPTOMS + " WHERE 1";
+
+        Cursor c =db.rawQuery(query,null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            Symptoms ad = new Symptoms();
+            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
+            ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
+            ad.setFavourite(c.getInt(c.getColumnIndex(COLOUMN_FAVOURITE)));
+            listItems.add(ad);
+            c.moveToNext();
+        }
+        db.close();
+        return listItems;
+    }
+
+    public ArrayList<AidItem> databasetostringaiditem(int id){
+
+        ArrayList<AidItem> listItems = new ArrayList<>();;
+        SQLiteDatabase db= getWritableDatabase();
+        int count = 1;
+        String query = "SELECT * FROM " + TABLE_AID_ITEM + " WHERE "+COLOUMN_FID + " = " +id;
+
+        Cursor c =db.rawQuery(query,null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            AidItem ad = new AidItem();
+            ad.setId(count++);
+            ad.setDesc(c.getString(c.getColumnIndex(COLOUMN_DESC)));
+            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
+            ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
+            ad.setFid(c.getInt(c.getColumnIndex(COLOUMN_FID)));
+            listItems.add(ad);
+            c.moveToNext();
+        }
+        db.close();
+        return listItems;
+    }
+
+    public ArrayList<SelfTestItem> databasetostringtestitem(int id){
+
+        ArrayList<SelfTestItem> listItems = new ArrayList<>();;
+        SQLiteDatabase db= getWritableDatabase();
+        int count = 1;
+        String query = "SELECT * FROM " + TABLE_SELFTEST_ITEM + " WHERE "+COLOUMN_FID + " = " +id;
+
+        Cursor c =db.rawQuery(query,null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            SelfTestItem ad = new SelfTestItem();
+            ad.setId(count++);
+            ad.setDesc(c.getString(c.getColumnIndex(COLOUMN_DESC)));
+            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
+            ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
+            ad.setFid(c.getInt(c.getColumnIndex(COLOUMN_FID)));
+            listItems.add(ad);
+            c.moveToNext();
+        }
+        db.close();
+        return listItems;
+    }
+
+    public ArrayList<SymptomsItem> databasetostringsymptomsitem(int id){
+
+        ArrayList<SymptomsItem> listItems = new ArrayList<>();;
+        SQLiteDatabase db= getWritableDatabase();
+        int count = 1;
+        String query = "SELECT * FROM " + TABLE_SYMPTOMS_ITEM + " WHERE "+COLOUMN_FID + " = " +id;
+
+        Cursor c =db.rawQuery(query,null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            SymptomsItem ad = new SymptomsItem();
+            ad.setId(count++);
+            ad.setDesc(c.getString(c.getColumnIndex(COLOUMN_DESC)));
+            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
+            ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
+            ad.setFid(c.getInt(c.getColumnIndex(COLOUMN_FID)));
+            listItems.add(ad);
+            c.moveToNext();
+        }
+        db.close();
+        return listItems;
+    }
+
+    public ArrayList<Aid> databasetostringfavaid(){
+
+        ArrayList<Aid> listItems = new ArrayList<>();;
+        SQLiteDatabase db= getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_FAVOURITE_AID + " WHERE 1";
+
+        Cursor c =db.rawQuery(query,null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            Aid ad = new Aid();
+            ad.setId(c.getInt(c.getColumnIndex(COLOUMN_ID)));
+            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
+            ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
+            ad.setFavourite(c.getInt(c.getColumnIndex(COLOUMN_FAVOURITE)));
+            listItems.add(ad);
+            c.moveToNext();
+        }
+        db.close();
+        return listItems;
+    }
+
+    public ArrayList<SelfTest> databasetostringfavtest(){
+
+        ArrayList<SelfTest> listItems = new ArrayList<>();;
+        SQLiteDatabase db= getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_FAVOURITE_TEST + " WHERE 1";
+
+        Cursor c =db.rawQuery(query,null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            SelfTest ad = new SelfTest();
+            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
+            ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
+            ad.setFavourite(c.getInt(c.getColumnIndex(COLOUMN_FAVOURITE)));
+            listItems.add(ad);
+            c.moveToNext();
+        }
+        db.close();
+        return listItems;
+    }
+
+    public ArrayList<Symptoms> databasetostringfavsymptoms(){
+
+        ArrayList<Symptoms> listItems = new ArrayList<>();;
+        SQLiteDatabase db= getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_FAVOURITE_SYMPTOMS + " WHERE 1";
+
+        Cursor c =db.rawQuery(query,null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            Symptoms ad = new Symptoms();
+            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
+            ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
+            ad.setFavourite(c.getInt(c.getColumnIndex(COLOUMN_FAVOURITE)));
+            listItems.add(ad);
+            c.moveToNext();
+        }
         db.close();
         return listItems;
     }
