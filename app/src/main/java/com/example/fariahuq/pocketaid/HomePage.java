@@ -29,10 +29,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
+import static org.json.JSONObject.NULL;
 
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -119,8 +123,10 @@ public class HomePage extends AppCompatActivity
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        GenericTypeIndicator<ArrayList<Aid>> t = new GenericTypeIndicator<ArrayList<Aid>>() {};
                         //Get map of users in datasnapshot
-                        collectaid((Map<String,Object>) dataSnapshot.getValue());
+                        ArrayList<Aid> aids = dataSnapshot.getValue(t);
+                        collectaid(aids);
                     }
 
                     @Override
@@ -130,20 +136,21 @@ public class HomePage extends AppCompatActivity
                 });
     }
 
-    private void collectaid(Map<String,Object> aids) {
-
-        int count=1;
+    private void collectaid(ArrayList<Aid> aids) {
+        int count;
         //iterate through each user, ignoring their UID
-        for (Map.Entry<String, Object> entry : aids.entrySet()){
+        for (count=0;count<2;count++){
            // Aid aid = new Aid();
             //Get user map
-            Map singleUser = (Map) entry.getValue();
+           // Map singleUser = (Map) entry.getValue();
+            Aid aid = aids.get(count);
             //aid.setFavourite(0);
             //aid.setTitle((String) singleUser.get("name"));
-            Log.i("Firebase!", (String) singleUser.get("name"));
-            Log.i("Firebase!", (String)  singleUser.get("image"));
+            if(aid!=NULL)
+            Log.i("Firebase!", aid.getTitle());
+            if(aid!=NULL)
+            Log.i("Firebase!", aid.getImage());
             //aid.setImage((String) singleUser.get("image"));
-            count++;
         }
 
         System.out.println(count);
