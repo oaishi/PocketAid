@@ -111,7 +111,7 @@ public class HomePage extends AppCompatActivity
         super.onStart();
     }
 
-    //testinh
+    //testing Firebase database
     private void loaddata()
     {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
