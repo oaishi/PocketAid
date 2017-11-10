@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,15 +25,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static RecyclerView.Adapter adapter;
+    private MyDBHandler dbHandler;
     private SharedPreferences mPreferences;
     private RecyclerView.LayoutManager layoutManager;
     private static RecyclerView recyclerView;
@@ -69,7 +75,7 @@ public class HomePage extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
+       dbHandler =new MyDBHandler(this,null,null,1);
 
        ////recycle view
        myOnClickListener = new MyOnClickListener(this);
@@ -96,7 +102,7 @@ public class HomePage extends AppCompatActivity
        adapter = new CustomAdapter(data);
        recyclerView.setAdapter(adapter);
 
-       if(clickCounter==0)
+      // if(clickCounter==0)
            loaddata();
     }
 
@@ -107,7 +113,39 @@ public class HomePage extends AppCompatActivity
 
     private void loaddata()
     {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
+        ref.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Get map of users in datasnapshot
+                        collectaid((Map<String,Object>) dataSnapshot.getValue());
+                    }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //handle databaseError
+                    }
+                });
+    }
+
+    private void collectaid(Map<String,Object> aids) {
+
+        int count=1;
+        //iterate through each user, ignoring their UID
+        for (Map.Entry<String, Object> entry : aids.entrySet()){
+           // Aid aid = new Aid();
+            //Get user map
+            Map singleUser = (Map) entry.getValue();
+            //aid.setFavourite(0);
+            //aid.setTitle((String) singleUser.get("name"));
+            Log.i("Firebase!", (String) singleUser.get("name"));
+            Log.i("Firebase!", (String)  singleUser.get("image"));
+            //aid.setImage((String) singleUser.get("image"));
+            count++;
+        }
+
+        System.out.println(count);
     }
 
     private static class MyOnClickListener implements View.OnClickListener {
