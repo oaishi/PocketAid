@@ -132,6 +132,7 @@ public class HomePage extends AppCompatActivity
                         int count;
                         for (count=0;count<aids.size();count++){
                             Aid aid = aids.get(count);
+                            long i = dbHandler.addProducttoaid(aid);
                             if(aid!=NULL)
                                 Log.i("Firebase!", aid.getTitle());
                             if(aid!=NULL)
@@ -141,6 +142,7 @@ public class HomePage extends AppCompatActivity
                             ArrayList<AidItem> ai = dataSnapshot.child(Integer.toString(count)+"/Steps").getValue(ti);
                             for (int countitem=0;countitem<ai.size();countitem++) {
                                 AidItem aiditem = ai.get(countitem);
+                                dbHandler.addProducttoaiditem(aiditem,i);
                                 Log.i("Firebase!", aiditem.getTitle() + " - in steps");
                             }
                         }

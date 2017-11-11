@@ -7,8 +7,8 @@ package com.example.fariahuq.pocketaid;
 public class SelfTestItem
 {
 
-    int id;
-    int fid;
+    long id;
+    long fid;
     String image;
     String title;
     String desc;
@@ -23,7 +23,7 @@ public class SelfTestItem
         this.desc=desc;
     }
 
-    public SelfTestItem(int id, int fid, String image, String title, String desc) {
+    public SelfTestItem(long id, long fid, String image, String title, String desc) {
         this.id = id;
         this.fid = fid;
         this.image = image;
@@ -32,7 +32,7 @@ public class SelfTestItem
     }
 
     // setters
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -44,7 +44,7 @@ public class SelfTestItem
         this.title = title;
     }
 
-    public void setFid(int fid){
+    public void setFid(long fid){
         this.fid = fid;
     }
 
@@ -63,7 +63,7 @@ public class SelfTestItem
         return this.image;
     }
 
-    public int getFid(){
+    public long getFid(){
         return this.fid;
     }
 

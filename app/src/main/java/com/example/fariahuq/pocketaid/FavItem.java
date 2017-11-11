@@ -7,24 +7,24 @@ package com.example.fariahuq.pocketaid;
 public class FavItem
 {
 
-    int id;
-    int fid;
+    long id;
+    long fid;
 
     // constructors
     public FavItem() {
     }
 
-    public FavItem(int id, int fid) {
+    public FavItem(long id, long fid) {
         this.id = id;
         this.fid = fid;
     }
 
     // setters
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public void setFid(int fid){
+    public void setFid(long fid){
         this.fid = fid;
     }
 
@@ -32,7 +32,7 @@ public class FavItem
     public long getId() {
         return this.id;
     }
-    public int getFid(){
+    public long getFid(){
         return this.fid;
     }
 

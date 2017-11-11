@@ -7,11 +7,11 @@ package com.example.fariahuq.pocketaid;
 public class SymptomsItem
 {
 
-    int id;
-    int fid;
-    String image;
-    String title;
-    String desc;
+    private long id;
+    private long fid;
+    private String image;
+    private String title;
+    private String desc;
 
     // constructors
     public SymptomsItem() {
@@ -23,7 +23,7 @@ public class SymptomsItem
         this.desc=desc;
     }
 
-    public SymptomsItem(int id, int fid, String image, String title, String desc) {
+    public SymptomsItem(long id, long fid, String image, String title, String desc) {
         this.id = id;
         this.fid = fid;
         this.image = image;
@@ -32,7 +32,7 @@ public class SymptomsItem
     }
 
     // setters
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -44,7 +44,7 @@ public class SymptomsItem
         this.title = title;
     }
 
-    public void setFid(int fid){
+    public void setFid(long fid){
         this.fid = fid;
     }
 
@@ -63,7 +63,7 @@ public class SymptomsItem
         return this.image;
     }
 
-    public int getFid(){
+    public long getFid(){
         return this.fid;
     }
 

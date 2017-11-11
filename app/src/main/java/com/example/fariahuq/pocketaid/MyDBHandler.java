@@ -148,6 +148,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db= getWritableDatabase();
         long id = db.insert(TABLE_AID,null,values);
         db.close();
+        Log.i("DAtabase!","Found at"+String.valueOf(id));
         return id;
     }
 
@@ -175,7 +176,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    public void addProducttoaiditem(AidItem aiditem,int id)
+    public void addProducttoaiditem(AidItem aiditem,long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,aiditem.getImage());
@@ -185,9 +186,10 @@ public class MyDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db= getWritableDatabase();
         db.insert(TABLE_AID_ITEM,null,values);
         db.close();
+        Log.i("DAtabase!","Found at aiditem");
     }
 
-    public void addProducttosymptomsitem(SymptomsItem sympitem,int id)
+    public void addProducttosymptomsitem(SymptomsItem sympitem,long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,sympitem.getImage());
@@ -199,7 +201,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttoselftestitem(SelfTestItem selfitem,int id)
+    public void addProducttoselftestitem(SelfTestItem selfitem,long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,selfitem.getImage());
@@ -211,7 +213,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttofavaid(int id)
+    public void addProducttofavaid(long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_FID,id);
@@ -220,7 +222,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttofavtest(int id)
+    public void addProducttofavtest(long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_FID,id);
@@ -229,7 +231,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttofavsymptoms(int id)
+    public void addProducttofavsymptoms(long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_FID,id);
@@ -238,7 +240,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteProductfromfavaid(int id){
+    public void deleteProductfromfavaid(long id){
 
         SQLiteDatabase db =getWritableDatabase();
 
@@ -246,7 +248,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void deleteProductfromfavselftest(int id){
+    public void deleteProductfromfavselftest(long id){
 
         SQLiteDatabase db =getWritableDatabase();
 
@@ -254,7 +256,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void deleteProductfromfavsymptoms(int id){
+    public void deleteProductfromfavsymptoms(long id){
 
         SQLiteDatabase db =getWritableDatabase();
 
