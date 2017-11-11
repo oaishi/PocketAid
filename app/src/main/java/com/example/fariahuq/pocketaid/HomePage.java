@@ -52,6 +52,8 @@ public class HomePage extends AppCompatActivity
     private int clickCounter;
     private final String COUNT_KEY = "count";
 
+    private DatabaseReference ref;
+
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +82,7 @@ public class HomePage extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
        dbHandler =new MyDBHandler(this,null,null,1);
+       ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
 
        ////recycle view
        myOnClickListener = new MyOnClickListener(this);
@@ -118,7 +121,7 @@ public class HomePage extends AppCompatActivity
     //testing Firebase database
     private void loaddata()
     {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
+
         ref.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -126,7 +129,21 @@ public class HomePage extends AppCompatActivity
                         GenericTypeIndicator<ArrayList<Aid>> t = new GenericTypeIndicator<ArrayList<Aid>>() {};
                         //Get map of users in datasnapshot
                         ArrayList<Aid> aids = dataSnapshot.getValue(t);
-                        collectaid(aids);
+                        int count;
+                        for (count=0;count<aids.size();count++){
+                            Aid aid = aids.get(count);
+                            if(aid!=NULL)
+                                Log.i("Firebase!", aid.getTitle());
+                            if(aid!=NULL)
+                                Log.i("Firebase!", aid.getImage());
+                            Log.i("Firebase!", String.valueOf(aid.getId()));
+                            GenericTypeIndicator<ArrayList<AidItem>> ti = new GenericTypeIndicator<ArrayList<AidItem>>() {};
+                            ArrayList<AidItem> ai = dataSnapshot.child(Integer.toString(count)+"/Steps").getValue(ti);
+                            for (int countitem=0;countitem<ai.size();countitem++) {
+                                AidItem aiditem = ai.get(countitem);
+                                Log.i("Firebase!", aiditem.getTitle() + " - in steps");
+                            }
+                        }
                     }
 
                     @Override
@@ -136,25 +153,6 @@ public class HomePage extends AppCompatActivity
                 });
     }
 
-    private void collectaid(ArrayList<Aid> aids) {
-        int count;
-        //iterate through each user, ignoring their UID
-        for (count=0;count<2;count++){
-           // Aid aid = new Aid();
-            //Get user map
-           // Map singleUser = (Map) entry.getValue();
-            Aid aid = aids.get(count);
-            //aid.setFavourite(0);
-            //aid.setTitle((String) singleUser.get("name"));
-            if(aid!=NULL)
-            Log.i("Firebase!", aid.getTitle());
-            if(aid!=NULL)
-            Log.i("Firebase!", aid.getImage());
-            //aid.setImage((String) singleUser.get("image"));
-        }
-
-        System.out.println(count);
-    }
 
     private static class MyOnClickListener implements View.OnClickListener {
 

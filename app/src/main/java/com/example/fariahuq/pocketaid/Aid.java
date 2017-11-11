@@ -13,7 +13,7 @@ public class Aid
     int favourite;
     String image;
     String title;
-    public Map<String,Ai> items;
+    Map<String,Ai> items;
 
     // constructors
     public Aid() {
@@ -48,6 +48,9 @@ public class Aid
         this.favourite = favourite;
     }
 
+    public void setItems(Map<String,Ai> items)
+    {this.items = items;}
+
     // getters
     public long getId() {
         return this.id;
@@ -63,6 +66,10 @@ public class Aid
 
     public int getFavourite(){
         return this.favourite;
+    }
+    public Map<String,Ai> getItems ()
+    {
+        return this.items;
     }
     static public class Ai
 {
