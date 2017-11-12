@@ -34,11 +34,13 @@
                 tools:ignore="ContentDescription" />
 
             <LinearLayout
+                android:id="@+id/poopy"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal">
 
                 <TextView
                     android:id="@+id/textViewName"
@@ -46,18 +48,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
-                    android:text="Android Name"
+                    android:text=""
                     android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                <TextView
-                    android:id="@+id/textViewVersion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-
-                    android:text="Android Version"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
             </LinearLayout>
         </LinearLayout>
