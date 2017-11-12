@@ -8,15 +8,16 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 public class HolderOfAidList extends Fragment {
-    private static final String TAG = "RecyclerViewFragment";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
     private static final int DATASET_COUNT = 60;
@@ -26,10 +27,12 @@ public class HolderOfAidList extends Fragment {
         LINEAR_LAYOUT_MANAGER
     }
 
+
     protected LayoutManagerType mCurrentLayoutManagerType;
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    static View.OnClickListener myOnClickListener;
     protected RecyclerView mRecyclerView;
     protected CustomAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
@@ -60,7 +63,6 @@ public class HolderOfAidList extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_holder_of_aid_list, container, false);
-        view.setTag(TAG);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycle_view_list);
         mLayoutManager  = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
@@ -72,6 +74,7 @@ public class HolderOfAidList extends Fragment {
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
         mAdapter = new CustomAdapter(data);
         mRecyclerView.setAdapter(mAdapter);
+        myOnClickListener = new MyOnClickListener(getActivity());
         //TODO:Will have to check it later
         //mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         return view;
@@ -87,14 +90,14 @@ public class HolderOfAidList extends Fragment {
      * @return A new instance of fragment HolderOfAidList.
      */
     // TODO: Rename and change types and number of parameters
-    public static HolderOfAidList newInstance(String param1, String param2) {
+    /*public static HolderOfAidList newInstance(String param1, String param2) {
         HolderOfAidList fragment = new HolderOfAidList();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
-        return fragment;
-    }
+        return fragment;*/
+   // }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -141,4 +144,39 @@ public class HolderOfAidList extends Fragment {
             ));
         }
     }
+
+    //imported from homepage
+    private static class MyOnClickListener implements View.OnClickListener {
+
+        private final Context context;
+
+        private MyOnClickListener(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(context, "Found", Toast.LENGTH_SHORT).show();
+            Log.i("Fragment","Got");
+        }
+
+       /* private void removeItem(View v) {
+            int selectedItemPosition = recyclerView.getChildPosition(v);
+            RecyclerView.ViewHolder viewHolder
+                    = recyclerView.findViewHolderForPosition(selectedItemPosition);
+            TextView textViewName
+                    = (TextView) viewHolder.itemView.findViewById(R.id.textViewName);
+            String selectedName = (String) textViewName.getText();
+            int selectedItemId = -1;
+            for (int i = 0; i < MyData.nameArray.length; i++) {
+                if (selectedName.equals(MyData.nameArray[i])) {
+                    selectedItemId = MyData.id_[i];
+                }
+            }
+            removedItems.add(selectedItemId);
+            data.remove(selectedItemPosition);
+            adapter.notifyItemRemoved(selectedItemPosition);
+        }*/
+    }
+
 }

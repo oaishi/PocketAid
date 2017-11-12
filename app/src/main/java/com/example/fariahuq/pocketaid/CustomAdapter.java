@@ -26,12 +26,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
             this.textViewVersion = (TextView) itemView.findViewById(R.id.textViewVersion);
             this.imageViewIcon = (ImageView) itemView.findViewById(R.id.imageView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("Recycle","Element " + getAdapterPosition() + " clicked.");
-                }
-            });
+
         }
 
         public TextView getTextViewName() {
@@ -58,14 +53,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 .inflate(R.layout.cards_layout, viewGroup, false);
 
         //view.setOnClickListener(HomePage.myOnClickListener);
-       // view.setOnClickListener(HolderOfAidList.myOnClickListener);
+        view.setOnClickListener(HolderOfAidList.myOnClickListener);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int listPosition) {
-        Log.d("recycle", "Element " + listPosition + " set.");
+        Log.d("Adapter", "Element " + listPosition + " set.");
         holder.getTextViewName().setText(dataSet.get(listPosition).getName());
         holder.getTextViewVersion().setText(dataSet.get(listPosition).getVersion());
         holder.getImageViewIcon().setImageResource(dataSet.get(listPosition).getImage());
