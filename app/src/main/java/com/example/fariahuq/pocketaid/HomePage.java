@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -35,14 +37,8 @@ import static org.json.JSONObject.NULL;
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static RecyclerView.Adapter adapter;
     private MyDBHandler dbHandler;
     private SharedPreferences mPreferences;
-    private RecyclerView.LayoutManager layoutManager;
-    private static RecyclerView recyclerView;
-    private static ArrayList<DataModel> data;
-    static View.OnClickListener myOnClickListener;
-    private static ArrayList<Integer> removedItems;
     private int clickCounter;
     private final String COUNT_KEY = "count";
 
@@ -51,12 +47,15 @@ public class HomePage extends AppCompatActivity
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mPreferences = getSharedPreferences("com.example.fariahuq.pocketaid", MODE_PRIVATE);
         clickCounter = mPreferences.getInt(COUNT_KEY, 0);
+
         setContentView(R.layout.activity_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,31 +76,6 @@ public class HomePage extends AppCompatActivity
 
        dbHandler =new MyDBHandler(this,null,null,1);
        ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
-
-       ////recycle view
-       myOnClickListener = new MyOnClickListener(this);
-
-       recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-       recyclerView.setHasFixedSize(true);
-
-       layoutManager = new LinearLayoutManager(this);
-       recyclerView.setLayoutManager(layoutManager);
-       recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-       data = new ArrayList<DataModel>();
-       for (int i = 0; i < MyData.nameArray.length; i++) {
-           data.add(new DataModel(
-                   MyData.nameArray[i],
-                   MyData.versionArray[i],
-                   MyData.id_[i],
-                   MyData.drawableArray[i]
-           ));
-       }
-
-       removedItems = new ArrayList<Integer>();
-
-       adapter = new CustomAdapter(data);
-       recyclerView.setAdapter(adapter);
 
       // if(clickCounter==0)
            loaddata();
@@ -149,39 +123,6 @@ public class HomePage extends AppCompatActivity
                 });
     }
 
-
-    private static class MyOnClickListener implements View.OnClickListener {
-
-        private final Context context;
-
-        private MyOnClickListener(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public void onClick(View v) {
-            //removeItem(v);
-        }
-
-       /* private void removeItem(View v) {
-            int selectedItemPosition = recyclerView.getChildPosition(v);
-            RecyclerView.ViewHolder viewHolder
-                    = recyclerView.findViewHolderForPosition(selectedItemPosition);
-            TextView textViewName
-                    = (TextView) viewHolder.itemView.findViewById(R.id.textViewName);
-            String selectedName = (String) textViewName.getText();
-            int selectedItemId = -1;
-            for (int i = 0; i < MyData.nameArray.length; i++) {
-                if (selectedName.equals(MyData.nameArray[i])) {
-                    selectedItemId = MyData.id_[i];
-                }
-            }
-            removedItems.add(selectedItemId);
-            data.remove(selectedItemPosition);
-            adapter.notifyItemRemoved(selectedItemPosition);
-        }*/
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -225,12 +166,17 @@ public class HomePage extends AppCompatActivity
         if (id == R.id.nav_profile) {
             drawer.closeDrawer(GravityCompat.START);
             displayToast("profile");
+
         } else if (id == R.id.nav_checkup) {
             drawer.closeDrawer(GravityCompat.START);
-            displayToast("profile");
+            displayToast("checkup");
         } else if (id == R.id.nav_first_aid) {
             drawer.closeDrawer(GravityCompat.START);
-            displayToast("profile");
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                HolderOfAidList fragment = new HolderOfAidList();
+                transaction.replace(R.id.Fragment_Container, fragment);
+                transaction.commit();
+            displayToast("first aid");
         } else if (id == R.id.nav_symptoms) {
             drawer.closeDrawer(GravityCompat.START);
             displayToast("profile");

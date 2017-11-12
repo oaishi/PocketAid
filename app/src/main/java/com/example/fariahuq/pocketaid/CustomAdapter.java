@@ -1,6 +1,7 @@
 package com.example.fariahuq.pocketaid;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,24 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
             this.textViewVersion = (TextView) itemView.findViewById(R.id.textViewVersion);
             this.imageViewIcon = (ImageView) itemView.findViewById(R.id.imageView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d("Recycle","Element " + getAdapterPosition() + " clicked.");
+                }
+            });
+        }
+
+        public TextView getTextViewName() {
+            return textViewName;
+        }
+
+        public TextView getTextViewVersion(){
+            return textViewVersion;
+        }
+
+        public ImageView getImageViewIcon(){
+            return imageViewIcon;
         }
     }
 
@@ -32,28 +51,24 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.dataSet = data;
     }
 
+
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                           int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.cards_layout, parent, false);
+    public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.cards_layout, viewGroup, false);
 
-        view.setOnClickListener(HomePage.myOnClickListener);
-
+        //view.setOnClickListener(HomePage.myOnClickListener);
+       // view.setOnClickListener(HolderOfAidList.myOnClickListener);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
-
-        TextView textViewName = holder.textViewName;
-        TextView textViewVersion = holder.textViewVersion;
-        ImageView imageView = holder.imageViewIcon;
-
-        textViewName.setText(dataSet.get(listPosition).getName());
-        textViewVersion.setText(dataSet.get(listPosition).getVersion());
-        imageView.setImageResource(dataSet.get(listPosition).getImage());
+    public void onBindViewHolder(MyViewHolder holder, final int listPosition) {
+        Log.d("recycle", "Element " + listPosition + " set.");
+        holder.getTextViewName().setText(dataSet.get(listPosition).getName());
+        holder.getTextViewVersion().setText(dataSet.get(listPosition).getVersion());
+        holder.getImageViewIcon().setImageResource(dataSet.get(listPosition).getImage());
     }
 
     @Override
