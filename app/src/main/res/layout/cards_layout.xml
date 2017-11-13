@@ -11,45 +11,42 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardBackgroundColor="@android:color/holo_blue_bright"
-        card_view:cardCornerRadius="15dp"
-        card_view:cardElevation="10dp"
-        card_view:cardUseCompatPadding="true">
+        android:layout_margin="10dp"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardElevation="10dp">
 
 
         <LinearLayout
+            android:id="@+id/poopy"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:src="@drawable/aid"
                 android:layout_weight="1"
-                android:tag="image_tag"
                 android:contentDescription=""
+                android:scaleType="fitXY"
+                android:src="@drawable/aid"
+                android:tag="image_tag"
                 tools:ignore="ContentDescription" />
 
             <LinearLayout
-                android:id="@+id/poopy"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_gravity="center_horizontal">
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/textViewName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
                     android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/cardview_dark_background" />
 
             </LinearLayout>
         </LinearLayout>

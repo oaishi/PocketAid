@@ -6,4 +6,13 @@
     <color name="Teal">#68efad</color>
     <color name="TealDark">#1e9c77</color>
     <color name="White">#ffffff</color>
+    <color name="item1">#FF5722</color>
+    <color name="item2">#40C4FF</color>
+
+
+    <array name="array">
+        <item>@color/item1</item>
+        <item>@color/item2</item>
+    </array>
+
 </resources>

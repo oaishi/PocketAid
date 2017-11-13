@@ -43,6 +43,7 @@ public class HolderOfAidList extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private int[] rainbow;
 
     public HolderOfAidList() {
         // Required empty public constructor
@@ -71,8 +72,9 @@ public class HolderOfAidList extends Fragment {
             mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
                     .getSerializable(KEY_LAYOUT_MANAGER);
         }
+        rainbow =(container.getContext()).getResources().getIntArray(R.array.array);
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-        mAdapter = new CustomAdapter(data);
+        mAdapter = new CustomAdapter(data,rainbow);
         mRecyclerView.setAdapter(mAdapter);
         myOnClickListener = new MyOnClickListener(getActivity());
         //TODO:Will have to check it later
