@@ -1,6 +1,7 @@
 package com.example.fariahuq.pocketaid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -160,6 +161,8 @@ public class HolderOfAidList extends Fragment {
         @Override
         public void onClick(View v) {
             Toast.makeText(context, "Found", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context,Description_page.class);
+            context.startActivity(intent);
             Log.i("Fragment","Got");
         }
 

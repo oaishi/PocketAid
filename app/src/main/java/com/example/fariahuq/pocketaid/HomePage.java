@@ -1,6 +1,7 @@
 package com.example.fariahuq.pocketaid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -166,7 +167,6 @@ public class HomePage extends AppCompatActivity
         if (id == R.id.nav_profile) {
             drawer.closeDrawer(GravityCompat.START);
             displayToast("profile");
-
         } else if (id == R.id.nav_checkup) {
             drawer.closeDrawer(GravityCompat.START);
             displayToast("checkup");
