@@ -140,7 +140,9 @@ public class HolderOfAidList extends Fragment {
         data = new ArrayList<DataModel>();
         MyDBHandler dbHandler = new MyDBHandler(getActivity(),null,null,1);
         ArrayList<Aid> aid =dbHandler.databasetostringaid();
-        for (int i = 0; i < MyData.nameArray.length; i++) {
+        int max =MyData.nameArray.length;
+        if(max>aid.size()){max = aid.size();}
+        for (int i = 0; i < max; i++) {
             data.add(new DataModel(
                     aid.get(i).getTitle(),
                     MyData.id_[i],

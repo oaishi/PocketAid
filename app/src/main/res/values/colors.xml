@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorlight">#e93578</color>
+    <color name="Black">#000000</color>
     <color name="colorPrimary">#9B26AF</color>
     <color name="colorPrimaryDark">#7A1EA1</color>
     <color name="colorAccent">#691a99</color>
     <color name="Teal">#68efad</color>
     <color name="TealDark">#1e9c77</color>
+    <color name="Background">#fefce0</color>
+    <color name="Grey">#fe414141</color>
     <color name="White">#ffffff</color>
-    <color name="item1">#FF5722</color>
-    <color name="item2">#40C4FF</color>
-
+    <color name="item1">#fec63d</color>
+    <color name="item2">#d7eb5a</color>
+    <color name="item3">#f06e9c</color>
+    <color name="item4">#FF8247</color>
+    <color name="item5">#00CED1</color>
 
     <array name="array">
         <item>@color/item1</item>
         <item>@color/item2</item>
+        <item>@color/item3</item>
+        <item>@color/item4</item>
+        <item>@color/item5</item>
     </array>
 
 </resources>

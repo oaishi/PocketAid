@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.example.fariahuq.pocketaid.NewAlarm"
+        tools:showIn="@layout/activity_new_alarm">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:id="@+id/alarmtype"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="Alarm Type :"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/roundercorner"
+                    android:text="Medication"
+                    android:textColor="@color/White"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/roundercornertransparent"
+                    android:text="Appointment"
+                    android:textColor="@color/Grey"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alarm Picture :"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@drawable/hi" />
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/roundercornertransparent"
+                    android:text="Change"
+                    android:textColor="@color/Black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_margin="5dp"
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/Teal"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:id="@+id/alarmtype1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="Repeat :"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/buttonp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/roundercorner"
+                    android:text="Yes"
+                    android:textColor="@color/White"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/button1p"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.3"
+                    android:background="@drawable/roundercornertransparent"
+                    android:text="No"
+                    android:textColor="@color/Grey"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:id="@+id/alarmtypepd1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="Dose :"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/buttonpsv"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.7"
+                    android:background="@drawable/roundercornertransparent"
+                    android:gravity="center"
+                    android:text="4"
+                    android:textColor="@color/Black"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_margin="5dp"
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="@color/Teal"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:id="@+id/alarmtypepdgd1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.3"
+                    android:text="First Time Of Medication :"
+                    android:textColor="@color/Black"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/buttofffnpsv"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/fullroundercorner"
+                    android:gravity="center"
+                    android:text="PM\n1 2 : 0 0 "
+                    android:textColor="@color/colorlight"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+</ScrollView>

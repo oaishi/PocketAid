@@ -3,6 +3,8 @@ package com.example.fariahuq.pocketaid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -31,6 +33,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import static org.json.JSONObject.NULL;
@@ -42,7 +47,7 @@ public class HomePage extends AppCompatActivity
     private SharedPreferences mPreferences;
     private int clickCounter;
     private final String COUNT_KEY = "count";
-
+    public Bitmap bit;
     private DatabaseReference ref;
 
    @Override
@@ -78,13 +83,29 @@ public class HomePage extends AppCompatActivity
        dbHandler =new MyDBHandler(this,null,null,1);
        ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
 
-      // if(clickCounter==0)
+       if(clickCounter==0)
            loaddata();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    public Bitmap getBitmapFromURL(String src) {
+        try {
+            java.net.URL url = new java.net.URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     //testing Firebase database
@@ -122,6 +143,10 @@ public class HomePage extends AppCompatActivity
                         //handle databaseError
                     }
                 });
+        Log.i("prefer",String.valueOf(clickCounter));
+        clickCounter++;
+        Log.i("prefer",String.valueOf(clickCounter));
+        mPreferences.edit().putInt(COUNT_KEY,clickCounter);
     }
 
     @Override
@@ -185,6 +210,8 @@ public class HomePage extends AppCompatActivity
             displayToast("profile");
         } else if (id == R.id.nav_reminder) {
             drawer.closeDrawer(GravityCompat.START);
+            Intent intent = new Intent(this,NewAlarm.class);
+            startActivity(intent);
             displayToast("profile");
         }else if (id == R.id.nav_message) {
             drawer.closeDrawer(GravityCompat.START);

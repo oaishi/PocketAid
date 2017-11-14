@@ -37,16 +37,27 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:orientation="horizontal"
+                android:gravity="center"
+               >
 
                 <TextView
                     android:id="@+id/textViewName"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text=""
+                    android:layout_marginLeft="5dp"
+                    android:forceHasOverlappingRendering="true"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/cardview_dark_background" />
+                    android:textColor="@color/Grey"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/iconholder"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@drawable/ic_unfav" />
 
             </LinearLayout>
         </LinearLayout>

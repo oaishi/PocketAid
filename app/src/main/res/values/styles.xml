@@ -21,4 +21,8 @@
         <item name="android:textColorSecondary">@color/Teal</item>
     </style>
 
+    <style name="ToolbarColoredBackArrow1" parent="AppTheme.PopupOverlay">
+        <item name="android:textColorSecondary">@color/Grey</item>
+    </style>
+
 </resources>

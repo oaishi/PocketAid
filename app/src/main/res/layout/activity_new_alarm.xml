@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.fariahuq.pocketaid.HomePage">
+    tools:context="com.example.fariahuq.pocketaid.NewAlarm">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -16,16 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:theme="@style/ToolbarColoredBackArrow"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/Fragment_Container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize"></FrameLayout>
+    <include layout="@layout/content_new_alarm" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -33,11 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:tint="@color/TealDark"
-        app:backgroundTint="@color/Teal"
-        app:srcCompat="@android:drawable/star_off"
-        android:visibility="invisible"/>
-
-
+        android:tint="@color/Teal"
+        app:backgroundTint="@color/TealDark"
+        app:srcCompat="@android:drawable/ic_popup_reminder" />
 
 </android.support.design.widget.CoordinatorLayout>
