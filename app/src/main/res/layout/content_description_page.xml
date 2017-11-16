@@ -30,8 +30,7 @@
             android:layout_margin="15dp"
             android:layout_weight="0"
             android:background="@drawable/rectangle_das_line"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/compress" />
+            android:scaleType="fitXY" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -1,24 +1,16 @@
 package com.example.fariahuq.pocketaid;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -32,31 +24,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
-
 import static org.json.JSONObject.NULL;
 
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private MyDBHandler dbHandler;
-    private SharedPreferences mPreferences;
-    private int clickCounter;
-    private final String COUNT_KEY = "count";
-    public Bitmap bit;
     private DatabaseReference ref;
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mPreferences = getSharedPreferences("com.example.fariahuq.pocketaid", MODE_PRIVATE);
-        clickCounter = mPreferences.getInt(COUNT_KEY, 0);
-
         setContentView(R.layout.activity_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -82,29 +61,14 @@ public class HomePage extends AppCompatActivity
 
        dbHandler =new MyDBHandler(this,null,null,1);
        ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
-
-       if(clickCounter==0)
-           loaddata();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-    }
-
-    public Bitmap getBitmapFromURL(String src) {
-        try {
-            java.net.URL url = new java.net.URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url
-                    .openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+        if(dbHandler.databasetostringfavaid().size()==0)
+        {
+            loaddata();
         }
     }
 
@@ -143,10 +107,6 @@ public class HomePage extends AppCompatActivity
                         //handle databaseError
                     }
                 });
-        Log.i("prefer",String.valueOf(clickCounter));
-        clickCounter++;
-        Log.i("prefer",String.valueOf(clickCounter));
-        mPreferences.edit().putInt(COUNT_KEY,clickCounter);
     }
 
     @Override

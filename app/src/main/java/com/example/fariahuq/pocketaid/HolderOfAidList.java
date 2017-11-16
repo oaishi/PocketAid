@@ -34,7 +34,7 @@ public class HolderOfAidList extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     static View.OnClickListener myOnClickListener;
-    protected RecyclerView mRecyclerView;
+    protected static RecyclerView mRecyclerView;
     protected CustomAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     private static ArrayList<DataModel> data;
@@ -164,8 +164,8 @@ public class HolderOfAidList extends Fragment {
         public void onClick(View v) {
             Toast.makeText(context, "Found", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(context,Description_page.class);
+            intent.putExtra("position",mRecyclerView.getChildLayoutPosition(v));
             context.startActivity(intent);
-            Log.i("Fragment","Got");
         }
 
        /* private void removeItem(View v) {
