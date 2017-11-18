@@ -2,6 +2,8 @@ package com.example.fariahuq.pocketaid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 
 
@@ -37,14 +41,11 @@ public class HolderOfAidList extends Fragment {
     protected static RecyclerView mRecyclerView;
     protected CustomAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    private static ArrayList<DataModel> data;
     // TODO:This was not in the original sample
-    private static RecyclerView.Adapter adapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private int[] rainbow;
 
     public HolderOfAidList() {
         // Required empty public constructor
@@ -57,7 +58,6 @@ public class HolderOfAidList extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        initDataset();
     }
 
     @Override
@@ -73,9 +73,8 @@ public class HolderOfAidList extends Fragment {
             mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
                     .getSerializable(KEY_LAYOUT_MANAGER);
         }
-        rainbow =(container.getContext()).getResources().getIntArray(R.array.array);
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-        mAdapter = new CustomAdapter(data,rainbow);
+        mAdapter = new CustomAdapter(container);
         mRecyclerView.setAdapter(mAdapter);
         myOnClickListener = new MyOnClickListener(getActivity());
         //TODO:Will have to check it later
@@ -136,21 +135,6 @@ public class HolderOfAidList extends Fragment {
         mRecyclerView.scrollToPosition(scrollPosition);
     }
 
-    private void initDataset() {
-        data = new ArrayList<DataModel>();
-        MyDBHandler dbHandler = new MyDBHandler(getActivity(),null,null,1);
-        ArrayList<Aid> aid =dbHandler.databasetostringaid();
-        int max =MyData.nameArray.length;
-        if(max>aid.size()){max = aid.size();}
-        for (int i = 0; i < max; i++) {
-            data.add(new DataModel(
-                    aid.get(i).getTitle(),
-                    MyData.id_[i],
-                    MyData.drawableArray[i]
-            ));
-        }
-    }
-
     //imported from homepage
     private static class MyOnClickListener implements View.OnClickListener {
 
@@ -167,24 +151,6 @@ public class HolderOfAidList extends Fragment {
             intent.putExtra("position",mRecyclerView.getChildLayoutPosition(v));
             context.startActivity(intent);
         }
-
-       /* private void removeItem(View v) {
-            int selectedItemPosition = recyclerView.getChildPosition(v);
-            RecyclerView.ViewHolder viewHolder
-                    = recyclerView.findViewHolderForPosition(selectedItemPosition);
-            TextView textViewName
-                    = (TextView) viewHolder.itemView.findViewById(R.id.textViewName);
-            String selectedName = (String) textViewName.getText();
-            int selectedItemId = -1;
-            for (int i = 0; i < MyData.nameArray.length; i++) {
-                if (selectedName.equals(MyData.nameArray[i])) {
-                    selectedItemId = MyData.id_[i];
-                }
-            }
-            removedItems.add(selectedItemId);
-            data.remove(selectedItemPosition);
-            adapter.notifyItemRemoved(selectedItemPosition);
-        }*/
     }
 
 }

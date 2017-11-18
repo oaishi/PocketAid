@@ -1,8 +1,14 @@
 package com.example.fariahuq.pocketaid;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -18,13 +24,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+
 import static org.json.JSONObject.NULL;
 
 public class HomePage extends AppCompatActivity
@@ -32,8 +53,15 @@ public class HomePage extends AppCompatActivity
 
     private MyDBHandler dbHandler;
     private DatabaseReference ref;
+    private DisplayImageOptions options;
+    private ImageSize targetSize;
+    private String path;
+    private ContextWrapper cw;
+    private File directoryaid;
+    private StorageReference storageRef;
+    private FirebaseStorage storage;
 
-   @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
@@ -59,17 +87,82 @@ public class HomePage extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-       dbHandler =new MyDBHandler(this,null,null,1);
-       ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
+        storage = FirebaseStorage.getInstance();
+        dbHandler =new MyDBHandler(this,null,null,1);
+        ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
+       /* storageRef = storage.getReferenceFromUrl("gs://pocketaid-5aa14.appspot.com/Snakebite/bite8.jpg");
+        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                loadimage(uri.toString());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });*/
+
+       options = new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
+               .showImageForEmptyUri(getResources().getDrawable(R.drawable.hi))
+               .showImageOnFail(getResources().getDrawable(R.drawable.hi))
+               .showImageOnLoading(getResources().getDrawable(R.drawable.hi)).build();
+       targetSize = new ImageSize(30, 30);
+       path = getApplicationContext().getDir("imageDir",Context.MODE_PRIVATE) + "/";
+       cw = new ContextWrapper(getApplicationContext());
+       directoryaid = cw.getDir("imageDir", Context.MODE_PRIVATE);
+
+       boolean mboolean = false;
+       SharedPreferences settings = getSharedPreferences("com.example.fariahuq.pocketaid", 0);
+       mboolean = settings.getBoolean("FIRST_RUN", false);
+       if (!mboolean) {
+           settings = getSharedPreferences("com.example.fariahuq.pocketaid", 0);
+           SharedPreferences.Editor editor = settings.edit();
+           editor.putBoolean("FIRST_RUN", true);
+           editor.commit();
+           loaddata();
+       }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if(dbHandler.databasetostringfavaid().size()==0)
-        {
-            loaddata();
-        }
+    //private long loadimage(String imageUri, final String parent, final int count ,final Aid aid)
+    private long loadimage(String imageUri, final int count)
+    {
+        final long[] init = new long[1];
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader.getInstance().init(config);
+        ImageLoader imageLoader = ImageLoader.getInstance();
+         // result Bitmap will be fit to this size
+        imageLoader.loadImage(imageUri, targetSize, options, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                String pathname = path +Integer.toString(count)+".jpg";
+               // String pathname = path +"1.jpg";
+                File file = new File(pathname);
+                Log.i("Image",pathname);
+                if(file.exists()==false) {
+                    File mypath = new File(directoryaid, "/" +Integer.toString(count)+".jpg");
+                    //File mypath = new File(directoryaid, "/" + "1.jpg");
+                    Log.i("Image",mypath.getAbsolutePath());
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(mypath);
+                        //loadedImage.compress(null,100,fos);
+                        loadedImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                      //  aid.setImage(pathname);
+                        //init[0] = dbHandler.addProducttoaid(aid);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        return 0;
     }
 
     //testing Firebase database
@@ -86,11 +179,16 @@ public class HomePage extends AppCompatActivity
                         int count;
                         for (count=0;count<aids.size();count++){
                             Aid aid = aids.get(count);
+                            Log.i("Firebase!", aid.getImage());
+                           if(aid.getImage().equals("null")==false) {
+                                loadimage(aid.getImage(),count);
+                               aid.setImage(Integer.toString(count)+".jpq");
+                            }
+                            else
+                                aid.setImage("null");
+                           // else
+                             //   i = dbHandler.addProducttoaid(aid);
                             long i = dbHandler.addProducttoaid(aid);
-                            if(aid!=NULL)
-                                Log.i("Firebase!", aid.getTitle());
-                            if(aid!=NULL)
-                                Log.i("Firebase!", aid.getImage());
                             Log.i("Firebase!", String.valueOf(aid.getId()));
                             GenericTypeIndicator<ArrayList<AidItem>> ti = new GenericTypeIndicator<ArrayList<AidItem>>() {};
                             ArrayList<AidItem> ai = dataSnapshot.child(Integer.toString(count)+"/Steps").getValue(ti);

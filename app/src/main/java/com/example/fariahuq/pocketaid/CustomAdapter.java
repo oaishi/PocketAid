@@ -1,5 +1,8 @@
 package com.example.fariahuq.pocketaid;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -12,13 +15,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
+import static java.security.AccessController.getContext;
 
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
-    private ArrayList<DataModel> dataSet;
+    private ArrayList<Aid> dataSet;
     private int[] rainbow;
+    private String path;
+    private Context context;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -44,9 +54,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         public LinearLayout getCardView(){return linear;}
     }
 
-    public CustomAdapter(ArrayList<DataModel> data,int[]rainbow) {
-        this.dataSet = data;
-        this.rainbow = rainbow;
+    public CustomAdapter(ViewGroup container)
+    {
+        this.rainbow =(container.getContext()).getResources().getIntArray(R.array.array);
+        this.dataSet =  new MyDBHandler(container.getContext(),null,null,1).databasetostringaid();
+        this.context = container.getContext();
+        path = container.getContext().getDir("imageDir",Context.MODE_PRIVATE) + "/";
     }
 
 
@@ -63,8 +76,27 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int listPosition) {
         Log.d("Adapter", "Element " + listPosition + " set.");
-        holder.getTextViewName().setText(dataSet.get(listPosition).getName());
-        holder.getImageViewIcon().setImageResource(dataSet.get(listPosition).getImage());
+        holder.getTextViewName().setText(dataSet.get(listPosition).getTitle());
+        if(!(dataSet.get(listPosition).getImage().equals("null"))) {
+            try {
+                String path = "/data/user/0/com.example.fariahuq.pocketaid/app_imageDir/" + dataSet.get(listPosition).getImage() ;
+                //File file = new File("/data/user/0/com.example.fariahuq.pocketaid/app_imageDir/1.jpg");
+                File file = new File("/data/user/0/com.example.fariahuq.pocketaid/app_imageDir",dataSet.get(listPosition).getImage());
+                Log.i("Custom","/data/user/0/com.example.fariahuq.pocketaid/app_imageDir/"+dataSet.get(listPosition).getImage());
+                Log.i("Custom",file.getAbsolutePath());
+                Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
+                holder.getImageViewIcon().setImageBitmap(b);
+            }
+            catch (FileNotFoundException e)
+            {
+                holder.getImageViewIcon().setBackgroundResource(R.drawable.hi);
+                e.printStackTrace();
+                Log.i("Image","Ki hocche");
+            }
+        }
+        else
+            holder.getImageViewIcon().setBackgroundResource(R.drawable.hi);
+        //holder.getImageViewIcon().setImageResource(dataSet.get(listPosition).getImage());
         int i = listPosition%(rainbow.length);
         holder.getCardView().setBackgroundColor(rainbow[i]);
     }

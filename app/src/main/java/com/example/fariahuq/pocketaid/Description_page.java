@@ -1,5 +1,6 @@
 package com.example.fariahuq.pocketaid;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -18,6 +19,9 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -55,7 +59,7 @@ public class Description_page extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        display();
     }
 
     @Override
@@ -64,5 +68,22 @@ public class Description_page extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_description_page, menu);
         return true;
     }
+
+
+     public void display()
+     {
+         try {
+             File directory = getApplicationContext().getDir("imageDir", Context.MODE_PRIVATE);
+             File file = new File(directory.getAbsolutePath(),"6.jpg");
+             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
+             holder.setImageBitmap(b);
+         }
+         catch (FileNotFoundException e)
+         {
+             holder.setBackgroundResource(R.drawable.hi);
+             e.printStackTrace();
+             Log.i("Image","Ki hocche");
+         }
+     }
 
 }
