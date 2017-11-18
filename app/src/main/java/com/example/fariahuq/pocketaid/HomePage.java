@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -24,9 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,8 +41,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import static org.json.JSONObject.NULL;
-
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -58,8 +51,6 @@ public class HomePage extends AppCompatActivity
     private String path;
     private ContextWrapper cw;
     private File directoryaid;
-    private StorageReference storageRef;
-    private FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,21 +78,8 @@ public class HomePage extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        storage = FirebaseStorage.getInstance();
         dbHandler =new MyDBHandler(this,null,null,1);
         ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
-       /* storageRef = storage.getReferenceFromUrl("gs://pocketaid-5aa14.appspot.com/Snakebite/bite8.jpg");
-        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                loadimage(uri.toString());
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });*/
 
        options = new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
                .showImageForEmptyUri(getResources().getDrawable(R.drawable.hi))
@@ -124,24 +102,19 @@ public class HomePage extends AppCompatActivity
        }
     }
 
-    //private long loadimage(String imageUri, final String parent, final int count ,final Aid aid)
-    private long loadimage(String imageUri, final int count)
+    private void loadimage(String imageUri, final int count)
     {
-        final long[] init = new long[1];
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
         ImageLoader imageLoader = ImageLoader.getInstance();
-         // result Bitmap will be fit to this size
         imageLoader.loadImage(imageUri, targetSize, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 String pathname = path +Integer.toString(count)+".jpg";
-               // String pathname = path +"1.jpg";
                 File file = new File(pathname);
                 Log.i("Image",pathname);
                 if(file.exists()==false) {
                     File mypath = new File(directoryaid, "/" +Integer.toString(count)+".jpg");
-                    //File mypath = new File(directoryaid, "/" + "1.jpg");
                     Log.i("Image",mypath.getAbsolutePath());
                     FileOutputStream fos = null;
                     try {
@@ -162,7 +135,6 @@ public class HomePage extends AppCompatActivity
                 }
             }
         });
-        return 0;
     }
 
     //testing Firebase database

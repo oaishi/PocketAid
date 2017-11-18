@@ -11,38 +11,32 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-
-import static java.security.AccessController.getContext;
+import java.util.ArrayList;
 
 public class Description_page extends AppCompatActivity {
 
-    private float x1,x2;
+    private int position;
     private int pos;
     static final int MIN_DISTANCE = 5;
     private TextView text;
     private ImageView holder;
     int []rainbow;
+    private ArrayList<AidItem> items;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rainbow =(this.getResources().getIntArray(R.array.array));
         Bundle extras = getIntent().getExtras();
         pos = extras.getInt("position");
-        Log.i("fragment",Integer.toString(pos));
+        items = new MyDBHandler(this,null,null,1).databasetostringaiditem(pos+1);
+        pos=items.size();
+        position = 0;
         setContentView(R.layout.activity_description_page);
         text = (TextView)findViewById(R.id.Description);
         text.setText(Integer.toString(pos));
@@ -59,7 +53,7 @@ public class Description_page extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        display();
+        display(0);
     }
 
     @Override
@@ -70,8 +64,9 @@ public class Description_page extends AppCompatActivity {
     }
 
 
-     public void display()
+     public void display(int pos)
      {
+         text.setText(items.get(pos).getDesc());
          try {
              File directory = getApplicationContext().getDir("imageDir", Context.MODE_PRIVATE);
              File file = new File(directory.getAbsolutePath(),"6.jpg");

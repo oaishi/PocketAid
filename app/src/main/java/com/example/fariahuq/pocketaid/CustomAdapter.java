@@ -70,7 +70,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         view.setOnClickListener(HolderOfAidList.myOnClickListener);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
-        //ContextCompat.getColor(context, R.color.your_color);
     }
 
     @Override
@@ -79,9 +78,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.getTextViewName().setText(dataSet.get(listPosition).getTitle());
         if(!(dataSet.get(listPosition).getImage().equals("null"))) {
             try {
-                String path = "/data/user/0/com.example.fariahuq.pocketaid/app_imageDir/" + dataSet.get(listPosition).getImage() ;
+                String path = "/data/user/0/com.example.fariahuq.pocketaid/app_imageDir" + "/" + dataSet.get(listPosition).getImage();
                 //File file = new File("/data/user/0/com.example.fariahuq.pocketaid/app_imageDir/1.jpg");
-                File file = new File("/data/user/0/com.example.fariahuq.pocketaid/app_imageDir",dataSet.get(listPosition).getImage());
+                File file = new File(path);
                 Log.i("Custom","/data/user/0/com.example.fariahuq.pocketaid/app_imageDir/"+dataSet.get(listPosition).getImage());
                 Log.i("Custom",file.getAbsolutePath());
                 Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
