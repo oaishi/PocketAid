@@ -2,24 +2,16 @@ package com.example.fariahuq.pocketaid;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.ArrayList;
 
 
 public class HolderOfAidList extends Fragment {
@@ -77,8 +69,7 @@ public class HolderOfAidList extends Fragment {
         mAdapter = new CustomAdapter(container);
         mRecyclerView.setAdapter(mAdapter);
         myOnClickListener = new MyOnClickListener(getActivity());
-        //TODO:Will have to check it later
-        //mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         return view;
     }
 
@@ -92,14 +83,14 @@ public class HolderOfAidList extends Fragment {
      * @return A new instance of fragment HolderOfAidList.
      */
     // TODO: Rename and change types and number of parameters
-    /*public static HolderOfAidList newInstance(String param1, String param2) {
+    public static HolderOfAidList newInstance(String param1, String param2) {
         HolderOfAidList fragment = new HolderOfAidList();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
-        return fragment;*/
-   // }
+        return fragment;
+   }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {

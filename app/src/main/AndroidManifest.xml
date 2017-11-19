@@ -3,6 +3,8 @@
     package="com.example.fariahuq.pocketaid">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -40,6 +42,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fariahuq.pocketaid.HomePage" />
         </activity>
+
     </application>
 
 </manifest>

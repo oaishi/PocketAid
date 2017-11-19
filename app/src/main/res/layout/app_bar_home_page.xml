@@ -35,8 +35,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:tint="@color/TealDark"
         app:backgroundTint="@color/Teal"
-        app:srcCompat="@android:drawable/star_off"
-        android:visibility="invisible"/>
+        app:srcCompat="@android:drawable/star_off"/>
 
 
 
