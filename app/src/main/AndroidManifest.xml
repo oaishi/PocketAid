@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -25,15 +26,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Description_page"
-            android:label="@string/title_activity_description_page"
-            android:parentActivityName=".HomePage"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.fariahuq.pocketaid.HomePage" />
-        </activity>
-        <activity
             android:name=".NewAlarm"
             android:label="@string/title_activity_new_alarm"
             android:parentActivityName=".HomePage"
@@ -42,7 +34,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fariahuq.pocketaid.HomePage" />
         </activity>
-
+        <activity
+            android:name=".Description"
+            android:label="@string/title_activity_description"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.fariahuq.pocketaid.HomePage" />
+        </activity>
     </application>
 
 </manifest>

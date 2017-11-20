@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/Background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.fariahuq.pocketaid.Description_page"
-    tools:showIn="@layout/activity_description_page">
+    tools:context="com.example.fariahuq.pocketaid.Description">
 
     <LinearLayout
         android:layout_width="match_parent"

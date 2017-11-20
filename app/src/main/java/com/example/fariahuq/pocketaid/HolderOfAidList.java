@@ -83,14 +83,14 @@ public class HolderOfAidList extends Fragment {
      * @return A new instance of fragment HolderOfAidList.
      */
     // TODO: Rename and change types and number of parameters
-    public static HolderOfAidList newInstance(String param1, String param2) {
+    /*public static HolderOfAidList newInstance(String param1, String param2) {
         HolderOfAidList fragment = new HolderOfAidList();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
-        return fragment;
-   }
+        return fragment;*/
+    // }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -138,9 +138,9 @@ public class HolderOfAidList extends Fragment {
         @Override
         public void onClick(View v) {
             Toast.makeText(context, "Found", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(context,Description_page.class);
-            intent.putExtra("position",mRecyclerView.getChildLayoutPosition(v));
-            context.startActivity(intent);
+           Intent intent = new Intent(context,Description.class);
+           intent.putExtra("position",mRecyclerView.getChildLayoutPosition(v));
+           context.startActivity(intent);
         }
     }
 

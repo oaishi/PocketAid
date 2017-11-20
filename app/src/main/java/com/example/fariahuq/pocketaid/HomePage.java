@@ -5,14 +5,19 @@ import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -50,6 +55,7 @@ public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private LocationManager locationManager;
+    double longitudeBest, latitudeBest;
     private MyDBHandler dbHandler;
     private DatabaseReference ref;
     private DisplayImageOptions options;
@@ -57,6 +63,8 @@ public class HomePage extends AppCompatActivity
     private String path;
     private ContextWrapper cw;
     private File directoryaid;
+    private Criteria criteria;
+    private String provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,18 +73,6 @@ public class HomePage extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SmsManager smsManager = SmsManager.getDefault();
-                smsManager.sendTextMessage("01862262563", null, "success",
-                        null, null);
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -87,50 +83,71 @@ public class HomePage extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        dbHandler =new MyDBHandler(this,null,null,1);
+        dbHandler = new MyDBHandler(this, null, null, 1);
         ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
 
-       options = new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
-               .showImageForEmptyUri(getResources().getDrawable(R.drawable.hi))
-               .showImageOnFail(getResources().getDrawable(R.drawable.hi))
-               .showImageOnLoading(getResources().getDrawable(R.drawable.hi)).build();
-       targetSize = new ImageSize(30, 30);
-       path = getApplicationContext().getDir("imageDir",Context.MODE_PRIVATE) + "/";
-       cw = new ContextWrapper(getApplicationContext());
-       directoryaid = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        options = new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
+                .showImageForEmptyUri(getResources().getDrawable(R.drawable.hi))
+                .showImageOnFail(getResources().getDrawable(R.drawable.hi))
+                .showImageOnLoading(getResources().getDrawable(R.drawable.hi)).build();
+        targetSize = new ImageSize(30, 30);
+        path = getApplicationContext().getDir("imageDir", Context.MODE_PRIVATE) + "/";
+        cw = new ContextWrapper(getApplicationContext());
+        directoryaid = cw.getDir("imageDir", Context.MODE_PRIVATE);
 
-       boolean mboolean = false;
-       SharedPreferences settings = getSharedPreferences("com.example.fariahuq.pocketaid", 0);
-       mboolean = settings.getBoolean("FIRST_RUN", false);
-       if (!mboolean) {
-           settings = getSharedPreferences("com.example.fariahuq.pocketaid", 0);
-           SharedPreferences.Editor editor = settings.edit();
-           editor.putBoolean("FIRST_RUN", true);
-           editor.commit();
-           loaddata();
-       }
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setCostAllowed(true);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        provider = locationManager.getBestProvider(criteria, true);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage("01862262563", null, "success",
+                        null, null);
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+
+            }
+        });
+
+        boolean mboolean = false;
+        SharedPreferences settings = getSharedPreferences("com.example.fariahuq.pocketaid", 0);
+        mboolean = settings.getBoolean("FIRST_RUN", false);
+        if (!mboolean) {
+            settings = getSharedPreferences("com.example.fariahuq.pocketaid", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("FIRST_RUN", true);
+            editor.commit();
+            loaddata();
+        }
     }
 
-    private void loadimage(String imageUri, final int count)
-    {
+    private void loadimage(String imageUri, final int count) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.loadImage(imageUri, targetSize, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                String pathname = path +Integer.toString(count)+".jpg";
+                String pathname = path + Integer.toString(count) + ".jpg";
                 File file = new File(pathname);
-                Log.i("Image",pathname);
-                if(file.exists()==false) {
-                    File mypath = new File(directoryaid, "/" +Integer.toString(count)+".jpg");
-                    Log.i("Image",mypath.getAbsolutePath());
+                Log.i("Image", pathname);
+                if (file.exists() == false) {
+                    File mypath = new File(directoryaid, "/" + Integer.toString(count) + ".jpg");
+                    Log.i("Image", mypath.getAbsolutePath());
                     FileOutputStream fos = null;
                     try {
                         fos = new FileOutputStream(mypath);
                         //loadedImage.compress(null,100,fos);
                         loadedImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                      //  aid.setImage(pathname);
+                        //  aid.setImage(pathname);
                         //init[0] = dbHandler.addProducttoaid(aid);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -147,35 +164,35 @@ public class HomePage extends AppCompatActivity
     }
 
     //testing Firebase database
-    private void loaddata()
-    {
+    private void loaddata() {
 
         ref.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        GenericTypeIndicator<ArrayList<Aid>> t = new GenericTypeIndicator<ArrayList<Aid>>() {};
+                        GenericTypeIndicator<ArrayList<Aid>> t = new GenericTypeIndicator<ArrayList<Aid>>() {
+                        };
                         //Get map of users in datasnapshot
                         ArrayList<Aid> aids = dataSnapshot.getValue(t);
                         int count;
-                        for (count=0;count<aids.size();count++){
+                        for (count = 0; count < aids.size(); count++) {
                             Aid aid = aids.get(count);
                             Log.i("Firebase!", aid.getImage());
-                           if(aid.getImage().equals("null")==false) {
-                                loadimage(aid.getImage(),count);
-                               aid.setImage(Integer.toString(count)+".jpq");
-                            }
-                            else
+                            if (aid.getImage().equals("null") == false) {
+                                loadimage(aid.getImage(), count);
+                                aid.setImage(Integer.toString(count) + ".jpq");
+                            } else
                                 aid.setImage("null");
-                           // else
-                             //   i = dbHandler.addProducttoaid(aid);
+                            // else
+                            //   i = dbHandler.addProducttoaid(aid);
                             long i = dbHandler.addProducttoaid(aid);
                             Log.i("Firebase!", String.valueOf(aid.getId()));
-                            GenericTypeIndicator<ArrayList<AidItem>> ti = new GenericTypeIndicator<ArrayList<AidItem>>() {};
-                            ArrayList<AidItem> ai = dataSnapshot.child(Integer.toString(count)+"/Steps").getValue(ti);
-                            for (int countitem=0;countitem<ai.size();countitem++) {
+                            GenericTypeIndicator<ArrayList<AidItem>> ti = new GenericTypeIndicator<ArrayList<AidItem>>() {
+                            };
+                            ArrayList<AidItem> ai = dataSnapshot.child(Integer.toString(count) + "/Steps").getValue(ti);
+                            for (int countitem = 0; countitem < ai.size(); countitem++) {
                                 AidItem aiditem = ai.get(countitem);
-                                dbHandler.addProducttoaiditem(aiditem,i);
+                                dbHandler.addProducttoaiditem(aiditem, i);
                                 Log.i("Firebase!", aiditem.getTitle() + " - in steps");
                             }
                         }
@@ -237,9 +254,9 @@ public class HomePage extends AppCompatActivity
         } else if (id == R.id.nav_first_aid) {
             drawer.closeDrawer(GravityCompat.START);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                HolderOfAidList fragment = new HolderOfAidList();
-                transaction.replace(R.id.Fragment_Container, fragment);
-                transaction.commit();
+            HolderOfAidList fragment = new HolderOfAidList();
+            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.commit();
             displayToast("first aid");
         } else if (id == R.id.nav_symptoms) {
             drawer.closeDrawer(GravityCompat.START);
@@ -249,16 +266,16 @@ public class HomePage extends AppCompatActivity
             displayToast("profile");
         } else if (id == R.id.nav_reminder) {
             drawer.closeDrawer(GravityCompat.START);
-            Intent intent = new Intent(this,NewAlarm.class);
+            Intent intent = new Intent(this, NewAlarm.class);
             startActivity(intent);
             displayToast("profile");
-        }else if (id == R.id.nav_message) {
+        } else if (id == R.id.nav_message) {
             drawer.closeDrawer(GravityCompat.START);
             displayToast("profile");
-        }else if (id == R.id.nav_hospitals) {
+        } else if (id == R.id.nav_hospitals) {
             drawer.closeDrawer(GravityCompat.START);
             displayToast("profile");
-        }else if (id == R.id.nav_fav) {
+        } else if (id == R.id.nav_fav) {
             drawer.closeDrawer(GravityCompat.START);
             displayToast("profile");
         }
@@ -271,10 +288,11 @@ public class HomePage extends AppCompatActivity
 
     private boolean isLocationEnabled() {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);}
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
 
     private boolean checkLocation() {
-        if(!isLocationEnabled())
+        if (!isLocationEnabled())
             showAlert();
         return isLocationEnabled();
     }
@@ -298,4 +316,37 @@ public class HomePage extends AppCompatActivity
                 });
         dialog.show();
     }
+
+    public void toggleBestUpdates(View view) {
+        if (!checkLocation())
+            return;
+        if (provider != null) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            locationManager.requestLocationUpdates(provider, 2 * 60 * 1000, 10, locationListenerBest);
+                Toast.makeText(this, "Best Provider is " + provider, Toast.LENGTH_LONG).show();
+            }
+    }
+
+    private final LocationListener locationListenerBest = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            longitudeBest = location.getLongitude();
+            latitudeBest = location.getLatitude();
+            Log.i("location", String.valueOf(latitudeBest)+" "+String.valueOf(longitudeBest));
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+        }
+    };
+
 }

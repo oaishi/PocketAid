@@ -1,10 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.fariahuq.pocketaid.Description_page">
+    tools:context="com.example.fariahuq.pocketaid.Description">
     <item
-        android:id="@+id/action_settings"
-        android:icon="@drawable/ic_menu_share"
+        android:id="@+id/action_fav"
+        android:icon="@drawable/ic_unfav"
         android:title=""
         app:showAsAction="always" />
 </menu>
