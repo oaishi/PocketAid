@@ -2,26 +2,23 @@ package com.example.fariahuq.pocketaid;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -33,8 +30,9 @@ public class Description extends AppCompatActivity {
     private int []rainbow;
     private int pos;
     private static ArrayList<AidItem> aidItems;
-    //private String tabTitles[] = new String[]{"Friends", "Suggested Friends", "Status","hu"};
     private String tabTitles[];
+    private static int count;
+
 
     @SuppressLint("CutPasteId")
     @Override
@@ -46,7 +44,7 @@ public class Description extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         pos = extras.getInt("position");
         aidItems = new MyDBHandler(this,null,null,1).databasetostringaiditem(pos+1);
-        tabTitles = new String[]{aidItems.get(0).getTitle(), aidItems.get(1).getTitle(), aidItems.get(0).getTitle()};
+        count = aidItems.size();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
@@ -57,13 +55,38 @@ public class Description extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.addTab(tabLayout.newTab().setText(tabTitles[0]));
-        tabLayout.addTab(tabLayout.newTab().setText(tabTitles[1]));
-        tabLayout.addTab(tabLayout.newTab().setText(tabTitles[2]));
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+        final Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+               Bundle bundle = msg.getData();
+               String title = bundle.getString("title");
+               int i = bundle.getInt("pos");
+                tabLayout.addTab(tabLayout.newTab().setText(title));
+            }
+        };
+
+        //TODO: It doesnt work
+         Runnable runnable = new Runnable() {
+            public void run() {
+                    for (int i = 0; i < count; i++) {
+                        tabTitles[i] = aidItems.get(i).getTitle();
+                        Message msg = new Message();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("title", tabTitles[i]);
+                        bundle.putInt("pos", i);
+                        msg.setData(bundle);
+                        handler.sendMessage(msg);
+                    }
+            }
+        };
+
+       //Thread mythread = new Thread(runnable);
+       //mythread.start();
     }
 
 
@@ -124,7 +147,7 @@ public class Description extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return tabTitles.length;
+            return count;
         }
 
         @Override

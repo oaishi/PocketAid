@@ -15,4 +15,10 @@
     <string name="title_activity_new_alarm">Set New Reminder</string>
     <string name="title_activity_description">Description</string>
 
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="delete_repeating">Delete repeating</string>
+    <string name="delete_all">Delete all</string>
+
+
 </resources>

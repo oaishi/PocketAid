@@ -1,24 +1,31 @@
 package com.example.fariahuq.pocketaid;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -65,6 +72,8 @@ public class HomePage extends AppCompatActivity
     private File directoryaid;
     private Criteria criteria;
     private String provider;
+    private String frag;
+    static final int PICK_CONTACT_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +117,14 @@ public class HomePage extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO: Add a contact when in contacts options
+                if(frag.equals("message"))
+                {
+                    Intent pickContactIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
+                    pickContactIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
+                    startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST);
+                }
+                //TODO: send message checking
                 /*SmsManager smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage("01862262563", null, "success",
                         null, null);
@@ -127,6 +144,19 @@ public class HomePage extends AppCompatActivity
             editor.commit();
             loaddata();
         }
+
+    }
+
+    private void readcontact()
+    {
+        Runnable runny = new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<contacts> contact = dbHandler.databasetocontact();
+            }
+        };
+        Thread mythread = new Thread(runny);
+        mythread.start();
     }
 
     private void loadimage(String imageUri, final int count) {
@@ -247,37 +277,60 @@ public class HomePage extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             drawer.closeDrawer(GravityCompat.START);
-            displayToast("profile");
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfContact fragment = new HolderOfContact();
+            //transaction.replace(R.id.Fragment_Container, fragment);
+            //transaction.commit();
+            frag = "profile";
+            displayToast(frag);
         } else if (id == R.id.nav_checkup) {
             drawer.closeDrawer(GravityCompat.START);
-            displayToast("checkup");
+            frag = "checkup";
+            displayToast(frag);
         } else if (id == R.id.nav_first_aid) {
             drawer.closeDrawer(GravityCompat.START);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             HolderOfAidList fragment = new HolderOfAidList();
             transaction.replace(R.id.Fragment_Container, fragment);
             transaction.commit();
-            displayToast("first aid");
+            frag = "aid";
+            displayToast(frag);
         } else if (id == R.id.nav_symptoms) {
             drawer.closeDrawer(GravityCompat.START);
-            displayToast("profile");
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfSysmptoms fragment = new HolderOfSysmptoms();
+            //transaction.replace(R.id.Fragment_Container, fragment);
+            //transaction.commit();
+            frag = "symptoms";
+            displayToast(frag);
         } else if (id == R.id.nav_tests) {
             drawer.closeDrawer(GravityCompat.START);
-            displayToast("profile");
+            frag = "tests";
+            displayToast(frag);
         } else if (id == R.id.nav_reminder) {
             drawer.closeDrawer(GravityCompat.START);
-            Intent intent = new Intent(this, NewAlarm.class);
-            startActivity(intent);
-            displayToast("profile");
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfAlarm fragment = new HolderOfAlarm();
+            //transaction.replace(R.id.Fragment_Container, fragment);
+            //transaction.commit();
+            frag = "reminder";
+            displayToast(frag);
         } else if (id == R.id.nav_message) {
             drawer.closeDrawer(GravityCompat.START);
-            displayToast("profile");
+            /*FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfContact fragment = new HolderOfContact();
+            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.commit();*/
+            frag = "message";
+            displayToast(frag);
         } else if (id == R.id.nav_hospitals) {
             drawer.closeDrawer(GravityCompat.START);
-            displayToast("profile");
+            frag = "hospitals";
+            displayToast(frag);
         } else if (id == R.id.nav_fav) {
             drawer.closeDrawer(GravityCompat.START);
-            displayToast("profile");
+            frag = "favourite";
+            displayToast(frag);
         }
         return true;
     }
@@ -286,6 +339,32 @@ public class HomePage extends AppCompatActivity
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        if (requestCode == PICK_CONTACT_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Runnable runny = new Runnable() {
+                    @Override
+                    public void run() {
+                        Uri contactUri = data.getData();
+                        String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+                        Cursor cursor = getContentResolver()
+                                .query(contactUri, projection, null, null, null);
+                        cursor.moveToFirst();
+                        int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                        String number = cursor.getString(column);
+                        Log.i("Number",number);
+                        dbHandler.addProducttocontacts("a contact", number);
+                    }
+                };
+                Thread mythread = new Thread(runny);
+                mythread.start();
+            }
+        }
+    }
+
+
+    //TODO: trying to get location
     private boolean isLocationEnabled() {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);

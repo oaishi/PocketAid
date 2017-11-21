@@ -20,6 +20,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
 //make some variables
 
+    private String string[]=new String[2];
     private static final int DATABASE_VERSION=1;
 
     private static final String DATABASE_NAME="PocketAid.db";
@@ -57,15 +58,15 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL("DROP TABLE IF EXISTS"+TABLE_AID);
-        db.execSQL("DROP TABLE IF EXISTS"+TABLE_SELFTEST);
-        db.execSQL("DROP TABLE IF EXISTS"+TABLE_SYMPTOMS);
-        db.execSQL("DROP TABLE IF EXISTS"+TABLE_AID_ITEM);
-        db.execSQL("DROP TABLE IF EXISTS"+TABLE_SELFTEST_ITEM);
-        db.execSQL("DROP TABLE IF EXISTS"+TABLE_SYMPTOMS_ITEM);
-        db.execSQL("DROP TABLE IF EXISTS"+TABLE_FAVOURITE_AID);
-        db.execSQL("DROP TABLE IF EXISTS"+TABLE_FAVOURITE_SYMPTOMS);
-        db.execSQL("DROP TABLE IF EXISTS"+TABLE_FAVOURITE_TEST);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_AID);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_SELFTEST);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_SYMPTOMS);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_AID_ITEM);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_SELFTEST_ITEM);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_SYMPTOMS_ITEM);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_FAVOURITE_AID);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_FAVOURITE_SYMPTOMS);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_FAVOURITE_TEST);
         onCreate(db);
 
     }
@@ -134,6 +135,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
         query = "CREATE TABLE " + TABLE_FAVOURITE_SYMPTOMS + "(" +
                 COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLOUMN_FID + " INTEGER "  +
                 ");";
+
+        db.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_CONTACT + "(" +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLOUMN_TITLE + " TEXT, " +COLOUMN_DESC + " TEXT " +
+                ");";
+
 
         db.execSQL(query);
 
@@ -240,6 +249,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void addProducttocontacts(String name , String contact)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COLOUMN_TITLE,name);
+        values.put(COLOUMN_DESC,contact);
+        SQLiteDatabase db= getWritableDatabase();
+        db.insert(TABLE_CONTACT,null,values);
+        db.close();
+        Log.i("Number",name+ ""+contact);
+    }
+
     public void deleteProductfromfavaid(long id){
 
         SQLiteDatabase db =getWritableDatabase();
@@ -264,9 +284,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
+    public void deleteProductfromcontact(long id){
+
+        SQLiteDatabase db =getWritableDatabase();
+
+        db.execSQL("DELETE FROM " + TABLE_CONTACT + " WHERE " + COLOUMN_ID + " = " + id + ";");
+
+    }
+
     public ArrayList<Aid> databasetostringaid(){
 
-        ArrayList<Aid> listItems = new ArrayList<>();;
+        ArrayList<Aid> listItems = new ArrayList<>();
         SQLiteDatabase db= getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_AID + " WHERE 1";
 
@@ -477,5 +505,28 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
+
+    public ArrayList<contacts> databasetocontact(){
+
+        ArrayList<contacts> listItems = new ArrayList<>();;
+        SQLiteDatabase db= getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_CONTACT + " WHERE 1";
+
+        Cursor c =db.rawQuery(query,null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            contacts ad = new contacts();
+            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
+            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_DESC)));
+            listItems.add(ad);
+            c.moveToNext();
+            Log.i("Contact",ad.getTitle());
+        }
+        db.close();
+        return listItems;
+    }
 
 }

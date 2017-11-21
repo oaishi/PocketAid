@@ -16,6 +16,12 @@
     <color name="item4">#FF8247</color>
     <color name="item5">#00CED1</color>
 
+    <color name="item11">#c9f1fd</color>
+    <color name="item12">#91e4fb</color>
+    <color name="item13">#4dd7fa</color>
+    <color name="item14">#00c8f8</color>
+    <color name="item15">#00a4d3</color>
+
     <array name="array">
         <item>@color/item1</item>
         <item>@color/item2</item>
@@ -23,5 +29,18 @@
         <item>@color/item4</item>
         <item>@color/item5</item>
     </array>
+
+    <array name="array1">
+        <item>@color/item11</item>
+        <item>@color/item12</item>
+        <item>@color/item13</item>
+        <item>@color/item14</item>
+        <item>@color/item15</item>
+    </array>
+
+    <color name="bkg">#587058</color>
+    <color name="activ">#5c755e</color>
+    <color name="inactiv">#999999</color>
+    <color name="bkg2">#3d4935</color>
 
 </resources>
