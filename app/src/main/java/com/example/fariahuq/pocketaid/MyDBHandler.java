@@ -529,4 +529,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
+    public void UpdateAid(long id,int i)
+    {
+        SQLiteDatabase db= getWritableDatabase();
+        String query = "UPDATE "+ TABLE_AID + " SET " +COLOUMN_FAVOURITE + " = " + Integer.toString(i)
+                + " WHERE " + COLOUMN_ID + " = " + Long.toString(id);
+        db.execSQL(query);
+    }
+
 }

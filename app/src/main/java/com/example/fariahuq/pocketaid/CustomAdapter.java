@@ -35,11 +35,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         TextView textViewName;
         ImageView imageViewIcon;
         LinearLayout linear;
+        ImageView iconholder;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
             this.imageViewIcon = (ImageView) itemView.findViewById(R.id.imageView);
+            this.iconholder = (ImageView) itemView.findViewById(R.id.iconholder);
             this.linear = (LinearLayout) itemView.findViewById(R.id.poopy);
         }
 
@@ -50,6 +52,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         public ImageView getImageViewIcon(){
             return imageViewIcon;
         }
+
+        public ImageView getIconholder(){return iconholder;}
 
         public LinearLayout getCardView(){return linear;}
     }
@@ -74,8 +78,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int listPosition) {
-        Log.d("Adapter", "Element " + listPosition + " set.");
         holder.getTextViewName().setText(dataSet.get(listPosition).getTitle());
+        int i = dataSet.get(listPosition).getFavourite();
+        if(i==1)
+            holder.getIconholder().setBackgroundResource(R.drawable.ic_fav);
+        else
+            holder.getIconholder().setBackgroundResource(R.drawable.ic_unfav);
         if(!(dataSet.get(listPosition).getImage().equals("null"))) {
             try {
                 String path = "/data/user/0/com.example.fariahuq.pocketaid/app_imageDir" + "/" + dataSet.get(listPosition).getImage();
@@ -96,7 +104,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         else
             holder.getImageViewIcon().setBackgroundResource(R.drawable.hi);
         //holder.getImageViewIcon().setImageResource(dataSet.get(listPosition).getImage());
-        int i = listPosition%(rainbow.length);
+        i = listPosition%(rainbow.length);
         holder.getCardView().setBackgroundColor(rainbow[i]);
     }
 

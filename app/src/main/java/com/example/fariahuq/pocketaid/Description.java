@@ -28,12 +28,12 @@ public class Description extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private int []rainbow;
-    private int pos;
+    private int pos,fav;
     private static ArrayList<AidItem> aidItems;
     private String tabTitles[];
     private static int count;
-
-
+    private String title;
+    private MyDBHandler myDBHandler;
     @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +43,17 @@ public class Description extends AppCompatActivity {
         rainbow =(this.getResources().getIntArray(R.array.array));
         Bundle extras = getIntent().getExtras();
         pos = extras.getInt("position");
-        aidItems = new MyDBHandler(this,null,null,1).databasetostringaiditem(pos+1);
+        fav = extras.getInt("favourite");
+        title = extras.getString("headline");
+        myDBHandler = new MyDBHandler(this,null,null,1);
+        aidItems = myDBHandler.databasetostringaiditem(pos+1);
         count = aidItems.size();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
         findViewById(R.id.appbar).setBackgroundColor(rainbow[pos%5]);
+        toolbar.setTitle(title);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -101,6 +105,22 @@ public class Description extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_fav) {
+            if(fav==0) {
+                item.setIcon(R.drawable.ic_fav);
+                fav=1;
+            }
+            else {
+                item.setIcon(R.drawable.ic_unfav);
+                fav = 0;
+            }
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    myDBHandler.UpdateAid(pos+1,fav);
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
             return true;
         }
 
@@ -134,7 +154,6 @@ public class Description extends AppCompatActivity {
 
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
-        private final ArrayList<CharSequence> mCheeses = new ArrayList<>();
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -146,7 +165,6 @@ public class Description extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return count;
         }
 

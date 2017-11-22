@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 
 public class HolderOfAidList extends Fragment {
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
@@ -33,9 +35,8 @@ public class HolderOfAidList extends Fragment {
     protected static RecyclerView mRecyclerView;
     protected CustomAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    // TODO:This was not in the original sample
+    private static ArrayList<Aid> aid;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -53,7 +54,7 @@ public class HolderOfAidList extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_holder_of_aid_list, container, false);
@@ -70,6 +71,14 @@ public class HolderOfAidList extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         myOnClickListener = new MyOnClickListener(getActivity());
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        Runnable runny = new Runnable() {
+            @Override
+            public void run() {
+                aid=new MyDBHandler(container.getContext(),null,null,1).databasetostringaid();
+            }
+        };
+        Thread run = new Thread(runny);
+        run.start();
         return view;
     }
 
@@ -137,10 +146,12 @@ public class HolderOfAidList extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(context, "Found", Toast.LENGTH_SHORT).show();
-           Intent intent = new Intent(context,Description.class);
-           intent.putExtra("position",mRecyclerView.getChildLayoutPosition(v));
-           context.startActivity(intent);
+            Intent intent = new Intent(context,Description.class);
+            int i = mRecyclerView.getChildLayoutPosition(v);
+            intent.putExtra("position",i);
+            intent.putExtra("favourite",aid.get(i).getFavourite());
+            intent.putExtra("headline",aid.get(i).getTitle());
+            context.startActivity(intent);
         }
     }
 
