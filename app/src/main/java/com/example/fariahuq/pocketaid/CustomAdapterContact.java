@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class CustomAdapterContact extends RecyclerView.Adapter<CustomAdapterContact.MyViewHolder> {
 
-    private ArrayList<contacts> dataSet;
+    private ArrayList<Contact> dataSet;
     private Context context;
 
 

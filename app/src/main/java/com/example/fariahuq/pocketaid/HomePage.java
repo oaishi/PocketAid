@@ -147,18 +147,6 @@ public class HomePage extends AppCompatActivity
 
     }
 
-    private void readcontact()
-    {
-        Runnable runny = new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<contacts> contact = dbHandler.databasetocontact();
-            }
-        };
-        Thread mythread = new Thread(runny);
-        mythread.start();
-    }
-
     private void loadimage(String imageUri, final int count) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
@@ -309,12 +297,8 @@ public class HomePage extends AppCompatActivity
             displayToast(frag);
         } else if (id == R.id.nav_reminder) {
             drawer.closeDrawer(GravityCompat.START);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            HolderOfAlarm fragment = new HolderOfAlarm();
-            //transaction.replace(R.id.Fragment_Container, fragment);
-            //transaction.commit();
-            frag = "reminder";
-            displayToast(frag);
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_message) {
             drawer.closeDrawer(GravityCompat.START);
             /*FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -354,7 +338,8 @@ public class HomePage extends AppCompatActivity
                         int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
                         String number = cursor.getString(column);
                         Log.i("Number",number);
-                        dbHandler.addProducttocontacts("a contact", number);
+                        Contact contact = new Contact("a contact",number);
+                        dbHandler.addProducttocontact(contact);
                     }
                 };
                 Thread mythread = new Thread(runny);

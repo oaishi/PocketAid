@@ -1,117 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
-
-    <RelativeLayout
-        android:id="@+id/menu_bar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary" >
-
-        <TextView
-            android:id="@+id/heading_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="" />
-
-        <ImageButton
-            android:id="@+id/imageButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:paddingTop="5dip"
-            android:paddingBottom="5dip"
-            android:paddingLeft="5dip"
-            android:paddingRight="10dip"
-            android:onClick="onClick"
-            android:background="@null"
-            android:src="@drawable/preferences" />
-        
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@id/imageButton1"
-            android:paddingTop="5dip"
-            android:paddingBottom="5dip"
-            android:paddingLeft="10dip"
-            android:paddingRight="5dip"
-            android:onClick="onClick"
-            android:background="@null"
-            android:src="@drawable/add" />           
-
-    </RelativeLayout>
+    android:orientation="vertical"
+	android:gravity="center">
 
 	<LinearLayout
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="center_horizontal"
-		android:background="@color/Teal"
+		android:id="@+id/menu_bar"
+		android:layout_width="match_parent"
+		android:layout_height="?attr/actionBarSize"
+		android:background="@color/colorPrimary"
 		android:gravity="center_vertical">
 
-		<ImageButton
-			android:id="@+id/imageButton3"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:background="@null"
-			android:onClick="onClick"
-			android:paddingBottom="5dip"
-			android:paddingLeft="5dip"
-			android:paddingRight="10dip"
-			android:paddingTop="5dip"
-			android:src="@drawable/left" />
-
 		<TextView
-			android:id="@+id/range_tv"
+			android:id="@+id/heading_tv"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:textColor="#ffffff"
-			android:textSize="12sp" />
+			android:layout_marginLeft="10dp"
+			android:text="Reminder"
+			android:layout_weight="1"
+			android:textColor="@color/White"
+			android:textSize="22sp" />
 
 		<ImageButton
-			android:id="@+id/imageButton4"
+			android:id="@+id/imageButton1"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="10dp"
 			android:background="@null"
 			android:onClick="onClick"
-			android:paddingBottom="5dip"
-			android:paddingLeft="10dip"
-			android:paddingRight="5dip"
-			android:paddingTop="5dip"
-			android:src="@drawable/right" />
+			android:src="@drawable/preferences" />
 
 	</LinearLayout>
-    
+
+	<TextView
+		android:id="@+id/range_tv"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_margin="20dp"
+		android:textColor="@color/TealDark"
+		android:textSize="24sp"
+		android:textStyle="bold" />
+
 	<LinearLayout
 		android:id="@+id/list_view"
 		android:layout_width="fill_parent"
-		android:layout_height="0dip"
+		android:layout_height="wrap_content"
 		android:layout_weight="1"
-		android:padding="5dip"
-		android:orientation="vertical" >
-	     
-		<ListView android:id="@android:id/list"
-		          android:layout_width="fill_parent"
-		          android:layout_height="fill_parent"
-		          android:divider="@drawable/line"
-		          android:dividerHeight="3dip"
-		          android:listSelector="@android:color/transparent"
-		          android:cacheColorHint="#00000000"
-		          android:drawSelectorOnTop="false" />
-		
-		<TextView android:id="@android:id/empty"
-		          android:layout_width="fill_parent"
-		          android:layout_height="fill_parent"
-		          android:gravity="center"
-		          android:textColor="#777777"
-		          android:text="No data" />
-	            
+		android:orientation="vertical">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center"
+			android:orientation="horizontal">
+
+			<ImageButton
+				android:id="@+id/imageButton3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight=".1"
+				android:background="@null"
+				android:onClick="onClick"
+				android:src="@drawable/left" />
+
+			<ListView
+				android:id="@android:id/list"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_weight="0.9"
+				android:cacheColorHint="#00000000"
+				android:divider="@drawable/line"
+				android:dividerHeight="3dip"
+				android:drawSelectorOnTop="false"
+				android:listSelector="@android:color/transparent" />
+
+			<ImageButton
+				android:id="@+id/imageButton4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight=".1"
+				android:background="@null"
+				android:onClick="onClick"
+				android:src="@drawable/right" />
+
+		</LinearLayout>
+
+		<TextView
+			android:id="@android:id/empty"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:gravity="center"
+			android:text="No data"
+			android:textColor="@color/Grey" />
+
 	</LinearLayout>
+
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/fab"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom|end"
+		android:layout_margin="@dimen/fab_margin"
+		android:tint="@color/Teal"
+		app:backgroundTint="@color/TealDark"
+		android:onClick="onClick"
+		app:srcCompat="@android:drawable/ic_popup_reminder" />
 
 </LinearLayout>

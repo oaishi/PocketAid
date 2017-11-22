@@ -208,7 +208,7 @@ public class MainActivity extends ListActivity {
 		case R.id.imageButton1:
 			startActivity(new Intent(this, SettingsActivity.class));
 			break;		
-		case R.id.imageButton2:
+		case R.id.fab:
 			startActivity(new Intent(this, AddAlarmActivity.class));
 			break;
 		case R.id.imageButton3:

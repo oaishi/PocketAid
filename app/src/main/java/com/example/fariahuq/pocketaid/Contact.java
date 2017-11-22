@@ -4,7 +4,7 @@ package com.example.fariahuq.pocketaid;
  * Created by Faria huq on 09-Nov-17.
  */
 
-public class contacts
+public class Contact
 {
 
     long id;
@@ -12,15 +12,15 @@ public class contacts
     String desc;
 
     // constructors
-    public contacts() {
+    public Contact() {
     }
 
-    public contacts(String image, String title, String desc) {
+    public Contact(String title, String desc) {
         this.title = title;
         this.desc=desc;
     }
 
-    public contacts(long id, long fid, String image, String title, String desc) {
+    public Contact(long id, long fid, String image, String title, String desc) {
         this.id = id;
         this.title = title;
         this.desc=desc;
@@ -42,9 +42,11 @@ public class contacts
         return this.id;
     }
 
+    //name
     public String getTitle() {
         return this.title;
     }
 
+    //phone
     public String getDesc() {return this.desc;}
 }

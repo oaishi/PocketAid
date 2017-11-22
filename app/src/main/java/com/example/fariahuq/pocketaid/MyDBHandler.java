@@ -20,7 +20,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
 //make some variables
 
-    private String string[]=new String[2];
     private static final int DATABASE_VERSION=1;
 
     private static final String DATABASE_NAME="PocketAid.db";
@@ -138,11 +137,10 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         db.execSQL(query);
 
-        query = "CREATE TABLE " + TABLE_CONTACT + "(" +
+        query = "CREATE TABLE " + TABLE_CONTACT+ "(" +
                 COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLOUMN_TITLE + " TEXT, " +COLOUMN_DESC + " TEXT " +
                 ");";
-
 
         db.execSQL(query);
 
@@ -157,7 +155,17 @@ public class MyDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db= getWritableDatabase();
         long id = db.insert(TABLE_AID,null,values);
         db.close();
-        Log.i("DAtabase!","Found at"+String.valueOf(id));
+        return id;
+    }
+
+    public long addProducttocontact(Contact contact)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COLOUMN_DESC,contact.getDesc());
+        values.put(COLOUMN_TITLE,contact.getTitle());
+        SQLiteDatabase db= getWritableDatabase();
+        long id = db.insert(TABLE_CONTACT,null,values);
+        db.close();
         return id;
     }
 
@@ -195,7 +203,6 @@ public class MyDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db= getWritableDatabase();
         db.insert(TABLE_AID_ITEM,null,values);
         db.close();
-        Log.i("DAtabase!","Found at aiditem");
     }
 
     public void addProducttosymptomsitem(SymptomsItem sympitem,long id)
@@ -249,23 +256,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttocontacts(String name , String contact)
+    public void deleteProductfromfavaid(long id)
     {
-        ContentValues values = new ContentValues();
-        values.put(COLOUMN_TITLE,name);
-        values.put(COLOUMN_DESC,contact);
-        SQLiteDatabase db= getWritableDatabase();
-        db.insert(TABLE_CONTACT,null,values);
-        db.close();
-        Log.i("Number",name+ ""+contact);
-    }
-
-    public void deleteProductfromfavaid(long id){
-
         SQLiteDatabase db =getWritableDatabase();
-
         db.execSQL("DELETE FROM " + TABLE_FAVOURITE_AID + " WHERE " + COLOUMN_FID + " = " + id + ";");
-
+        db.close();
     }
 
     public void deleteProductfromfavselftest(long id){
@@ -284,17 +279,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void deleteProductfromcontact(long id){
-
-        SQLiteDatabase db =getWritableDatabase();
-
-        db.execSQL("DELETE FROM " + TABLE_CONTACT + " WHERE " + COLOUMN_ID + " = " + id + ";");
-
-    }
-
     public ArrayList<Aid> databasetostringaid(){
 
-        ArrayList<Aid> listItems = new ArrayList<>();
+        ArrayList<Aid> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_AID + " WHERE 1";
 
@@ -440,7 +427,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         ArrayList<Aid> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_FAVOURITE_AID + " WHERE 1";
+        String query = "SELECT * FROM " + TABLE_AID + " INNER JOIN "+TABLE_FAVOURITE_AID + " ON " + TABLE_AID
+                + "." + COLOUMN_ID + " = " + TABLE_FAVOURITE_AID + "." + COLOUMN_FID;
 
         Cursor c =db.rawQuery(query,null);
 
@@ -505,10 +493,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
+    public ArrayList<Contact> databasetocontact(){
 
-    public ArrayList<contacts> databasetocontact(){
-
-        ArrayList<contacts> listItems = new ArrayList<>();;
+        ArrayList<Contact> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_CONTACT + " WHERE 1";
 
@@ -517,13 +504,12 @@ public class MyDBHandler extends SQLiteOpenHelper {
         c.moveToFirst();
         while (!c.isAfterLast())
         {
-            contacts ad = new contacts();
+            Contact ad = new Contact();
             ad.setId(c.getColumnIndex(COLOUMN_ID));
             ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
-            ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_DESC)));
+            ad.setDesc(c.getString(c.getColumnIndex(COLOUMN_DESC)));
             listItems.add(ad);
             c.moveToNext();
-            Log.i("Contact",ad.getTitle());
         }
         db.close();
         return listItems;
@@ -535,6 +521,10 @@ public class MyDBHandler extends SQLiteOpenHelper {
         String query = "UPDATE "+ TABLE_AID + " SET " +COLOUMN_FAVOURITE + " = " + Integer.toString(i)
                 + " WHERE " + COLOUMN_ID + " = " + Long.toString(id);
         db.execSQL(query);
+        if(i==0)
+            deleteProductfromfavaid(id);
+        else
+            addProducttofavaid(id);
     }
 
 }
