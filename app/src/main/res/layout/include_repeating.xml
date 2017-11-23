@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@color/Background">
 
     <TextView
         android:id="@+id/fromdate_lb"
@@ -11,16 +12,16 @@
         android:clickable="true"
         android:onClick="onClick"
         android:text="From Date:  " />
+
     <TextView
         android:id="@+id/fromdate_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/fromdate_lb"
         android:clickable="true"
-        android:drawableRight="@drawable/pencil"
         android:drawablePadding="5dip"
-        android:onClick="onClick"
-        android:text="From Date:  "/>
+        android:drawableRight="@drawable/ic_local_hospital_black_24dp"
+        android:onClick="onClick" />
 
     <TextView
         android:id="@+id/todate_lb"
@@ -31,6 +32,7 @@
         android:clickable="true"
         android:onClick="onClick"
         android:text="To Date:  " />
+
     <TextView
         android:id="@+id/todate_tv"
         android:layout_width="wrap_content"
@@ -38,10 +40,9 @@
         android:layout_below="@id/fromdate_lb"
         android:layout_toRightOf="@id/todate_lb"
         android:clickable="true"
-        android:drawableRight="@drawable/pencil"
         android:drawablePadding="5dip"
-        android:onClick="onClick"
-        android:text="From Date:  "/>
+        android:drawableRight="@drawable/ic_local_hospital_black_24dp"
+        android:onClick="onClick" />
 
     <TextView
         android:id="@+id/attime_lb"
@@ -52,6 +53,7 @@
         android:clickable="true"
         android:onClick="onClick"
         android:text="At Time:  " />
+
     <TextView
         android:id="@+id/attime_tv"
         android:layout_width="wrap_content"
@@ -59,10 +61,9 @@
         android:layout_below="@id/todate_lb"
         android:layout_toRightOf="@id/attime_lb"
         android:clickable="true"
-        android:drawableRight="@drawable/pencil"
         android:drawablePadding="5dip"
-        android:onClick="onClick"
-        android:text="At Time:  "/>
+        android:drawableRight="@drawable/ic_local_hospital_black_24dp"
+        android:onClick="onClick" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -70,20 +71,32 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/attime_lb"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radio0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/radio_button_selector"
+            android:button="@null"
             android:checked="true"
-            android:text="Rule" />
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Rule"
+            android:textColor="@drawable/radio_button_text_selector" />
 
         <RadioButton
             android:id="@+id/radio1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Interval" />
+            android:layout_margin="10dp"
+            android:background="@drawable/radio_button_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Interval"
+            android:textColor="@drawable/radio_button_text_selector" />
     </RadioGroup>
 
     <RelativeLayout
@@ -91,7 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/radioGroup"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true">
 
         <Spinner
             android:id="@+id/spinner1"
@@ -114,6 +127,7 @@
             android:layout_toRightOf="@id/spinner2"
             android:text="of"
             android:textColor="#ffffff" />
+
         <Spinner
             android:id="@+id/spinner3"
             android:layout_width="wrap_content"
@@ -128,38 +142,42 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/relativeLayout3"
         android:layout_centerHorizontal="true"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="min(s)    " />
+
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textView8"
             android:text="hour(s)   " />
+
         <TextView
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textView9"
-            android:text="day(s)    "/>
+            android:text="day(s)    " />
+
         <TextView
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textView10"
             android:text="month(s)  " />
+
         <TextView
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/textView11"
             android:text="year(s)" />
-        
+
         <EditText
             android:id="@+id/mins_et"
             android:layout_width="wrap_content"
@@ -168,6 +186,7 @@
             android:ems="2"
             android:inputType="number"
             android:text="0" />
+
         <EditText
             android:id="@+id/hours_et"
             android:layout_width="wrap_content"
@@ -177,6 +196,7 @@
             android:ems="2"
             android:inputType="number"
             android:text="0" />
+
         <EditText
             android:id="@+id/days_et"
             android:layout_width="wrap_content"
@@ -186,6 +206,7 @@
             android:ems="2"
             android:inputType="number"
             android:text="1" />
+
         <EditText
             android:id="@+id/months_et"
             android:layout_width="wrap_content"
@@ -195,6 +216,7 @@
             android:ems="2"
             android:inputType="number"
             android:text="0" />
+
         <EditText
             android:id="@+id/years_et"
             android:layout_width="wrap_content"

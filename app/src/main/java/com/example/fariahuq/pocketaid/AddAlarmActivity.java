@@ -62,6 +62,7 @@ public class AddAlarmActivity extends Activity {
 	private EditText daysEdit;
 	private EditText monthsEdit;
 	private EditText yearsEdit;
+	private TextView Testing;
 	
 	private SQLiteDatabase db;
 	
@@ -123,6 +124,7 @@ public class AddAlarmActivity extends Activity {
 		outState.putCharSequence("fromdate", fromdateText.getText());
 		outState.putCharSequence("todate", todateText.getText());
 		outState.putCharSequence("attime", attimeText.getText());
+		outState.putCharSequence("testing", Testing.getText());
 	}	
 
 	@Override
@@ -135,6 +137,7 @@ public class AddAlarmActivity extends Activity {
 		fromdateText.setText(state.getCharSequence("fromdate"));
 		todateText.setText(state.getCharSequence("todate"));
 		attimeText.setText(state.getCharSequence("attime"));
+		Testing.setText(state.getCharSequence("testing"));
 	}    
         
 	@Override
@@ -164,6 +167,8 @@ public class AddAlarmActivity extends Activity {
         daysEdit = (EditText) findViewById(R.id.days_et);
         monthsEdit = (EditText) findViewById(R.id.months_et);
         yearsEdit = (EditText) findViewById(R.id.years_et);
+
+        Testing = (TextView)findViewById(R.id.testing);
 	}
 	
 	private boolean validate() {
@@ -253,6 +258,9 @@ public class AddAlarmActivity extends Activity {
 		case R.id.toggleButton1:
 			vs.showNext();
 			break;
+			case R.id.testing:
+				showDialog(5);
+				break;
 			
 		case R.id.fromdate_tv:
 		case R.id.fromdate_lb:
@@ -302,7 +310,16 @@ public class AddAlarmActivity extends Activity {
 					}
 				};
 			return new DatePickerDialog(this, dateListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
-		}		
+			case 5:
+				TimePickerDialog.OnTimeSetListener TimeSetListener =
+						new TimePickerDialog.OnTimeSetListener() {
+							public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+								Testing.setText(Util.getActualTime(hourOfDay, minute));
+							}
+						};
+				return new TimePickerDialog(this, TimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), RemindMe.is24Hours());
+
+		}
 		
 		return super.onCreateDialog(id);
 	}

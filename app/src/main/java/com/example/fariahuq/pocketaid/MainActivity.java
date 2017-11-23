@@ -59,7 +59,6 @@ public class MainActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main);
         findViews();
         db = RemindMe.db;
@@ -104,7 +103,6 @@ public class MainActivity extends ListActivity {
 	private void findViews() {
 		headingText = (TextView) findViewById(R.id.heading_tv);
 		rangeText = (TextView) findViewById(R.id.range_tv);
-//		vs = (ViewSwitcher) findViewById(R.id.view_switcher);
 	}
 	
 	private String getRangeStr() {
