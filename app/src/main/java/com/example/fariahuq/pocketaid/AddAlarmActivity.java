@@ -314,10 +314,36 @@ public class AddAlarmActivity extends Activity {
 				TimePickerDialog.OnTimeSetListener TimeSetListener =
 						new TimePickerDialog.OnTimeSetListener() {
 							public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-								Testing.setText(Util.getActualTime(hourOfDay, minute));
+								String format;
+								if (hourOfDay == 0) {
+
+									hourOfDay += 12;
+
+									format = "AM";
+								}
+								else if (hourOfDay == 12) {
+
+									format = "PM";
+
+								}
+								else if (hourOfDay > 12) {
+
+									hourOfDay -= 12;
+
+									format = "PM";
+
+								}
+								else {
+
+									format = "AM";
+								}
+
+
+								Testing.setText(format + "\n"+hourOfDay + ":" + minute );
 							}
 						};
-				return new TimePickerDialog(this, TimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), RemindMe.is24Hours());
+				return new TimePickerDialog(this, TimeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),false);
+				// RemindMe.is24Hours()
 
 		}
 		

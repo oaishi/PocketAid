@@ -66,6 +66,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_FAVOURITE_AID);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_FAVOURITE_SYMPTOMS);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_FAVOURITE_TEST);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_CONTACT);
         onCreate(db);
 
     }
@@ -137,7 +138,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         db.execSQL(query);
 
-        query = "CREATE TABLE " + TABLE_CONTACT+ "(" +
+        query = "CREATE TABLE " + TABLE_CONTACT + "(" +
                 COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLOUMN_TITLE + " TEXT, " +COLOUMN_DESC + " TEXT " +
                 ");";
@@ -161,10 +162,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public long addProducttocontact(Contact contact)
     {
         ContentValues values = new ContentValues();
-        values.put(COLOUMN_DESC,contact.getDesc());
         values.put(COLOUMN_TITLE,contact.getTitle());
+        values.put(COLOUMN_DESC,contact.getDesc());
         SQLiteDatabase db= getWritableDatabase();
         long id = db.insert(TABLE_CONTACT,null,values);
+        Log.i("widget","adding -"+ contact.getTitle() + Long.toString(id));
         db.close();
         return id;
     }
@@ -508,6 +510,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
             ad.setId(c.getColumnIndex(COLOUMN_ID));
             ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
             ad.setDesc(c.getString(c.getColumnIndex(COLOUMN_DESC)));
+            Log.i("widget",ad.getDesc()+ " " + ad.getTitle()+ " " + c.getColumnIndex(COLOUMN_ID));
             listItems.add(ad);
             c.moveToNext();
         }

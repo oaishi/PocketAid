@@ -87,10 +87,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         if(!(dataSet.get(listPosition).getImage().equals("null"))) {
             try {
                 String path = "/data/user/0/com.example.fariahuq.pocketaid/app_imageDir" + "/" + dataSet.get(listPosition).getImage();
-                //File file = new File("/data/user/0/com.example.fariahuq.pocketaid/app_imageDir/1.jpg");
                 File file = new File(path);
-                Log.i("Custom","/data/user/0/com.example.fariahuq.pocketaid/app_imageDir/"+dataSet.get(listPosition).getImage());
-                Log.i("Custom",file.getAbsolutePath());
                 Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
                 holder.getImageViewIcon().setImageBitmap(b);
             }
@@ -98,12 +95,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             {
                 holder.getImageViewIcon().setBackgroundResource(R.drawable.hi);
                 e.printStackTrace();
-                Log.i("Image","Ki hocche");
             }
         }
         else
             holder.getImageViewIcon().setBackgroundResource(R.drawable.hi);
-        //holder.getImageViewIcon().setImageResource(dataSet.get(listPosition).getImage());
         i = listPosition%(rainbow.length);
         holder.getCardView().setBackgroundColor(rainbow[i]);
     }

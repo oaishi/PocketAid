@@ -18,12 +18,25 @@
 			android:hint="Message"
 			android:maxLines="2"></EditText>
 
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			android:orientation="horizontal">
 		<CheckBox
 			android:id="@+id/sound_cb"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Play ringtone" />
 
+			<ImageButton
+				android:id="@+id/imageButton"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@color/Teal"
+				android:onClick="create"
+				android:src="@drawable/ic_check_circle_white_24dp" />
+
+		</LinearLayout>
 		<ToggleButton
 			android:id="@+id/toggleButton1"
 			android:layout_width="wrap_content"
@@ -55,22 +68,6 @@
 				android:layout_height="fill_parent" />
 
 		</ViewSwitcher>
-
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:gravity="right">
-
-			<ImageButton
-				android:id="@+id/imageButton"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_weight="1"
-				android:background="@null"
-				android:onClick="create"
-				android:src="@drawable/ic_check_circle_white_24dp" />
-
-		</LinearLayout>
 
 	</LinearLayout>
 

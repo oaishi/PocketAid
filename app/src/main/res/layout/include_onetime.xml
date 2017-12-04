@@ -21,10 +21,13 @@
         android:id="@+id/testing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/fullroundercorner"
+        android:gravity="right|center"
         android:onClick="onClick"
-        android:gravity="center"
-        android:textSize="42sp"
+        android:paddingRight="10dp"
+        android:text="hi"
         android:textColor="@color/colorlight"
-        android:background="@drawable/fullroundercorner" />
+        android:textSize="30sp"
+        android:visibility="invisible" />
 
 </RelativeLayout>

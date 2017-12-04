@@ -1,6 +1,8 @@
 package com.example.fariahuq.pocketaid;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,8 +21,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Description extends AppCompatActivity {
@@ -30,7 +36,6 @@ public class Description extends AppCompatActivity {
     private int []rainbow;
     private int pos,fav;
     private static ArrayList<AidItem> aidItems;
-    private String tabTitles[];
     private static int count;
     private String title;
     private MyDBHandler myDBHandler;
@@ -59,38 +64,14 @@ public class Description extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
-        final Handler handler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-               Bundle bundle = msg.getData();
-               String title = bundle.getString("title");
-               int i = bundle.getInt("pos");
-                tabLayout.addTab(tabLayout.newTab().setText(title));
-            }
-        };
-
-        //TODO: It doesnt work
-         Runnable runnable = new Runnable() {
-            public void run() {
-                    for (int i = 0; i < count; i++) {
-                        tabTitles[i] = aidItems.get(i).getTitle();
-                        Message msg = new Message();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("title", tabTitles[i]);
-                        bundle.putInt("pos", i);
-                        msg.setData(bundle);
-                        handler.sendMessage(msg);
-                    }
-            }
-        };
-
-       //Thread mythread = new Thread(runnable);
-       //mythread.start();
+       for (int i = 0; i < count; i++) {
+           tabLayout.addTab(tabLayout.newTab().setText((CharSequence) aidItems.get(i).getTitle()));
+        }
     }
 
 
@@ -148,6 +129,25 @@ public class Description extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_description, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.Description);
             textView.setText((CharSequence)(aidItems.get(getArguments().getInt(ARG_SECTION_NUMBER)).getDesc()));
+            ImageView imageView = (ImageView)rootView.findViewById(R.id.imageView2);
+
+
+            if(!((aidItems.get(getArguments().getInt(ARG_SECTION_NUMBER)).getImage()).equals("null"))) {
+                try {
+                    String path = "/data/user/0/com.example.fariahuq.pocketaid/app_imageDir" + "/" +
+                            aidItems.get(getArguments().getInt(ARG_SECTION_NUMBER)).getImage();
+                    File file = new File(path);
+                    Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
+                    imageView.setImageBitmap(b);
+                }
+                catch (FileNotFoundException e)
+                {
+                    imageView.setVisibility(View.INVISIBLE);
+                    e.printStackTrace();
+                }
+            }
+            else
+                imageView.setVisibility(View.INVISIBLE);
             return rootView;
         }
     }
@@ -170,7 +170,7 @@ public class Description extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return (CharSequence)tabTitles[position];
+            return "";
         }
 
     }
