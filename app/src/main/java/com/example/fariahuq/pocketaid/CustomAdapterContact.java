@@ -1,20 +1,13 @@
 package com.example.fariahuq.pocketaid;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 
@@ -47,7 +40,7 @@ public class CustomAdapterContact extends RecyclerView.Adapter<CustomAdapterCont
 
     public CustomAdapterContact(ViewGroup container)
     {
-        this.dataSet =  new MyDBHandler(container.getContext(),null,null,1).databasetocontact();
+        this.dataSet =  new MyDBHandler(container.getContext(),null,null,1).DatabaseToContact();
         this.context = container.getContext();
     }
 

@@ -9,9 +9,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import static android.webkit.ConsoleMessage.MessageLevel.LOG;
-import static com.example.fariahuq.pocketaid.R.drawable.aid;
-
 /**
  * Created by Faria huq on 06-Sep-17.
  */
@@ -425,7 +422,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
-    public ArrayList<Aid> databasetostringfavaid(){
+    public ArrayList<Aid> DatabaseToStringFavAid(){
 
         ArrayList<Aid> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
@@ -449,7 +446,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
-    public ArrayList<SelfTest> databasetostringfavtest(){
+    public ArrayList<SelfTest> DatabaseToStringFavTest(){
 
         ArrayList<SelfTest> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
@@ -472,7 +469,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
-    public ArrayList<Symptoms> databasetostringfavsymptoms(){
+    public ArrayList<Symptoms> DatabaseToStringFavSymptoms(){
 
         ArrayList<Symptoms> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
@@ -495,7 +492,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
-    public ArrayList<Contact> databasetocontact(){
+    public ArrayList<Contact> DatabaseToContact(){
 
         ArrayList<Contact> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();

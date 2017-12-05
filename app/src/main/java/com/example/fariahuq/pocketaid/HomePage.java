@@ -7,8 +7,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.location.Criteria;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -92,11 +90,7 @@ public class HomePage extends AppCompatActivity
                 //TODO: Add a contact when in contacts options
                 if(frag.equals("profile"))
                 {
-                    ArrayList<Contact> contacts = dbHandler.databasetocontact();
-                    for(int i=0;i<contacts.size();i++)
-                    {
-                        Log.i("widget","reading from database - "+ contacts.get(i).getTitle());
-                    }
+
                 }
                 if(frag.equals("message"))
                 {

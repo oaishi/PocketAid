@@ -8,11 +8,8 @@ import android.content.Intent;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-
-import static android.support.v4.content.ContextCompat.startActivity;
 
 /**
  * Implementation of App Widget functionality.
@@ -49,7 +46,7 @@ public class EmergencyContact extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
-        dbHandler = new MyDBHandler(context, null, null, 1);
+        Log.i("widget","creating a database");
         // Enter relevant functionality for when the first widget is created
     }
 
@@ -61,7 +58,7 @@ public class EmergencyContact extends AppWidgetProvider {
     Runnable runny = new Runnable() {
         @Override
         public void run() {
-            ArrayList<Contact> contacts = dbHandler.databasetocontact();
+            ArrayList<Contact> contacts = dbHandler.DatabaseToContact();
             int count;
             SmsManager smsManager = SmsManager.getDefault();
             for (count = 0; count < contacts.size(); count++) {
@@ -76,10 +73,17 @@ public class EmergencyContact extends AppWidgetProvider {
         super.onReceive(context, intent);
         if(intent.getAction().equals(CLICK_ACTION))
         {
-           Log.i("widget","hi");
-            ArrayList<Contact> contacts = dbHandler.databasetocontact();
-           Thread thread = new Thread(runny);
-            //thread.start();
+            dbHandler = new MyDBHandler(context, null, null, 1);
+            ArrayList<Contact> contacts = dbHandler.DatabaseToContact();
+            for(int i=0;i<contacts.size();i++)
+            {
+                Log.i("widget","reading from database - "+ contacts.get(i).getTitle());
+            }
+            SmsManager smsManager = SmsManager.getDefault();
+            for (int count = 0; count < contacts.size(); count++) {
+                smsManager.sendTextMessage(contacts.get(count).getDesc(), null, "success",
+                        null, null);
+            }
         }
     }
 }
