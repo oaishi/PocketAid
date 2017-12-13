@@ -193,7 +193,7 @@ public class HomePage extends AppCompatActivity
                                 aid.setImage("aid"+Integer.toString(count) + ".jpg");
                             } else
                                 aid.setImage("null");
-                            long i = dbHandler.addProducttoaid(aid);
+                            long i = dbHandler.AddProductToAid(aid);
                             GenericTypeIndicator<ArrayList<AidItem>> ti = new GenericTypeIndicator<ArrayList<AidItem>>() {
                             };
                             ArrayList<AidItem> ai = dataSnapshot.child(Integer.toString(count) + "/Steps").getValue(ti);
@@ -204,7 +204,7 @@ public class HomePage extends AppCompatActivity
                                     aiditem.setImage("aiditem"+Integer.toString(count)+Integer.toString(countitem) + ".jpg");
                                 } else
                                     aiditem.setImage("null");
-                                dbHandler.addProducttoaiditem(aiditem, i);
+                                dbHandler.AddProductToAidItem(aiditem, i);
                             }
                         }
                     }
@@ -324,7 +324,7 @@ public class HomePage extends AppCompatActivity
                     contact.setTitle(name);
                     contact.setDesc(phoneNo);
                     Toast.makeText(getApplicationContext(),contact.getDesc()+ " "+contact.getTitle(),Toast.LENGTH_LONG).show();
-                    dbHandler.addProducttocontact(contact);
+                    dbHandler.AddProductToContact(contact);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

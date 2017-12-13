@@ -144,7 +144,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public long addProducttoaid(Aid aid)
+    public long AddProductToAid(Aid aid)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,aid.getImage());
@@ -156,7 +156,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    public long addProducttocontact(Contact contact)
+    public long AddProductToContact(Contact contact)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_TITLE,contact.getTitle());
@@ -168,7 +168,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    public long addProducttosymptoms(Symptoms symp)
+    public long AddProductToSymptoms(Symptoms symp)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,symp.getImage());
@@ -180,7 +180,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    public long addProducttoselftest(SelfTest self)
+    public long AddProductToSelfTest(SelfTest self)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,self.getImage());
@@ -192,7 +192,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    public void addProducttoaiditem(AidItem aiditem,long id)
+    public void AddProductToAidItem(AidItem aiditem, long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,aiditem.getImage());
@@ -204,7 +204,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttosymptomsitem(SymptomsItem sympitem,long id)
+    public void AddProductToSymptomsItem(SymptomsItem sympitem, long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,sympitem.getImage());
@@ -216,7 +216,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttoselftestitem(SelfTestItem selfitem,long id)
+    public void AddProductToSelfTestItem(SelfTestItem selfitem, long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_IMAGE,selfitem.getImage());
@@ -228,7 +228,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttofavaid(long id)
+    public void AddProductToFavAid(long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_FID,id);
@@ -237,7 +237,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttofavtest(long id)
+    public void AddProductToFavTest(long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_FID,id);
@@ -246,7 +246,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addProducttofavsymptoms(long id)
+    public void AddProductToFavSymptoms(long id)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_FID,id);
@@ -255,14 +255,14 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteProductfromfavaid(long id)
+    public void DeleteProductFromFavAid(long id)
     {
         SQLiteDatabase db =getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_FAVOURITE_AID + " WHERE " + COLOUMN_FID + " = " + id + ";");
         db.close();
     }
 
-    public void deleteProductfromfavselftest(long id){
+    public void DeleteProductFromFavSelfTest(long id){
 
         SQLiteDatabase db =getWritableDatabase();
 
@@ -270,7 +270,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public void deleteProductfromfavsymptoms(long id){
+    public void DeleteProductFromFavSymptoms(long id){
 
         SQLiteDatabase db =getWritableDatabase();
 
@@ -278,7 +278,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<Aid> databasetostringaid(){
+    public ArrayList<Aid> DatabaseToStringAid(){
 
         ArrayList<Aid> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
@@ -301,7 +301,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
-    public ArrayList<SelfTest> databasetostringtest(){
+    public ArrayList<SelfTest> DatabaseToStringTest(){
 
         ArrayList<SelfTest> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
@@ -324,7 +324,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
-    public ArrayList<Symptoms> databasetostringsymptoms(){
+    public ArrayList<Symptoms> DatabaseToStringSymptoms(){
 
         ArrayList<Symptoms> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
@@ -347,7 +347,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
-    public ArrayList<AidItem> databasetostringaiditem(int id){
+    public ArrayList<AidItem> DatabaseToStringAidItem(int id){
 
         ArrayList<AidItem> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
@@ -372,7 +372,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
-    public ArrayList<SelfTestItem> databasetostringtestitem(int id){
+    public ArrayList<SelfTestItem> DatabaseToStringTestItem(int id){
 
         ArrayList<SelfTestItem> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
@@ -397,7 +397,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return listItems;
     }
 
-    public ArrayList<SymptomsItem> databasetostringsymptomsitem(int id){
+    public ArrayList<SymptomsItem> DatabaseToStringSymptomsItem(int id){
 
         ArrayList<SymptomsItem> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
@@ -522,9 +522,9 @@ public class MyDBHandler extends SQLiteOpenHelper {
                 + " WHERE " + COLOUMN_ID + " = " + Long.toString(id);
         db.execSQL(query);
         if(i==0)
-            deleteProductfromfavaid(id);
+            DeleteProductFromFavAid(id);
         else
-            addProducttofavaid(id);
+            AddProductToFavAid(id);
     }
 
 }

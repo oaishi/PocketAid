@@ -52,7 +52,7 @@ public class CustomAdapterSymptoms extends RecyclerView.Adapter<CustomAdapterSym
     public CustomAdapterSymptoms(ViewGroup container)
     {
         this.rainbow =(container.getContext()).getResources().getIntArray(R.array.array);
-        this.dataSet =  new MyDBHandler(container.getContext(),null,null,1).databasetostringaid();
+        this.dataSet =  new MyDBHandler(container.getContext(),null,null,1).DatabaseToStringAid();
         this.context = container.getContext();
         path = container.getContext().getDir("imageDir",Context.MODE_PRIVATE) + "/";
     }

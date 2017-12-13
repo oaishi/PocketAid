@@ -5,9 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +12,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,7 +47,7 @@ public class Description extends AppCompatActivity {
         fav = extras.getInt("favourite");
         title = extras.getString("headline");
         myDBHandler = new MyDBHandler(this,null,null,1);
-        aidItems = myDBHandler.databasetostringaiditem(pos+1);
+        aidItems = myDBHandler.DatabaseToStringAidItem(pos+1);
         count = aidItems.size();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

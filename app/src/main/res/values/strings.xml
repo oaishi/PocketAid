@@ -22,5 +22,8 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
+    <string name="messagebody">I might be in trouble . Help me !</string>
+    <string name="mapaddress">My last known location is : </string>
+
 
 </resources>

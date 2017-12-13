@@ -3,11 +3,7 @@ package com.example.fariahuq.pocketaid;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +15,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
-import static java.security.AccessController.getContext;
 
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
@@ -61,7 +55,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     public CustomAdapter(ViewGroup container)
     {
         this.rainbow =(container.getContext()).getResources().getIntArray(R.array.array);
-        this.dataSet =  new MyDBHandler(container.getContext(),null,null,1).databasetostringaid();
+        this.dataSet =  new MyDBHandler(container.getContext(),null,null,1).DatabaseToStringAid();
         this.context = container.getContext();
         path = container.getContext().getDir("imageDir",Context.MODE_PRIVATE) + "/";
     }
