@@ -289,10 +289,10 @@ public class HomePage extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_message) {
             drawer.closeDrawer(GravityCompat.START);
-            /*FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            HolderOfContact fragment = new HolderOfContact();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            ContactFragment fragment = new ContactFragment();
             transaction.replace(R.id.Fragment_Container, fragment);
-            transaction.commit();*/
+            transaction.commit();
             frag = "message";
         } else if (id == R.id.nav_hospitals) {
             drawer.closeDrawer(GravityCompat.START);

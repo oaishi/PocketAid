@@ -25,5 +25,9 @@
     <string name="messagebody">I might be in trouble . Help me !</string>
     <string name="mapaddress">My last known location is : </string>
 
+    <string name="archived_label">Archived</string>
+
+    <string name="undo_label"><u>Undo</u></string>
+
 
 </resources>
