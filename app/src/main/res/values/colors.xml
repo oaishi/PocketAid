@@ -43,4 +43,8 @@
     <color name="inactiv">#999999</color>
     <color name="bkg2">#3d4935</color>
 
+
+    <color name="virtual_background">#ffe3ae</color>
+    <color name="submitbutton">#ff8247</color>
+
 </resources>

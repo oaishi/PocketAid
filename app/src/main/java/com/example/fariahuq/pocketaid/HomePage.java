@@ -51,6 +51,7 @@ public class HomePage extends AppCompatActivity
     private String path;
     private ContextWrapper cw;
     private File directoryaid;
+    private FloatingActionButton fab;
     private String frag;
     static final int PICK_CONTACT_REQUEST = 1;
 
@@ -83,7 +84,7 @@ public class HomePage extends AppCompatActivity
         cw = new ContextWrapper(getApplicationContext());
         directoryaid = cw.getDir("imageDir", Context.MODE_PRIVATE);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -265,6 +266,11 @@ public class HomePage extends AppCompatActivity
             frag = "profile";
         } else if (id == R.id.nav_checkup) {
             drawer.closeDrawer(GravityCompat.START);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfVirtual fragment = new HolderOfVirtual();
+            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.commit();
+            fab.setVisibility(View.GONE);
             frag = "checkup";
         } else if (id == R.id.nav_first_aid) {
             drawer.closeDrawer(GravityCompat.START);

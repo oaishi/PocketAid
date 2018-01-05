@@ -29,5 +29,31 @@
 
     <string name="undo_label"><u>Undo</u></string>
 
+    <string name="add_a_symptom">Please,check your symptom</string>
+    <string name="symptom_name">Symptom Name :</string>
+    <string name="name_selection">Select A Symptom</string>
+    <string name="show_result">No, Show me the result</string>
+    <string name="new_entry">Yes, Add a new symptom</string>
+    <string name="submit">Submit</string>
+    <string name="virtual_decision">Hmm , is there anything else you want to add ?</string>
+    <string name="symptom_duration">Duration :</string>
+    <string name="duration_selection">Select Duration</string>
+    <string name="symptom_time">Specific Time :</string>
+    <string name="time_selection">Pick a Time :</string>
+    <string name="symptom_intensity">Intensity :</string>
+    <string name="insertion_selection">Pick One</string>
+    <string name="symptom_organ_name">Organ :</string>
+    <string name="organ_name_selection">Pick One If Any</string>
 
+
+    <string-array name="country_arrays">
+        <item>Malaysia</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>Singapore</item>
+        <item>New Zealand</item>
+        <item>India</item>
+    </string-array>
 </resources>
