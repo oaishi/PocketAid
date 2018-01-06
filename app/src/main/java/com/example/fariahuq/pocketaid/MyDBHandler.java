@@ -27,6 +27,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String COLOUMN_DESC="description";
     public static final String COLOUMN_IMAGE="imagesrc";
     public static final String COLOUMN_FAVOURITE="fav";
+    public static final String COLOUMN_NAME="name";
+    public static final String COLOUMN_DURATION="duration";
+    public static final String COLOUMN_TIME="time";
+    public static final String COLOUMN_INTENSITY="intensity";
+    public static final String COLOUMN_ORGAN="organ";
 
     public static final String TABLE_AID="aid";
     public static final String TABLE_AID_ITEM="aiditem";
@@ -42,6 +47,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
     public static final String TABLE_FAVOURITE_SYMPTOMS="favsymptom";
 
     public static final String TABLE_CONTACT="contacts";
+    public static final String TABLE_DISEASE="disease";
+    public static final String TABLE_MATRIXROW="matrixrow";
 
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -64,6 +71,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_FAVOURITE_SYMPTOMS);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_FAVOURITE_TEST);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_CONTACT);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_DISEASE);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_MATRIXROW);
         onCreate(db);
 
     }
@@ -142,6 +151,22 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         db.execSQL(query);
 
+        query = "CREATE TABLE " + TABLE_DISEASE + "(" +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLOUMN_TITLE + " TEXT " +
+                ");";
+
+        db.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_MATRIXROW + "(" +
+                COLOUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLOUMN_NAME + " TEXT, " +COLOUMN_DURATION + " INTEGER, " +COLOUMN_INTENSITY + " TEXT, " +COLOUMN_TIME + " TEXT, " +
+                COLOUMN_FID + " INTEGER, " +COLOUMN_ORGAN + " TEXT "  +
+                ");";
+
+
+        db.execSQL(query);
+
     }
 
     public long AddProductToAid(Aid aid)
@@ -190,6 +215,30 @@ public class MyDBHandler extends SQLiteOpenHelper {
         long id = db.insert(TABLE_SELFTEST,null,values);
         db.close();
         return id;
+    }
+
+    public long AddProductToDisease(MatrixName matrixName)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COLOUMN_TITLE,matrixName.getName());
+        SQLiteDatabase db= getWritableDatabase();
+        long id = db.insert(TABLE_DISEASE,null,values);
+        db.close();
+        return id;
+    }
+
+    public void AddProductToMatrixRow(MatrixRow matrixRow, long id)
+    {
+        ContentValues values = new ContentValues();
+        values.put(COLOUMN_NAME,matrixRow.getName());
+        values.put(COLOUMN_DURATION,matrixRow.getDuration());
+        values.put(COLOUMN_INTENSITY,matrixRow.getIntensity());
+        values.put(COLOUMN_TIME,matrixRow.getTime());
+        values.put(COLOUMN_ORGAN,matrixRow.getOrgan());
+        values.put(COLOUMN_FID,id);
+        SQLiteDatabase db= getWritableDatabase();
+        db.insert(TABLE_MATRIXROW,null,values);
+        db.close();
     }
 
     public void AddProductToAidItem(AidItem aiditem, long id)
@@ -340,6 +389,55 @@ public class MyDBHandler extends SQLiteOpenHelper {
             ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
             ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
             ad.setFavourite(c.getInt(c.getColumnIndex(COLOUMN_FAVOURITE)));
+            listItems.add(ad);
+            c.moveToNext();
+        }
+        db.close();
+        return listItems;
+    }
+
+    public ArrayList<MatrixName> DatabaseToStringDisease(){
+
+        ArrayList<MatrixName> listItems = new ArrayList<>();;
+        SQLiteDatabase db= getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_DISEASE + " WHERE 1";
+
+        Cursor c =db.rawQuery(query,null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            MatrixName ad = new MatrixName();
+            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setName(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
+            ad.setItems(DatabaseToStringMatrixRow((int)ad.getId()));
+            listItems.add(ad);
+            c.moveToNext();
+        }
+        db.close();
+        return listItems;
+    }
+
+    public ArrayList<MatrixRow> DatabaseToStringMatrixRow(int id){
+
+        ArrayList<MatrixRow> listItems = new ArrayList<>();;
+        SQLiteDatabase db= getWritableDatabase();
+        int count = 1;
+        String query = "SELECT * FROM " + TABLE_MATRIXROW + " WHERE "+COLOUMN_FID + " = " +id;
+
+        Cursor c =db.rawQuery(query,null);
+
+        c.moveToFirst();
+        while (!c.isAfterLast())
+        {
+            MatrixRow ad = new MatrixRow();
+            ad.setId(count++);
+            ad.setName(c.getString(c.getColumnIndex(COLOUMN_NAME)));
+            ad.setIntensity(c.getString(c.getColumnIndex(COLOUMN_INTENSITY)));
+            ad.setDuration(c.getInt(c.getColumnIndex(COLOUMN_DURATION)));
+            ad.setTime(c.getString(c.getColumnIndex(COLOUMN_TIME)));
+            ad.setOrgan(c.getString(c.getColumnIndex(COLOUMN_ORGAN)));
+            ad.setParent_id(c.getInt(c.getColumnIndex(COLOUMN_FID)));
             listItems.add(ad);
             c.moveToNext();
         }
