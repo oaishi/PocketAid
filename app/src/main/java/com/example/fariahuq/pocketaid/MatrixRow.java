@@ -68,4 +68,24 @@ public class MatrixRow {
     public void setOrgan(String organ) {
         this.organ = organ;
     }
+
+    public int MatchCount(MatrixRow matrixRow)
+    {
+        int i = 0;
+        if(!matrixRow.getName().equals(this.getName()))
+            return i;
+       if(!matrixRow.getOrgan().equals(this.getOrgan()))
+            {
+                return i;
+            }
+       else
+            i++;
+        if(matrixRow.getIntensity().equals(this.getIntensity()))
+            i++;
+        if(matrixRow.getDuration()==this.getDuration())
+            i++;
+        if(matrixRow.getTime().equals(this.getTime()))
+            i++;
+        return i;
+    }
 }

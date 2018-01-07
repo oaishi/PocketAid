@@ -53,4 +53,6 @@ public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirt
     public int getItemCount() {
         return mDataSet.size();
     }
+
+    public ArrayList<Integer> getValue(){return mDataSet;}
 }

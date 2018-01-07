@@ -34,4 +34,24 @@ public class MatrixName {
     public void setItems(ArrayList<MatrixRow> items) {
         this.items = items;
     }
+
+    public int getSize(){return items.size();}
+
+    public float SimilarityCount(MatrixName matrixName)
+    {
+        int i=0;
+        ArrayList<MatrixRow> input = matrixName.getItems();
+        int sizeinput , size;
+        size = items.size();
+        sizeinput = input.size();
+        for(int init=0;init<sizeinput;init++)
+        {
+            for(int init1=0;init1<size;init1++)
+            {
+                i= i+ input.get(init).MatchCount(items.get(init1));
+            }
+        }
+        float j = (i/(size*4)) * 100 ;
+        return j;
+    }
 }
