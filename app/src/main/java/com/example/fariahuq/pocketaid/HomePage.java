@@ -45,7 +45,7 @@ public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private MyDBHandler dbHandler;
-    private DatabaseReference ref;
+    private DatabaseReference ref , refcheck;
     private DisplayImageOptions options;
     private ImageSize targetSize;
     private String path;
@@ -74,6 +74,7 @@ public class HomePage extends AppCompatActivity
 
         dbHandler = new MyDBHandler(this, null, null, 1);
         ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
+        refcheck = FirebaseDatabase.getInstance().getReference().child("Virtual Checkup");
 
         options = new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
                 .showImageForEmptyUri(getResources().getDrawable(R.drawable.hi))
@@ -183,12 +184,12 @@ public class HomePage extends AppCompatActivity
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         GenericTypeIndicator<ArrayList<Aid>> t = new GenericTypeIndicator<ArrayList<Aid>>() {
                         };
-                        //Get map of users in datasnapshot
+                        //Get map of users in datasnapshot to load aid
                         ArrayList<Aid> aids = dataSnapshot.getValue(t);
                         int count;
                         for (count = 0; count < aids.size(); count++) {
                             Aid aid = aids.get(count);
-                            Log.i("Firebase!", aid.getImage());
+                            //Log.i("Firebase!", aid.getImage());
                             if (aid.getImage().equals("null") == false) {
                                 Loadimageoflist(aid.getImage(), count);
                                 aid.setImage("aid"+Integer.toString(count) + ".jpg");
@@ -208,13 +209,45 @@ public class HomePage extends AppCompatActivity
                                 dbHandler.AddProductToAidItem(aiditem, i);
                             }
                         }
+                        }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.i("p!","done");
+                        //handle databaseError
+                    }
+                });
+
+        refcheck.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        GenericTypeIndicator<ArrayList<MatrixName>> td = new GenericTypeIndicator<ArrayList<MatrixName>>() {
+                        };
+                        //Get map of users in datasnapshot to load diseases
+                        ArrayList<MatrixName> diseases = dataSnapshot.getValue(td);
+                        for (int count = 0; count < diseases.size(); count++) {
+                            MatrixName disease = diseases.get(count);
+                            long i = dbHandler.AddProductToDisease(disease,count+1);
+                            GenericTypeIndicator<ArrayList<MatrixRow>> ti = new GenericTypeIndicator<ArrayList<MatrixRow>>() {
+                            };
+                            ArrayList<MatrixRow> ai = dataSnapshot.child(Integer.toString(count) + "/Steps").getValue(ti);
+                            for (int countitem = 0; countitem < ai.size(); countitem++) {
+                                MatrixRow aiditem = ai.get(countitem);
+                                dbHandler.AddProductToMatrixRow(aiditem, i);
+                            }
+                        }
+
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
+                        Log.i("p!","done");
                         //handle databaseError
                     }
                 });
+
     }
 
     @Override

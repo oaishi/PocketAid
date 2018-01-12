@@ -15,6 +15,8 @@
 */
 
 package com.example.fariahuq.pocketaid;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -115,10 +117,11 @@ public class HolderOfVirtual extends Fragment {
         no.setOnClickListener(new View.OnClickListener() {
                                       @Override
                                       public void onClick(View v) {
+                                          AsyncTaskRunner runner = new AsyncTaskRunner();
                                           mDataset = mAdapter.getmDataSet();
                                           MatrixName entry = new MatrixName();
                                           entry.setItems(mDataset);
-                                          entry.print();
+                                          runner.execute(entry);
                                       }
                                   }
         );
@@ -155,6 +158,47 @@ public class HolderOfVirtual extends Fragment {
         // Save currently selected layout manager.
         savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, mCurrentLayoutManagerType);
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+
+    private class AsyncTaskRunner extends AsyncTask<MatrixName, String, String> {
+
+        private String resp;
+        ProgressDialog progressDialog;
+
+        @Override
+        protected String doInBackground(MatrixName... params)  {
+            publishProgress("Sleeping..."); // Calls onProgressUpdate()
+            ArrayList<MatrixName> matrixNames = new MyDBHandler(getContext(),null,null,1).DatabaseToStringDisease();
+            for (int i=0;i<matrixNames.size();i++) {
+                double f = matrixNames.get(i).SimilarityCount(params[0]);
+                Log.i("checkup",Double.toString(f));
+            }
+            resp = "baal";
+            return resp;
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            // execution of result of Long time consuming operation
+            progressDialog.dismiss();
+            //finalResult.setText(result);
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show( getContext() ,
+                    "ProgressDialog",
+                    "Wait for 2"+ " seconds");
+        }
+
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+
+        }
     }
 
     /**

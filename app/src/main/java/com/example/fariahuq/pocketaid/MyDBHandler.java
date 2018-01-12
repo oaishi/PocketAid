@@ -217,10 +217,11 @@ public class MyDBHandler extends SQLiteOpenHelper {
         return id;
     }
 
-    public long AddProductToDisease(MatrixName matrixName)
+    public long AddProductToDisease(MatrixName matrixName,int i)
     {
         ContentValues values = new ContentValues();
         values.put(COLOUMN_TITLE,matrixName.getName());
+        values.put(COLOUMN_ID,i);
         SQLiteDatabase db= getWritableDatabase();
         long id = db.insert(TABLE_DISEASE,null,values);
         db.close();
@@ -403,23 +404,24 @@ public class MyDBHandler extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_DISEASE + " WHERE 1";
 
         Cursor c =db.rawQuery(query,null);
-
+        int i = 1;
         c.moveToFirst();
         while (!c.isAfterLast())
         {
             MatrixName ad = new MatrixName();
             ad.setId(c.getColumnIndex(COLOUMN_ID));
             ad.setName(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
-            ad.setItems(DatabaseToStringMatrixRow((int)ad.getId()));
+            ad.setItems(DatabaseToStringMatrixRow(i));
             listItems.add(ad);
             c.moveToNext();
+            i++;
         }
         db.close();
         return listItems;
     }
 
     public ArrayList<MatrixRow> DatabaseToStringMatrixRow(int id){
-
+        Log.i("checkup",Integer.toString(id));
         ArrayList<MatrixRow> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
         int count = 1;

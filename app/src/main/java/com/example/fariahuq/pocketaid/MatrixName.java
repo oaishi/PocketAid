@@ -13,6 +13,28 @@ public class MatrixName {
     String name;
     ArrayList<MatrixRow> items;
 
+    public MatrixName() {
+    }
+
+    public MatrixName(String name) {
+        this.name = name;
+    }
+
+    public MatrixName(ArrayList<MatrixRow> items) {
+        this.items = items;
+    }
+
+    public MatrixName(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public MatrixName(long id, String name, ArrayList<MatrixRow> items) {
+        this.id = id;
+        this.name = name;
+        this.items = items;
+    }
+
     public long getId() {
         return id;
     }
@@ -39,7 +61,7 @@ public class MatrixName {
 
     public int getSize(){return items.size();}
 
-    public float SimilarityCount(MatrixName matrixName)
+    public double SimilarityCount(MatrixName matrixName)
     {
         int i=0;
         ArrayList<MatrixRow> input = matrixName.getItems();
@@ -53,17 +75,9 @@ public class MatrixName {
                 i= i+ input.get(init).MatchCount(items.get(init1));
             }
         }
-        float j = (i/(size*4)) * 100 ;
-        return j;
-    }
-
-    public void print()
-    {
-        for(int i=0;i<getSize();i++)
-        {
-            Log.i("checkup",items.get(i).getName()+" " + items.get(i).getTime()
-            + " "+ items.get(i).getDuration()+ items.get(i).getIntensity() + items.get(i).getOrgan());
-        }
+        Log.i("checkup",Integer.toString(i));
+        double in = (i / (double) (size*4)) * 100;
+        return in;
     }
 
 }
