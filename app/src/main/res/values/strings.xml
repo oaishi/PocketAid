@@ -46,14 +46,49 @@
     <string name="organ_name_selection">Pick One If Any</string>
 
 
-    <string-array name="country_arrays">
-        <item>Malaysia</item>
-        <item>United States</item>
-        <item>Indonesia</item>
-        <item>France</item>
-        <item>Italy</item>
-        <item>Singapore</item>
-        <item>New Zealand</item>
-        <item>India</item>
+    <string-array name="names">
+        <item>None</item>
+        <item>Nausea</item>
+        <item>Vomitting</item>
+        <item>Pain</item>
+        <item>Fever</item>
+        <item>Fatigue</item>
+        <item>Rash</item>
+        <item>Headache</item>
+        <item>Dry Cough</item>
+        <item>Diarrhea</item>
     </string-array>
+
+    <string-array name="duration">
+        <item>None</item>
+        <item>Below A Week</item>
+        <item>Over A Week</item>
+        <item>A Month</item>
+        <item>Over Month</item>
+    </string-array>
+
+    <string-array name="time">
+        <item>None</item>
+        <item>Before Sunset</item>
+        <item>Morning</item>
+        <item>Evening</item>
+        <item>Night</item>
+        <item>Afternoon</item>
+    </string-array>
+
+    <string-array name="intensity">
+        <item>None</item>
+        <item>Severe</item>
+        <item>Mild</item>
+        <item>Endurable</item>
+    </string-array>
+
+    <string-array name="organnames">
+        <item>None</item>
+        <item>Eye</item>
+        <item>Joint</item>
+        <item>Muscle</item>
+        <item>Abdomen</item>
+    </string-array>
+
 </resources>

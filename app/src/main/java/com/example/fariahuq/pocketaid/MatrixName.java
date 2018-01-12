@@ -1,5 +1,7 @@
 package com.example.fariahuq.pocketaid;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -54,4 +56,14 @@ public class MatrixName {
         float j = (i/(size*4)) * 100 ;
         return j;
     }
+
+    public void print()
+    {
+        for(int i=0;i<getSize();i++)
+        {
+            Log.i("checkup",items.get(i).getName()+" " + items.get(i).getTime()
+            + " "+ items.get(i).getDuration()+ items.get(i).getIntensity() + items.get(i).getOrgan());
+        }
+    }
+
 }

@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,7 @@ public class HolderOfVirtual extends Fragment {
     protected RecyclerView mRecyclerView;
     protected CustomAdapterVirtual mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    protected ArrayList<Integer> mDataset;
+    protected ArrayList<MatrixRow> mDataset;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,8 +95,15 @@ public class HolderOfVirtual extends Fragment {
                                       @Override
                                       public void onClick(View v) {
                                           process.setVisibility(View.GONE);
+                                          mDataset = mAdapter.getmDataSet();
+                                          MatrixRow matrixRow = new MatrixRow();
+                                          matrixRow.setTime("None");
+                                          matrixRow.setOrgan("None");
+                                          matrixRow.setDuration(0);
+                                          matrixRow.setIntensity("None");
+                                          matrixRow.setName("None");
+                                          mDataset.add(matrixRow);
                                           i++;
-                                          mDataset.add(i);
                                           mAdapter.notifyDataSetChanged();
                                           submit.setVisibility(View.VISIBLE);
                                       }
@@ -107,7 +115,10 @@ public class HolderOfVirtual extends Fragment {
         no.setOnClickListener(new View.OnClickListener() {
                                       @Override
                                       public void onClick(View v) {
-
+                                          mDataset = mAdapter.getmDataSet();
+                                          MatrixName entry = new MatrixName();
+                                          entry.setItems(mDataset);
+                                          entry.print();
                                       }
                                   }
         );
@@ -152,7 +163,13 @@ public class HolderOfVirtual extends Fragment {
      */
     private void initDataset() {
         mDataset = new ArrayList<>();
-        mDataset.add(1);
+        MatrixRow matrixRow = new MatrixRow();
+        matrixRow.setTime("None");
+        matrixRow.setOrgan("None");
+        matrixRow.setDuration(0);
+        matrixRow.setIntensity("None");
+        matrixRow.setName("None");
+        mDataset.add(matrixRow);
         i=1;
     }
 }

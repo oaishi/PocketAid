@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/White"
-                    android:entries="@array/country_arrays"
+                    android:entries="@array/names"
                     android:prompt="@string/name_selection"
                     android:spinnerMode="dialog" />
             </LinearLayout>
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/White"
-                    android:entries="@array/country_arrays"
+                    android:entries="@array/duration"
                     android:prompt="@string/duration_selection"
                     android:spinnerMode="dialog" />
             </LinearLayout>
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/White"
-                    android:entries="@array/country_arrays"
+                    android:entries="@array/time"
                     android:prompt="@string/time_selection"
                     android:spinnerMode="dialog" />
             </LinearLayout>
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/White"
-                    android:entries="@array/country_arrays"
+                    android:entries="@array/intensity"
                     android:prompt="@string/insertion_selection"
                     android:spinnerMode="dialog" />
             </LinearLayout>
@@ -145,7 +145,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/White"
-                    android:entries="@array/country_arrays"
+                    android:entries="@array/organnames"
                     android:prompt="@string/organ_name_selection"
                     android:spinnerMode="dialog" />
             </LinearLayout>
