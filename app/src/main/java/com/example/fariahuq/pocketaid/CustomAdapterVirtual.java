@@ -13,11 +13,11 @@ import java.util.Map;
 
 interface OnClickGenerationName {
 
-    void ChangeData(int position,String string);
-    void ChangeDataDuration(int position,String string);
-    void ChangeDataIntensity(int position,String string);
-    void ChangeDataTime(int position,String string);
-    void ChangeDataOrgan(int position,String string);
+    void ChangeData(int position,String string , int pos) ;
+    void ChangeDataDuration(int position,String string , int pos) ;
+    void ChangeDataIntensity(int position,String string , int pos) ;
+    void ChangeDataTime(int position,String string, int pos) ;
+    void ChangeDataOrgan(int position,String string, int pos) ;
 }
 
 public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirtual.ViewHolder> {
@@ -43,6 +43,46 @@ public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirt
             spinner4 = (Spinner) v.findViewById(R.id.spinner4);
         }
 
+        public Spinner getSpinner() {
+            return spinner;
+        }
+
+        public void setSpinner(Spinner spinner) {
+            this.spinner = spinner;
+        }
+
+        public Spinner getSpinner1() {
+            return spinner1;
+        }
+
+        public void setSpinner1(Spinner spinner1) {
+            this.spinner1 = spinner1;
+        }
+
+        public Spinner getSpinner2() {
+            return spinner2;
+        }
+
+        public void setSpinner2(Spinner spinner2) {
+            this.spinner2 = spinner2;
+        }
+
+        public Spinner getSpinner3() {
+            return spinner3;
+        }
+
+        public void setSpinner3(Spinner spinner3) {
+            this.spinner3 = spinner3;
+        }
+
+        public Spinner getSpinner4() {
+            return spinner4;
+        }
+
+        public void setSpinner4(Spinner spinner4) {
+            this.spinner4 = spinner4;
+        }
+
         public void bind(OnClickGenerationName onClickGeneration ) {
 
             this.onClickGenerationName = onClickGeneration;
@@ -50,7 +90,7 @@ public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirt
 
             //TODO getAdapterPosition()  returns holder's position in the view
                 public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                   onClickGenerationName.ChangeData(getAdapterPosition(),parent.getItemAtPosition(pos).toString());
+                   onClickGenerationName.ChangeData(getAdapterPosition(),parent.getItemAtPosition(pos).toString(),pos);
                 }
 
                 @Override
@@ -64,7 +104,7 @@ public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirt
 
                 //TODO getAdapterPosition()  returns holder's position in the view
                 public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                    onClickGenerationName.ChangeDataDuration(getAdapterPosition(),parent.getItemAtPosition(pos).toString());
+                    onClickGenerationName.ChangeDataDuration(getAdapterPosition(),parent.getItemAtPosition(pos).toString(),pos);
                 }
 
                 @Override
@@ -78,7 +118,7 @@ public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirt
 
                 //TODO getAdapterPosition()  returns holder's position in the view
                 public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                    onClickGenerationName.ChangeDataTime(getAdapterPosition(),parent.getItemAtPosition(pos).toString());
+                    onClickGenerationName.ChangeDataTime(getAdapterPosition(),parent.getItemAtPosition(pos).toString(),pos);
                 }
 
                 @Override
@@ -92,7 +132,7 @@ public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirt
 
                 //TODO getAdapterPosition()  returns holder's position in the view
                 public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                   onClickGenerationName.ChangeDataIntensity(getAdapterPosition(),parent.getItemAtPosition(pos).toString());
+                   onClickGenerationName.ChangeDataIntensity(getAdapterPosition(),parent.getItemAtPosition(pos).toString(),pos);
                 }
 
                 @Override
@@ -106,7 +146,7 @@ public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirt
 
                 //TODO getAdapterPosition()  returns holder's position in the view
                 public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                    onClickGenerationName.ChangeDataOrgan(getAdapterPosition(),parent.getItemAtPosition(pos).toString());
+                    onClickGenerationName.ChangeDataOrgan(getAdapterPosition(),parent.getItemAtPosition(pos).toString(),pos);
                 }
 
                 @Override
@@ -124,13 +164,14 @@ public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirt
         onClickGenerationName = new OnClickGenerationName() {
 
             @Override
-            public void ChangeData(int position,String string) {
+            public void ChangeData(int position,String string , int pos) {
                 mDataSet.get(position).setName(string);
+                mDataSet.get(position).setSpinnerpos(pos);
                 //notifyDataSetChanged();
             }
 
             @Override
-            public void ChangeDataDuration(int position,String string) {
+            public void ChangeDataDuration(int position,String string,int pos) {
                 if(string.equals("none"))
                 mDataSet.get(position).setDuration(0);
                 if(string.equals("Below A Week"))
@@ -141,24 +182,28 @@ public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirt
                     mDataSet.get(position).setDuration(30);
                 if(string.equals("Over Month"))
                     mDataSet.get(position).setDuration(60);
+                mDataSet.get(position).setSpinner1pos(pos);
                 //notifyDataSetChanged();
             }
 
             @Override
-            public void ChangeDataIntensity(int position,String string) {
+            public void ChangeDataIntensity(int position,String string, int pos) {
                 mDataSet.get(position).setIntensity(string);
+                mDataSet.get(position).setSpinner3pos(pos);
                 //notifyDataSetChanged();
             }
 
             @Override
-            public void ChangeDataTime(int position,String string) {
+            public void ChangeDataTime(int position,String string , int pos) {
                 mDataSet.get(position).setTime(string);
+                mDataSet.get(position).setSpinner2pos(pos);
                 //notifyDataSetChanged();
             }
 
             @Override
-            public void ChangeDataOrgan(int position,String string) {
+            public void ChangeDataOrgan(int position,String string , int pos) {
                 mDataSet.get(position).setOrgan(string);
+                mDataSet.get(position).setSpinner4pos(pos);
                 //notifyDataSetChanged();
             }
         };
@@ -177,13 +222,18 @@ public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirt
         // Create a new view.
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.cards_virtual, viewGroup, false);
-
-        return new ViewHolder(v);
+        ViewHolder viewHolder = new ViewHolder(v);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         viewHolder.bind(onClickGenerationName);
+        viewHolder.getSpinner().setSelection(mDataSet.get(position).getSpinnerpos());
+        viewHolder.getSpinner1().setSelection(mDataSet.get(position).getSpinner1pos());
+        viewHolder.getSpinner2().setSelection(mDataSet.get(position).getSpinner2pos());
+        viewHolder.getSpinner3().setSelection(mDataSet.get(position).getSpinner3pos());
+        viewHolder.getSpinner4().setSelection(mDataSet.get(position).getSpinner4pos());
     }
     @Override
     public int getItemCount() {

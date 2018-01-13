@@ -12,6 +12,77 @@ public class MatrixRow {
     String time;
     String intensity;
     String organ;
+    int spinnerpos;
+    int spinner1pos;
+    int spinner2pos;
+    int spinner3pos;
+    int spinner4pos;
+
+    public MatrixRow()
+    {
+    }
+
+    public MatrixRow(long id, String name, int duration, String time, String intensity, String organ) {
+        this.id = id;
+        this.name = name;
+        this.duration = duration;
+        this.time = time;
+        this.intensity = intensity;
+        this.organ = organ;
+    }
+
+    public MatrixRow(int spinnerpos, int spinner1pos, int spinner2pos, int spinner3pos, int spinner4pos) {
+        this.spinnerpos = spinnerpos;
+        this.spinner1pos = spinner1pos;
+        this.spinner2pos = spinner2pos;
+        this.spinner3pos = spinner3pos;
+        this.spinner4pos = spinner4pos;
+        this.setTime("None");
+        this.setOrgan("None");
+        this.setDuration(0);
+        this.setIntensity("None");
+        this.setName("None");
+    }
+
+    public int getSpinnerpos() {
+        return spinnerpos;
+    }
+
+    public void setSpinnerpos(int spinnerpos) {
+        this.spinnerpos = spinnerpos;
+    }
+
+    public int getSpinner1pos() {
+        return spinner1pos;
+    }
+
+    public void setSpinner1pos(int spinner1pos) {
+        this.spinner1pos = spinner1pos;
+    }
+
+    public int getSpinner2pos() {
+        return spinner2pos;
+    }
+
+    public void setSpinner2pos(int spinner2pos) {
+        this.spinner2pos = spinner2pos;
+    }
+
+    public int getSpinner3pos() {
+        return spinner3pos;
+    }
+
+    public void setSpinner3pos(int spinner3pos) {
+        this.spinner3pos = spinner3pos;
+    }
+
+    public int getSpinner4pos() {
+        return spinner4pos;
+    }
+
+    public void setSpinner4pos(int spinner4pos) {
+        this.spinner4pos = spinner4pos;
+    }
 
     public long getId() {
         return id;

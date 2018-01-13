@@ -19,6 +19,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 public class HolderOfVirtual extends Fragment {
@@ -34,8 +37,11 @@ public class HolderOfVirtual extends Fragment {
     private int i;
     private Button submit;
     private Button yes;
+    private Button yes1;
     private Button no;
+    private TextView diagnosis;
     private LinearLayout process;
+    private LinearLayout decide;
 
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
@@ -63,6 +69,8 @@ public class HolderOfVirtual extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_holder_of_virtual, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycle_view_list);
         process = (LinearLayout)rootView.findViewById(R.id.process);
+        decide = (LinearLayout)rootView.findViewById(R.id.decide);
+        diagnosis = (TextView)rootView.findViewById(R.id.diagnosis);
         mLayoutManager = new LinearLayoutManager(getActivity());
 
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
@@ -81,8 +89,10 @@ public class HolderOfVirtual extends Fragment {
 
         submit = (Button)rootView.findViewById(R.id.submit);
         yes = (Button)rootView.findViewById(R.id.yes);
+        yes1 = (Button)rootView.findViewById(R.id.yes1);
         no = (Button)rootView.findViewById(R.id.no);
         process.setVisibility(View.GONE);
+        decide.setVisibility(View.GONE);
         submit.setOnClickListener(new View.OnClickListener() {
                                       @Override
                                       public void onClick(View v) {
@@ -98,18 +108,28 @@ public class HolderOfVirtual extends Fragment {
                                       public void onClick(View v) {
                                           process.setVisibility(View.GONE);
                                           mDataset = mAdapter.getmDataSet();
-                                          MatrixRow matrixRow = new MatrixRow();
-                                          matrixRow.setTime("None");
-                                          matrixRow.setOrgan("None");
-                                          matrixRow.setDuration(0);
-                                          matrixRow.setIntensity("None");
-                                          matrixRow.setName("None");
+                                          MatrixRow matrixRow = new MatrixRow(0,0,0,0,0);
                                           mDataset.add(matrixRow);
                                           i++;
                                           mAdapter.notifyDataSetChanged();
                                           submit.setVisibility(View.VISIBLE);
                                       }
                                   }
+        );
+
+        yes1.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View v) {
+                                       process.setVisibility(View.GONE);
+                                       decide.setVisibility(View.GONE);
+                                       mRecyclerView.setVisibility(View.VISIBLE);
+                                       mDataset.clear();
+                                       MatrixRow matrixRow = new MatrixRow(0,0,0,0,0);
+                                       mDataset.add(matrixRow);
+                                       mAdapter.notifyDataSetChanged();
+                                       submit.setVisibility(View.VISIBLE);
+                                   }
+                               }
         );
 
 
@@ -163,7 +183,7 @@ public class HolderOfVirtual extends Fragment {
 
     private class AsyncTaskRunner extends AsyncTask<MatrixName, String, String> {
 
-        private String resp;
+        private String resp = "Showing Your Result :\n";
         ProgressDialog progressDialog;
 
         @Override
@@ -172,9 +192,13 @@ public class HolderOfVirtual extends Fragment {
             ArrayList<MatrixName> matrixNames = new MyDBHandler(getContext(),null,null,1).DatabaseToStringDisease();
             for (int i=0;i<matrixNames.size();i++) {
                 double f = matrixNames.get(i).SimilarityCount(params[0]);
-                Log.i("checkup",Double.toString(f));
+                if(f>50.0)
+                resp = resp + matrixNames.get(i).getName() + " : " + Double.toString(f) + " %\n" ;
+                //resp.concat(matrixNames.get(i).getName() + Double.toString(f)+ "\n");
+                //Log.i("checkup",matrixNames.get(i).getName() + " : " + Double.toString(f));
             }
-            resp = "baal";
+            if(resp.equals("Showing Your Result :\n"))
+                resp = "Hurray ! You Are Completely Fit .";
             return resp;
         }
 
@@ -183,6 +207,11 @@ public class HolderOfVirtual extends Fragment {
         protected void onPostExecute(String result) {
             // execution of result of Long time consuming operation
             progressDialog.dismiss();
+            decide.setVisibility(View.VISIBLE);
+            process.setVisibility(View.GONE);
+            submit.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
+            diagnosis.setText(resp);
             //finalResult.setText(result);
         }
 
@@ -207,12 +236,7 @@ public class HolderOfVirtual extends Fragment {
      */
     private void initDataset() {
         mDataset = new ArrayList<>();
-        MatrixRow matrixRow = new MatrixRow();
-        matrixRow.setTime("None");
-        matrixRow.setOrgan("None");
-        matrixRow.setDuration(0);
-        matrixRow.setIntensity("None");
-        matrixRow.setName("None");
+        MatrixRow matrixRow = new MatrixRow(0,0,0,0,0);
         mDataset.add(matrixRow);
         i=1;
     }

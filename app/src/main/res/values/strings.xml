@@ -44,6 +44,8 @@
     <string name="insertion_selection">Pick One</string>
     <string name="symptom_organ_name">Organ :</string>
     <string name="organ_name_selection">Pick One If Any</string>
+    <string name="new_checkup">Do you want to checkup again ?</string>
+    <string name="new_data">Yes , I want to checkup again .</string>
 
 
     <string-array name="names">
