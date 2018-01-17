@@ -1,5 +1,6 @@
 package com.example.fariahuq.pocketaid;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
@@ -73,8 +75,6 @@ public class HomePage extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         dbHandler = new MyDBHandler(this, null, null, 1);
-        ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
-        refcheck = FirebaseDatabase.getInstance().getReference().child("Virtual Checkup");
 
         options = new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
                 .showImageForEmptyUri(getResources().getDrawable(R.drawable.hi))
@@ -112,10 +112,48 @@ public class HomePage extends AppCompatActivity
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("FIRST_RUN", true);
             editor.commit();
+            /*AsyncTaskRunner runner = new AsyncTaskRunner();
+            runner.execute();*/
             Loaddata();
         }
 
     }
+
+    private class AsyncTaskRunner extends AsyncTask<Void, String, String> {
+
+        private String resp = "Showing Your Result :\n";
+        ProgressDialog progressDialog;
+
+        @Override
+        protected String doInBackground(Void... params)  {
+            publishProgress("Sleeping...");
+            Loaddata();
+            return resp;
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            // execution of result of Long time consuming operation
+            progressDialog.dismiss();
+            //finalResult.setText(result);
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show( getApplicationContext() ,
+                    "Downloading..",
+                    "Please wait until necessary datas are downloaded . ");
+        }
+
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+
+        }
+    }
+
 
     private void Loadimageoflist(String imageUri, final int count) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
@@ -175,8 +213,9 @@ public class HomePage extends AppCompatActivity
         });
     }
 
-    //testing Firebase database
     private void Loaddata() {
+        ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
+        refcheck = FirebaseDatabase.getInstance().getReference().child("Virtual Checkup");
 
         ref.addListenerForSingleValueEvent(
                 new ValueEventListener() {

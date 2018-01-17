@@ -48,8 +48,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 		Alarm alarm = new Alarm(alarmId);
 		alarm.load(RemindMe.db);
 
-		Intent notify = new Intent(context, MainActivity.class);
-		notify.putExtra("id", alarmId);
+		Intent notify = new Intent(context, NotificationWindow.class);
+		//notify.putExtra("id", alarmId);
 		PendingIntent pi = PendingIntent.getActivity(context, (int)alarmId, notify, 0);
 
 		//@formatter:off

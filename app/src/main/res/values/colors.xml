@@ -47,4 +47,6 @@
     <color name="virtual_background">#ffe3ae</color>
     <color name="submitbutton">#ff8247</color>
 
+    <color name="black_overlay">#66000000</color>
+
 </resources>

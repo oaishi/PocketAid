@@ -79,6 +79,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/emergency_contact_info" />
         </receiver>
+
+        <activity android:name=".NotificationWindow"
+            android:label="pxopc"
+            android:theme="@style/CustomTheme"></activity>
     </application>
 
 </manifest>
