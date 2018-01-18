@@ -81,7 +81,6 @@
         </receiver>
 
         <activity android:name=".NotificationWindow"
-            android:label="pxopc"
             android:theme="@style/CustomTheme"></activity>
     </application>
 

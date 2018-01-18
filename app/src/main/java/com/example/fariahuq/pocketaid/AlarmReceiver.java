@@ -58,6 +58,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 				.setContentText("this is a message")
 				.setSmallIcon(R.drawable.ic_launcher)
 				.setContentIntent(pi)
+				.setAutoCancel(true)
 				.setOngoing(true)
 				.setDefaults(Notification.DEFAULT_LIGHTS)
 				.build();

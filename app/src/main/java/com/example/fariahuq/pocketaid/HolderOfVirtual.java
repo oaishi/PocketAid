@@ -219,8 +219,8 @@ public class HolderOfVirtual extends Fragment {
         @Override
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show( getContext() ,
-                    "ProgressDialog",
-                    "Wait for 2"+ " seconds");
+                    "Analyzing Your Data",
+                    "Please , Wait A Moment .");
         }
 
 
