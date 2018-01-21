@@ -1,5 +1,7 @@
 package com.example.fariahuq.pocketaid;
 
+import android.util.Log;
+
 /**
  * Created by Faria huq on 06-Jan-18.
  */
@@ -145,18 +147,25 @@ public class MatrixRow {
         int i = 0;
         if(!matrixRow.getName().equals(this.getName()))
             return i;
-       if(!matrixRow.getOrgan().equals(this.getOrgan()))
+
+        if(!matrixRow.getOrgan().equals(this.getOrgan()))
             {
                 return i;
             }
-       else
+            else{
             i++;
-        if(matrixRow.getIntensity().equals(this.getIntensity()))
+           // Log.i("checkup",Integer.toString(matrixRow.getDuration())+Integer.toString(this.getDuration()));
+        }
+        if(matrixRow.getIntensity().equals(this.getIntensity())) {
             i++;
+           // Log.i("checkup",Integer.toString(matrixRow.getDuration())+Integer.toString(this.getDuration()));
+        }
         if(matrixRow.getDuration()==this.getDuration())
             i++;
+
         if(matrixRow.getTime().equals(this.getTime()))
             i++;
+
         return i;
     }
 }

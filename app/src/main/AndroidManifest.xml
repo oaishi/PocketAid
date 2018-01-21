@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".RemindMe"
@@ -59,7 +61,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fariahuq.pocketaid.MainActivity" />
         </activity>
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".SettingsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.fariahuq.pocketaid.MainActivity" />
+        </activity>
 
         <receiver android:name=".AlarmSetter">
             <intent-filter>

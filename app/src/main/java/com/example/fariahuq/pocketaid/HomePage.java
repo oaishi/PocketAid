@@ -3,6 +3,7 @@ package com.example.fariahuq.pocketaid;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -10,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +20,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -54,7 +57,7 @@ public class HomePage extends AppCompatActivity
     private ContextWrapper cw;
     private File directoryaid;
     private FloatingActionButton fab;
-    private String frag;
+    private String frag = "null";
     static final int PICK_CONTACT_REQUEST = 1;
 
     @Override
@@ -89,11 +92,9 @@ public class HomePage extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(frag.equals("null"))
+                    return;
                 //TODO: Add a contact when in contacts options
-                if(frag.equals("profile"))
-                {
-
-                }
                 if(frag.equals("message"))
                 {
                     Intent pickContactIntent =
@@ -112,22 +113,20 @@ public class HomePage extends AppCompatActivity
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("FIRST_RUN", true);
             editor.commit();
-            /*AsyncTaskRunner runner = new AsyncTaskRunner();
-            runner.execute();*/
-            Loaddata();
+            LoadData();
         }
 
     }
 
-    private class AsyncTaskRunner extends AsyncTask<Void, String, String> {
+    private class AsyncTaskRunner extends AsyncTask<MatrixName, String, String> {
 
         private String resp = "Showing Your Result :\n";
         ProgressDialog progressDialog;
 
         @Override
-        protected String doInBackground(Void... params)  {
-            publishProgress("Sleeping...");
-            Loaddata();
+        protected String doInBackground(MatrixName... params)  {
+            publishProgress("Sleeping..."); // Calls onProgressUpdate()
+
             return resp;
         }
 
@@ -136,15 +135,14 @@ public class HomePage extends AppCompatActivity
         protected void onPostExecute(String result) {
             // execution of result of Long time consuming operation
             progressDialog.dismiss();
-            //finalResult.setText(result);
         }
 
 
         @Override
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show( getApplicationContext() ,
-                    "Downloading..",
-                    "Please wait until necessary datas are downloaded . ");
+                    "Analyzing Your Data",
+                    "Please , Wait A Moment .");
         }
 
 
@@ -213,7 +211,7 @@ public class HomePage extends AppCompatActivity
         });
     }
 
-    private void Loaddata() {
+    private void LoadData() {
         ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
         refcheck = FirebaseDatabase.getInstance().getReference().child("Virtual Checkup");
 

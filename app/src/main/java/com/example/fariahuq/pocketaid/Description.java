@@ -9,9 +9,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +37,7 @@ public class Description extends AppCompatActivity {
     private static int count;
     private String title;
     private MyDBHandler myDBHandler;
+    private Menu menu;
     @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +71,17 @@ public class Description extends AppCompatActivity {
        for (int i = 0; i < count; i++) {
            tabLayout.addTab(tabLayout.newTab().setText((CharSequence) aidItems.get(i).getTitle()));
         }
+
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_description_page, menu);
+        MenuItem item = menu.findItem(R.id.action_fav);
+        if(item!=null && fav==1)
+            item.setIcon(R.drawable.ic_fav);
         return true;
     }
 
@@ -127,7 +135,6 @@ public class Description extends AppCompatActivity {
             textView.setText((CharSequence)(aidItems.get(getArguments().getInt(ARG_SECTION_NUMBER)).getDesc()));
             ImageView imageView = (ImageView)rootView.findViewById(R.id.imageView2);
 
-
             if(!((aidItems.get(getArguments().getInt(ARG_SECTION_NUMBER)).getImage()).equals("null"))) {
                 try {
                     String path = "/data/user/0/com.example.fariahuq.pocketaid/app_imageDir" + "/" +
@@ -148,6 +155,7 @@ public class Description extends AppCompatActivity {
         }
     }
 
+    //same for all
     public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
