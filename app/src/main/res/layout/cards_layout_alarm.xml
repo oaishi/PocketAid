@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        card_view:cardCornerRadius="15dp"
-        card_view:cardElevation="10dp">
+        card_view:cardCornerRadius="5dp"
+        card_view:cardElevation="5dp">
 
 
         <LinearLayout
@@ -29,24 +29,19 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:forceHasOverlappingRendering="true"
-                android:gravity="center"
+                android:gravity="left"
                 android:text=""
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/Black" />
 
             <Button
-                android:id="@+id/iconholder1"
+                android:id="@+id/zoom"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/ic_check_circle_white_24dp"
-                android:focusable="false"/>
+                android:layout_marginRight="15dp"
+                android:background="@android:drawable/ic_menu_search"
+                android:focusable="false" />
 
-            <Button
-                android:id="@+id/iconholder2"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:focusable="false"
-                android:background="@drawable/ic_highlight_off_white_24dp" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

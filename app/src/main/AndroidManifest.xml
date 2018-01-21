@@ -107,6 +107,10 @@
 
         <activity android:name=".NotificationWindow"
             android:theme="@style/CustomTheme"></activity>
+
+        <activity android:name=".NotificationWindowInshot"
+            android:theme="@style/CustomTheme"></activity>
+
     </application>
 
 </manifest>

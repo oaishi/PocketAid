@@ -50,7 +50,7 @@ public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private MyDBHandler dbHandler;
-    private DatabaseReference ref , refcheck , refsymp , reftest;
+    private DatabaseReference ref , refcheck , refsymp , reftest , refshot;
     private DisplayImageOptions options;
     private ImageSize targetSize;
     private String path;
@@ -59,6 +59,7 @@ public class HomePage extends AppCompatActivity
     private FloatingActionButton fab;
     private String frag = "null";
     static final int PICK_CONTACT_REQUEST = 1;
+    private ArrayList<DailyInshot> dailyInshots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +106,25 @@ public class HomePage extends AppCompatActivity
             }
         });
 
+        refshot = FirebaseDatabase.getInstance().getReference().child("Inshot");
+        refshot.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        GenericTypeIndicator<ArrayList<DailyInshot>> t = new GenericTypeIndicator<ArrayList<DailyInshot>>() {
+                        };
+                        //Get map of users in datasnapshot to load aid
+                        dailyInshots = dataSnapshot.getValue(t);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.i("p!","done");
+                        //handle databaseError
+                    }
+                });
+
+
         boolean mboolean = false;
         SharedPreferences settings = getSharedPreferences("com.example.fariahuq.pocketaid", 0);
         mboolean = settings.getBoolean("FIRST_RUN", false);
@@ -115,6 +135,18 @@ public class HomePage extends AppCompatActivity
             editor.commit();
             LoadData();
         }
+
+       /* if (savedInstanceState == null) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfInshot fragment = new HolderOfInshot();
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("arraylist", dailyInshots);
+            fragment.setArguments(bundle);
+
+            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.commit();
+        }*/
 
     }
 
@@ -471,8 +503,18 @@ public class HomePage extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             drawer.closeDrawer(GravityCompat.START);
+           /* FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfContact fragment = new HolderOfContact();*/
+
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            HolderOfContact fragment = new HolderOfContact();
+            HolderOfInshot fragment = new HolderOfInshot();
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("arraylist", dailyInshots);
+            fragment.setArguments(bundle);
+
+            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.commit();
             //transaction.replace(R.id.Fragment_Container, fragment);
             //transaction.commit();
             frag = "profile";
