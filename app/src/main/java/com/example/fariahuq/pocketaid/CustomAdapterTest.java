@@ -1,6 +1,7 @@
 package com.example.fariahuq.pocketaid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,6 +60,16 @@ public class CustomAdapterTest extends RecyclerView.Adapter<CustomAdapterTest.My
         holder.getTextViewName().setText(dataSet.get(listPosition).getTitle());
         int i = listPosition%(rainbow.length);
         holder.getCardView().setBackgroundColor(rainbow[i]);
+        /*holder.getCardView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,DescriptionSelfTest.class);
+                intent.putExtra("position",listPosition);
+                intent.putExtra("favourite", dataSet.get(listPosition).getFavourite());
+                intent.putExtra("headline", dataSet.get(listPosition).getTitle());
+                context.startActivity(intent);
+            }
+        });*/
     }
 
     @Override
