@@ -627,4 +627,28 @@ public class MyDBHandler extends SQLiteOpenHelper {
             AddProductToFavAid(id);
     }
 
+    public void UpdateSymptom(long id,int i)
+    {
+        SQLiteDatabase db= getWritableDatabase();
+        String query = "UPDATE "+ TABLE_SYMPTOMS + " SET " +COLOUMN_FAVOURITE + " = " + Integer.toString(i)
+                + " WHERE " + COLOUMN_ID + " = " + Long.toString(id);
+        db.execSQL(query);
+        if(i==0)
+            DeleteProductFromFavSymptoms(id);
+        else
+            AddProductToFavSymptoms(id);
+    }
+
+    public void UpdateTest(long id,int i)
+    {
+        SQLiteDatabase db= getWritableDatabase();
+        String query = "UPDATE "+ TABLE_SELFTEST + " SET " +COLOUMN_FAVOURITE + " = " + Integer.toString(i)
+                + " WHERE " + COLOUMN_ID + " = " + Long.toString(id);
+        db.execSQL(query);
+        if(i==0)
+            DeleteProductFromFavSelfTest(id);
+        else
+            AddProductToFavTest(id);
+    }
+
 }

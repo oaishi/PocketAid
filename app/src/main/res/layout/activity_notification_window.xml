@@ -69,10 +69,10 @@ tools:context="com.example.fariahuq.pocketaid.NotificationWindow">
 
 
                     <TextView
-                        android:layout_marginLeft="10dp"
-                        android:id="@+id/textView4"
+                        android:id="@+id/message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:text="@string/message"
                         android:textColor="@color/Black"
@@ -83,34 +83,35 @@ tools:context="com.example.fariahuq.pocketaid.NotificationWindow">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
                     android:orientation="horizontal"
-                    android:layout_margin="5dp">
+                    android:visibility="gone">
 
-                        <Button
-                            android:id="@+id/yes"
-                            style="?android:attr/buttonBarButtonStyle"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/roundercornervirtual"
-                            android:text="@string/new_entry"
-                            android:textColor="@color/White" />
+                    <Button
+                        android:id="@+id/yes"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/roundercornervirtual"
+                        android:text="@string/new_entry"
+                        android:textColor="@color/White" />
 
-                        <Button
-                            android:id="@+id/no"
-                            style="?android:attr/buttonBarButtonStyle"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/roundercornervirtual"
-                            android:text="@string/show_result"
-                            android:textColor="@color/White" />
+                    <Button
+                        android:id="@+id/no"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/roundercornervirtual"
+                        android:text="@string/show_result"
+                        android:textColor="@color/White" />
 
                 </LinearLayout>
 

@@ -494,6 +494,7 @@ public class AddAlarmActivity extends Activity {
 		
 		Intent service = new Intent(this, AlarmService.class);
 		service.putExtra(AlarmMsg.COL_ALARMID, String.valueOf(alarmId));
+		service.putExtra("photo",mCurrentPhotoPath);
 		service.setAction(AlarmService.POPULATE);
 		startService(service);
 

@@ -47,6 +47,25 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fariahuq.pocketaid.HomePage" />
         </activity>
+
+        <activity
+            android:name=".DescriptionSymptom"
+            android:label="@string/title_activity_description"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.fariahuq.pocketaid.HomePage" />
+        </activity>
+
+        <activity
+            android:name=".DescriptionSelfTest"
+            android:label="@string/title_activity_description"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.fariahuq.pocketaid.HomePage" />
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

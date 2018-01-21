@@ -34,6 +34,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		long alarmMsgId = intent.getLongExtra(AlarmMsg.COL_ID, -1);
 		long alarmId = intent.getLongExtra(AlarmMsg.COL_ALARMID, -1);
+		String image = intent.getStringExtra("photo");
 
 		/* Close dialogs and window shade */
 		Intent closeDialogs = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
@@ -49,6 +50,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 		alarm.load(RemindMe.db);
 
 		Intent notify = new Intent(context, NotificationWindow.class);
+		notify.putExtra("photo",image);
 		//notify.putExtra("id", alarmId);
 		PendingIntent pi = PendingIntent.getActivity(context, (int)alarmId, notify, 0);
 

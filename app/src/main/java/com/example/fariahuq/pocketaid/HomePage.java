@@ -50,7 +50,7 @@ public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private MyDBHandler dbHandler;
-    private DatabaseReference ref , refcheck;
+    private DatabaseReference ref , refcheck , refsymp , reftest;
     private DisplayImageOptions options;
     private ImageSize targetSize;
     private String path;
@@ -182,6 +182,35 @@ public class HomePage extends AppCompatActivity
         });
     }
 
+    private void Loadimageofsymptoms(String imageUri, final int count) {
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader.getInstance().init(config);
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.loadImage(imageUri, targetSize, options, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                String pathname = path + "symp" + Integer.toString(count) + ".jpg";
+                File file = new File(pathname);
+                if (file.exists() == false) {
+                    File mypath = new File(directoryaid, "/" + "symp" + Integer.toString(count) + ".jpg");
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(mypath);
+                        loadedImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     private void Loadimageofitem(String imageUri, final int count , final int holder) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
@@ -211,9 +240,40 @@ public class HomePage extends AppCompatActivity
         });
     }
 
+    private void Loadimageofsymptomsitem(String imageUri, final int count , final int holder) {
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        ImageLoader.getInstance().init(config);
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.loadImage(imageUri, targetSize, options, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                String pathname = path + "sympitem" + Integer.toString(holder) + Integer.toString(count) + ".jpg";
+                File file = new File(pathname);
+                if (file.exists() == false) {
+                    File mypath = new File(directoryaid, "/" + "sympitem" + Integer.toString(holder) + Integer.toString(count) + ".jpg");
+                    FileOutputStream fos = null;
+                    try {
+                        fos = new FileOutputStream(mypath);
+                        loadedImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     private void LoadData() {
         ref = FirebaseDatabase.getInstance().getReference().child("First Aid List");
+        refsymp = FirebaseDatabase.getInstance().getReference().child("Symptoms Checker");
         refcheck = FirebaseDatabase.getInstance().getReference().child("Virtual Checkup");
+        reftest = FirebaseDatabase.getInstance().getReference().child("SelfTest");
 
         ref.addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -255,6 +315,86 @@ public class HomePage extends AppCompatActivity
                     }
                 });
 
+        refsymp.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        GenericTypeIndicator<ArrayList<Symptoms>> t = new GenericTypeIndicator<ArrayList<Symptoms>>() {
+                        };
+                        //Get map of users in datasnapshot to load aid
+                        ArrayList<Symptoms> symptoms = dataSnapshot.getValue(t);
+                        int count;
+                        for (count = 0; count < symptoms.size(); count++) {
+                            Symptoms symptom = symptoms.get(count);
+                            //Log.i("Firebase!", symptom.getImage());
+                            if (symptom.getImage().equals("null") == false) {
+                                Loadimageofsymptoms(symptom.getImage(), count);
+                                symptom.setImage("symp"+Integer.toString(count) + ".jpg");
+                            } else
+                                symptom.setImage("null");
+                            long i = dbHandler.AddProductToSymptoms(symptom);
+                            GenericTypeIndicator<ArrayList<SymptomsItem>> ti = new GenericTypeIndicator<ArrayList<SymptomsItem>>() {
+                            };
+                            ArrayList<SymptomsItem> ai = dataSnapshot.child(Integer.toString(count) + "/Steps").getValue(ti);
+                            for (int countitem = 0; countitem < ai.size(); countitem++) {
+                                SymptomsItem symptomsItem = ai.get(countitem);
+                                if (symptomsItem.getImage().equals("null") == false) {
+                                    Loadimageofsymptomsitem(symptomsItem.getImage(), countitem , count);
+                                    symptomsItem.setImage("sympitem"+Integer.toString(count)+Integer.toString(countitem) + ".jpg");
+                                } else
+                                    symptomsItem.setImage("null");
+                                dbHandler.AddProductToSymptomsItem(symptomsItem, i);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.i("p!","done");
+                        //handle databaseError
+                    }
+                });
+
+        reftest.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        GenericTypeIndicator<ArrayList<SelfTest>> t = new GenericTypeIndicator<ArrayList<SelfTest>>() {
+                        };
+                        //Get map of users in datasnapshot to load aid
+                        ArrayList<SelfTest> tests = dataSnapshot.getValue(t);
+                        int count;
+                        for (count = 0; count < tests.size(); count++) {
+                            SelfTest test = tests.get(count);
+                            //Log.i("Firebase!", test.getImage());
+                            /*if (test.getImage().equals("null") == false) {
+                                Loadimageoflist(test.getImage(), count);
+                                test.setImage("test"+Integer.toString(count) + ".jpg");
+                            } else*/
+                                test.setImage("null");
+                            long i = dbHandler.AddProductToSelfTest(test);
+                            GenericTypeIndicator<ArrayList<SelfTestItem>> ti = new GenericTypeIndicator<ArrayList<SelfTestItem>>() {
+                            };
+                            ArrayList<SelfTestItem> ai = dataSnapshot.child(Integer.toString(count) + "/Steps").getValue(ti);
+                            for (int countitem = 0; countitem < ai.size(); countitem++) {
+                                SelfTestItem items = ai.get(countitem);
+                                /*if (items.getImage().equals("null") == false) {
+                                    Loadimageofitem(items.getImage(), countitem , count);
+                                    items.setImage("items"+Integer.toString(count)+Integer.toString(countitem) + ".jpg");
+                                } else*/
+                                    items.setImage("null");
+                                dbHandler.AddProductToSelfTestItem(items, i);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.i("p!","done");
+                        //handle databaseError
+                    }
+                });
+
         refcheck.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -284,6 +424,8 @@ public class HomePage extends AppCompatActivity
                         //handle databaseError
                     }
                 });
+
+
 
     }
 
@@ -353,11 +495,15 @@ public class HomePage extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             HolderOfSysmptoms fragment = new HolderOfSysmptoms();
-            //transaction.replace(R.id.Fragment_Container, fragment);
-            //transaction.commit();
+            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.commit();
             frag = "symptoms";
         } else if (id == R.id.nav_tests) {
             drawer.closeDrawer(GravityCompat.START);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfTestList fragment = new HolderOfTestList();
+            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.commit();
             frag = "tests";
         } else if (id == R.id.nav_reminder) {
             frag = "reminder";

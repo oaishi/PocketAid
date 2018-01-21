@@ -11,12 +11,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
-public class HolderOfSysmptoms extends Fragment {
+public class HolderOfTestList extends Fragment {
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
     private static final int DATASET_COUNT = 60;
@@ -33,14 +32,14 @@ public class HolderOfSysmptoms extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     static View.OnClickListener myOnClickListener;
     protected static RecyclerView mRecyclerView;
-    protected CustomAdapterSymptoms mAdapter;
+    protected CustomAdapterTest mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    private static ArrayList<Symptoms> symptoms;
+    private static ArrayList<SelfTest> selfTests;
 
     private String mParam1;
     private String mParam2;
 
-    public HolderOfSysmptoms() {
+    public HolderOfTestList() {
         // Required empty public constructor
     }
 
@@ -67,21 +66,20 @@ public class HolderOfSysmptoms extends Fragment {
                     .getSerializable(KEY_LAYOUT_MANAGER);
         }
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-        mAdapter = new CustomAdapterSymptoms(container);
+        mAdapter = new CustomAdapterTest(container);
         mRecyclerView.setAdapter(mAdapter);
         myOnClickListener = new MyOnClickListener(getActivity());
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         Runnable runny = new Runnable() {
             @Override
             public void run() {
-                symptoms=new MyDBHandler(container.getContext(),null,null,1).DatabaseToStringSymptoms();
+                selfTests =new MyDBHandler(container.getContext(),null,null,1).DatabaseToStringTest();
             }
         };
         Thread run = new Thread(runny);
         run.start();
         return view;
     }
-
 
     // TODO: Rename and change types and number of parameters
     /*public static HolderOfAidList newInstance(String param1, String param2) {
@@ -138,11 +136,11 @@ public class HolderOfSysmptoms extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(context,DescriptionSymptom.class);
+            Intent intent = new Intent(context,DescriptionSelfTest.class);
             int i = mRecyclerView.getChildLayoutPosition(v);
             intent.putExtra("position",i);
-            intent.putExtra("favourite",symptoms.get(i).getFavourite());
-            intent.putExtra("headline",symptoms.get(i).getTitle());
+            intent.putExtra("favourite", selfTests.get(i).getFavourite());
+            intent.putExtra("headline", selfTests.get(i).getTitle());
             context.startActivity(intent);
         }
     }

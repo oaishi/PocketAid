@@ -24,6 +24,7 @@ public class AlarmService extends IntentService {
 	public static final String CANCEL = "CANCEL";
 	
 	private IntentFilter matcher;
+	private String image;
 
 	public AlarmService() {
 		super(TAG);
@@ -43,6 +44,7 @@ public class AlarmService extends IntentService {
 		
 		if (matcher.matchAction(action)) {
 			if (POPULATE.equals(action)) {
+				image = intent.getStringExtra("photo");
 				RemindMe.dbHelper.populate(Long.parseLong(alarmId), RemindMe.db);
 				execute(CREATE, alarmId);
 			}
@@ -91,6 +93,7 @@ public class AlarmService extends IntentService {
 				i = new Intent(this, AlarmReceiver.class);
 				i.putExtra(AlarmMsg.COL_ID, c.getLong(c.getColumnIndex(AlarmMsg.COL_ID)));
 				i.putExtra(AlarmMsg.COL_ALARMID, c.getLong(c.getColumnIndex(AlarmMsg.COL_ALARMID)));
+				i.putExtra("photo",image);
 				
 				pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 //				pi = PendingIntent.getService(context, requestCode, intent, flags);
