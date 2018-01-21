@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,11 +24,21 @@ public class CustomAdapterTest extends RecyclerView.Adapter<CustomAdapterTest.My
 
         TextView textViewName;
         LinearLayout linear;
+        ImageView iconholder;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
+            this.textViewName = (TextView) itemView.findViewById(R.id.title);
             this.linear = (LinearLayout) itemView.findViewById(R.id.poopy);
+            this.iconholder = (ImageView) itemView.findViewById(R.id.iconholder);
+        }
+
+        public ImageView getIconholder() {
+            return iconholder;
+        }
+
+        public void setIconholder(ImageView iconholder) {
+            this.iconholder = iconholder;
         }
 
         public TextView getTextViewName() {
@@ -48,7 +59,7 @@ public class CustomAdapterTest extends RecyclerView.Adapter<CustomAdapterTest.My
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.cards_layout_alarm, viewGroup, false);
+                .inflate(R.layout.cards_layout_test, viewGroup, false);
         view.setOnClickListener(HolderOfTestList.myOnClickListener);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
@@ -58,8 +69,13 @@ public class CustomAdapterTest extends RecyclerView.Adapter<CustomAdapterTest.My
     public void onBindViewHolder(MyViewHolder holder, final int listPosition) {
         Log.d("Adapter", "Element " + listPosition + " set.");
         holder.getTextViewName().setText(dataSet.get(listPosition).getTitle());
-        int i = listPosition%(rainbow.length);
-        holder.getCardView().setBackgroundColor(rainbow[i]);
+        int i = dataSet.get(listPosition).getFavourite();
+        if(i==1)
+            holder.getIconholder().setBackgroundResource(R.drawable.ic_fav);
+        else
+            holder.getIconholder().setBackgroundResource(R.drawable.ic_unfav);
+        /*int i = listPosition%(rainbow.length);
+        holder.getCardView().setBackgroundColor(rainbow[i]);*/
         /*holder.getCardView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

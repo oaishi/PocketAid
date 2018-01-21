@@ -3,6 +3,8 @@ package com.example.fariahuq.pocketaid;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,11 +53,14 @@ public class CustomAdapterSymptoms extends RecyclerView.Adapter<CustomAdapterSym
         public ImageView getIconholder(){return iconholder;}
 
         public LinearLayout getCardView(){return linear;}
+
+        public void setImageViewIcon(ImageView imageViewIcon) {
+            this.imageViewIcon = imageViewIcon;
+        }
     }
 
     public CustomAdapterSymptoms(ViewGroup container)
     {
-        this.rainbow =(container.getContext()).getResources().getIntArray(R.array.array);
         this.dataSet =  new MyDBHandler(container.getContext(),null,null,1).DatabaseToStringSymptoms();
         this.context = container.getContext();
         path = container.getContext().getDir("imageDir",Context.MODE_PRIVATE) + "/";
@@ -80,23 +85,18 @@ public class CustomAdapterSymptoms extends RecyclerView.Adapter<CustomAdapterSym
             holder.getIconholder().setBackgroundResource(R.drawable.ic_fav);
         else
             holder.getIconholder().setBackgroundResource(R.drawable.ic_unfav);
-        if(!(dataSet.get(listPosition).getImage().equals("null"))) {
-            try {
-                String path = "/data/user/0/com.example.fariahuq.pocketaid/app_imageDir" + "/" + dataSet.get(listPosition).getImage();
-                File file = new File(path);
-                Bitmap b = BitmapFactory.decodeStream(new FileInputStream(file));
-                holder.getImageViewIcon().setImageBitmap(b);
-            }
-            catch (FileNotFoundException e)
-            {
-                holder.getImageViewIcon().setBackgroundResource(R.drawable.hi);
-                e.printStackTrace();
-            }
-        }
+        /*i = listPosition%5;
+        if(i==0)
+        holder.getImageViewIcon().setBackgroundResource(R.drawable.item1);
+        else if(i==1)
+            holder.getImageViewIcon().setBackgroundResource(R.drawable.item2);
+        else if(i==2)
+            holder.getImageViewIcon().setBackgroundResource(R.drawable.item3);
+        else if(i==3)
+            holder.getImageViewIcon().setBackgroundResource(R.drawable.item4);
         else
-            holder.getImageViewIcon().setBackgroundResource(R.drawable.hi);
-        i = listPosition%(rainbow.length);
-        holder.getCardView().setBackgroundColor(rainbow[i]);
+            holder.getImageViewIcon().setBackgroundResource(R.drawable.item5);*/
+
     }
 
     @Override

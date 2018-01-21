@@ -93,6 +93,14 @@
         <item>d MMM yyyy</item>
         <item>dd-MM-yyyy</item>
         <item>dd/MM/yy</item>                
-    </string-array>    
+    </string-array>
+
+    <array name="image_id">
+        <item>@drawable/item1</item>
+        <item>@drawable/item2</item>
+        <item>@drawable/item3</item>
+        <item>@drawable/item4</item>
+        <item>@drawable/item5</item>
+    </array>
         
 </resources>
