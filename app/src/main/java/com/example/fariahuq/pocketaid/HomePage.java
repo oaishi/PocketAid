@@ -59,7 +59,7 @@ public class HomePage extends AppCompatActivity
     private FloatingActionButton fab;
     private String frag = "null";
     static final int PICK_CONTACT_REQUEST = 1;
-    private ArrayList<DailyInshot> dailyInshots;
+    private ArrayList<DailyInshot> dailyInshots = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,54 +136,7 @@ public class HomePage extends AppCompatActivity
             LoadData();
         }
 
-       /* if (savedInstanceState == null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            HolderOfInshot fragment = new HolderOfInshot();
-
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("arraylist", dailyInshots);
-            fragment.setArguments(bundle);
-
-            transaction.replace(R.id.Fragment_Container, fragment);
-            transaction.commit();
-        }*/
-
     }
-
-    private class AsyncTaskRunner extends AsyncTask<MatrixName, String, String> {
-
-        private String resp = "Showing Your Result :\n";
-        ProgressDialog progressDialog;
-
-        @Override
-        protected String doInBackground(MatrixName... params)  {
-            publishProgress("Sleeping..."); // Calls onProgressUpdate()
-
-            return resp;
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-            // execution of result of Long time consuming operation
-            progressDialog.dismiss();
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = ProgressDialog.show( getApplicationContext() ,
-                    "Analyzing Your Data",
-                    "Please , Wait A Moment .");
-        }
-
-
-        @Override
-        protected void onProgressUpdate(String... text) {
-
-        }
-    }
-
 
     private void Loadimageoflist(String imageUri, final int count) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
@@ -515,6 +468,7 @@ public class HomePage extends AppCompatActivity
 
             transaction.replace(R.id.Fragment_Container, fragment);
             transaction.commit();
+            getSupportActionBar().setTitle("Daily Inshots");
             //transaction.replace(R.id.Fragment_Container, fragment);
             //transaction.commit();
             frag = "profile";
@@ -525,6 +479,7 @@ public class HomePage extends AppCompatActivity
             transaction.replace(R.id.Fragment_Container, fragment);
             transaction.commit();
             fab.setVisibility(View.GONE);
+            getSupportActionBar().setTitle("Virtual Checkup");
             frag = "checkup";
         } else if (id == R.id.nav_first_aid) {
             drawer.closeDrawer(GravityCompat.START);
@@ -532,6 +487,7 @@ public class HomePage extends AppCompatActivity
             HolderOfAidList fragment = new HolderOfAidList();
             transaction.replace(R.id.Fragment_Container, fragment);
             transaction.commit();
+            getSupportActionBar().setTitle("First Aid Activity");
             frag = "aid";
         } else if (id == R.id.nav_symptoms) {
             drawer.closeDrawer(GravityCompat.START);
@@ -540,12 +496,14 @@ public class HomePage extends AppCompatActivity
             transaction.replace(R.id.Fragment_Container, fragment);
             transaction.commit();
             frag = "symptoms";
+            getSupportActionBar().setTitle("Symptoms Checker");
         } else if (id == R.id.nav_tests) {
             drawer.closeDrawer(GravityCompat.START);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             HolderOfTestList fragment = new HolderOfTestList();
             transaction.replace(R.id.Fragment_Container, fragment);
             transaction.commit();
+            getSupportActionBar().setTitle("Self Tests");
             frag = "tests";
         } else if (id == R.id.nav_reminder) {
             frag = "reminder";
@@ -557,17 +515,47 @@ public class HomePage extends AppCompatActivity
             ContactFragment fragment = new ContactFragment();
             transaction.replace(R.id.Fragment_Container, fragment);
             transaction.commit();
+            getSupportActionBar().setTitle("Emergency Contact");
             frag = "message";
         } else if (id == R.id.nav_hospitals) {
             drawer.closeDrawer(GravityCompat.START);
             frag = "hospitals";
         } else if (id == R.id.nav_fav) {
             drawer.closeDrawer(GravityCompat.START);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfFavList fragment = new HolderOfFavList();
+            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.commit();
+            getSupportActionBar().setTitle("Bookmarks");
             frag = "favourite";
         }
         return true;
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String frag = intent.getStringExtra("name") ;
+        if(frag.equals("aid")) {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfAidList fragment = new HolderOfAidList();
+            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.commit();
+        }
+        else if(frag.equals("test")){
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfTestList fragment = new HolderOfTestList();
+            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.commit();
+        }
+        else if(frag.equals("symp"))
+        {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HolderOfSysmptoms fragment = new HolderOfSysmptoms();
+            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.commit();
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {

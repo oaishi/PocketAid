@@ -227,7 +227,7 @@ public class CustomAdapterVirtual extends RecyclerView.Adapter<CustomAdapterVirt
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.bind(onClickGenerationName);
         viewHolder.getSpinner().setSelection(mDataSet.get(position).getSpinnerpos());
         viewHolder.getSpinner1().setSelection(mDataSet.get(position).getSpinner1pos());

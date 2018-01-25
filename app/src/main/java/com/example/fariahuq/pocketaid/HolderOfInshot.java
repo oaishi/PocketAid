@@ -75,14 +75,12 @@ public class HolderOfInshot extends Fragment {
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
         mDataSet = getArguments().getParcelableArrayList("arraylist");
-        Log.i("p!",mDataSet.get(0).getTitle());
         /*Bundle extras = getExtras();
         ArrayList<ObjectName> arraylist  = extras.getParcelableArrayList("arraylist");*/
 
-        mAdapter = new CustomAdapterInshot(mDataSet,rainbow);
-        // Set CustomAdapter as the adapter for RecyclerView.
-        mRecyclerView.setAdapter(mAdapter);
-
+            mAdapter = new CustomAdapterInshot(mDataSet, rainbow);
+            // Set CustomAdapter as the adapter for RecyclerView.
+            mRecyclerView.setAdapter(mAdapter);
         // END_INCLUDE(initializeRecyclerView)
 
         return rootView;

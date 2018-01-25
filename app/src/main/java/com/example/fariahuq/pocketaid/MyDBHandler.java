@@ -363,7 +363,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         while (!c.isAfterLast())
         {
             SelfTest ad = new SelfTest();
-            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setId(c.getInt(c.getColumnIndex(COLOUMN_ID)));
             ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
             ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
             ad.setFavourite(c.getInt(c.getColumnIndex(COLOUMN_FAVOURITE)));
@@ -386,7 +386,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         while (!c.isAfterLast())
         {
             Symptoms ad = new Symptoms();
-            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setId(c.getInt(c.getColumnIndex(COLOUMN_ID)));
             ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
             ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
             ad.setFavourite(c.getInt(c.getColumnIndex(COLOUMN_FAVOURITE)));
@@ -409,7 +409,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         while (!c.isAfterLast())
         {
             MatrixName ad = new MatrixName();
-            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setId(c.getInt(c.getColumnIndex(COLOUMN_ID)));
             ad.setName(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
             ad.setItems(DatabaseToStringMatrixRow(i));
             listItems.add(ad);
@@ -550,7 +550,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         ArrayList<SelfTest> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_FAVOURITE_TEST + " WHERE 1";
+        String query = "SELECT * FROM " + TABLE_SELFTEST + " INNER JOIN "+TABLE_FAVOURITE_TEST + " ON " + TABLE_SELFTEST
+                + "." + COLOUMN_ID + " = " + TABLE_FAVOURITE_TEST + "." + COLOUMN_FID;
 
         Cursor c =db.rawQuery(query,null);
 
@@ -558,7 +559,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         while (!c.isAfterLast())
         {
             SelfTest ad = new SelfTest();
-            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setId(c.getInt(c.getColumnIndex(COLOUMN_ID)));
             ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
             ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
             ad.setFavourite(c.getInt(c.getColumnIndex(COLOUMN_FAVOURITE)));
@@ -573,7 +574,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
 
         ArrayList<Symptoms> listItems = new ArrayList<>();;
         SQLiteDatabase db= getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_FAVOURITE_SYMPTOMS + " WHERE 1";
+        String query = "SELECT * FROM " + TABLE_SYMPTOMS + " INNER JOIN "+TABLE_FAVOURITE_SYMPTOMS + " ON " + TABLE_SYMPTOMS
+                + "." + COLOUMN_ID + " = " + TABLE_FAVOURITE_SYMPTOMS + "." + COLOUMN_FID;
 
         Cursor c =db.rawQuery(query,null);
 
@@ -581,7 +583,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         while (!c.isAfterLast())
         {
             Symptoms ad = new Symptoms();
-            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setId(c.getInt(c.getColumnIndex(COLOUMN_ID)));
             ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
             ad.setImage(c.getString(c.getColumnIndex(COLOUMN_IMAGE)));
             ad.setFavourite(c.getInt(c.getColumnIndex(COLOUMN_FAVOURITE)));
@@ -604,7 +606,7 @@ public class MyDBHandler extends SQLiteOpenHelper {
         while (!c.isAfterLast())
         {
             Contact ad = new Contact();
-            ad.setId(c.getColumnIndex(COLOUMN_ID));
+            ad.setId(c.getInt(c.getColumnIndex(COLOUMN_ID)));
             ad.setTitle(c.getString(c.getColumnIndex(COLOUMN_TITLE)));
             ad.setDesc(c.getString(c.getColumnIndex(COLOUMN_DESC)));
             Log.i("widget",ad.getDesc()+ " " + ad.getTitle()+ " " + c.getColumnIndex(COLOUMN_ID));

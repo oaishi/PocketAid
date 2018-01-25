@@ -1,6 +1,7 @@
 package com.example.fariahuq.pocketaid;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -83,6 +84,15 @@ public class DescriptionSelfTest extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(),HomePage.class);
+        intent.putExtra("name","test");
+        startActivity(intent);
+        finish();
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -104,7 +114,7 @@ public class DescriptionSelfTest extends AppCompatActivity {
             };
             Thread thread = new Thread(runnable);
             thread.start();
-            return true;
+            //return true;
         }
 
         return super.onOptionsItemSelected(item);

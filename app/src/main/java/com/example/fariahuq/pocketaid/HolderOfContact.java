@@ -127,7 +127,7 @@ public class HolderOfContact extends Fragment {
         @Override
         public void onClick(View v) {
 /*
-            final int selectedItemPosition = mRecyclerView.getChildLayoutPosition(v);
+            final int selectedItemPosition = aids.getChildLayoutPosition(v);
 
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
             alertDialogBuilder.setTitle("Are you sure you want to delete ?");

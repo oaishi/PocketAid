@@ -1,6 +1,7 @@
 package com.example.fariahuq.pocketaid;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -76,6 +77,15 @@ public class Description extends AppCompatActivity {
 
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(),HomePage.class);
+        intent.putExtra("name","aid");
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_description_page, menu);
@@ -106,7 +116,7 @@ public class Description extends AppCompatActivity {
             };
             Thread thread = new Thread(runnable);
             thread.start();
-            return true;
+            //return true;
         }
 
         return super.onOptionsItemSelected(item);

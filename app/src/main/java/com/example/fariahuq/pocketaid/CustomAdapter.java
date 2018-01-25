@@ -71,7 +71,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int listPosition) {
+    public void onBindViewHolder(MyViewHolder holder, int listPosition) {
         holder.getTextViewName().setText(dataSet.get(listPosition).getTitle());
         int i = dataSet.get(listPosition).getFavourite();
         if(i==1)

@@ -54,7 +54,7 @@ public class CustomAdapterAlarm extends RecyclerView.Adapter<CustomAdapterAlarm.
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int listPosition) {
+    public void onBindViewHolder(MyViewHolder holder, int listPosition) {
         Log.d("Adapter", "Element " + listPosition + " set.");
         holder.getTextViewName().setText(dataSet.get(listPosition).getTitle());
         int i = listPosition%(rainbow.length);

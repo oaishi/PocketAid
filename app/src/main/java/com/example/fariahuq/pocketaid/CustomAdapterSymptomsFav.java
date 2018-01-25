@@ -1,10 +1,7 @@
 package com.example.fariahuq.pocketaid;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,13 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 
-public class CustomAdapterSymptoms extends RecyclerView.Adapter<CustomAdapterSymptoms.MyViewHolder> {
+public class CustomAdapterSymptomsFav extends RecyclerView.Adapter<CustomAdapterSymptomsFav.MyViewHolder> {
 
     private ArrayList<Symptoms> dataSet;
     private int[] rainbow;
@@ -59,9 +53,10 @@ public class CustomAdapterSymptoms extends RecyclerView.Adapter<CustomAdapterSym
         }
     }
 
-    public CustomAdapterSymptoms(ViewGroup container)
+    public CustomAdapterSymptomsFav(ViewGroup container)
     {
-        this.dataSet =  new MyDBHandler(container.getContext(),null,null,1).DatabaseToStringSymptoms();
+        this.dataSet =  new MyDBHandler(container.getContext(),null,null,1).DatabaseToStringFavSymptoms();
+        Log.i("favhoyna" , "currnet size symp " + Integer.toString(dataSet.size()));
         this.context = container.getContext();
         path = container.getContext().getDir("imageDir",Context.MODE_PRIVATE) + "/";
     }
@@ -71,14 +66,13 @@ public class CustomAdapterSymptoms extends RecyclerView.Adapter<CustomAdapterSym
     public MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.cards_layout_symptoms, viewGroup, false);
-        view.setOnClickListener(HolderOfSysmptoms.myOnClickListener);
         MyViewHolder myViewHolder = new MyViewHolder(view);
         return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int listPosition) {
-
+    public void onBindViewHolder(MyViewHolder holder,final int listPosition) {
+        Log.i("favhoyna" , "currnet size symp " + listPosition);
         holder.getTextViewName().setText(dataSet.get(listPosition).getTitle());
         int i = dataSet.get(listPosition).getFavourite();
         if(i==1)
@@ -96,6 +90,17 @@ public class CustomAdapterSymptoms extends RecyclerView.Adapter<CustomAdapterSym
             holder.getImageViewIcon().setBackgroundResource(R.drawable.item4);
         else
             holder.getImageViewIcon().setBackgroundResource(R.drawable.item5);
+
+        holder.getCardView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DescriptionSymptom.class);
+                intent.putExtra("position",dataSet.get(listPosition).getId());
+                intent.putExtra("favourite",dataSet.get(listPosition).getFavourite());
+                intent.putExtra("headline",dataSet.get(listPosition).getTitle());
+                context.startActivity(intent);
+            }
+        });
 
     }
 

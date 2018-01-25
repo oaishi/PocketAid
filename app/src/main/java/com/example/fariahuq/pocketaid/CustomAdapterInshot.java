@@ -73,7 +73,7 @@ public class CustomAdapterInshot extends RecyclerView.Adapter<CustomAdapterInsho
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
         Log.d("Adapter", "Element " + position + " set.");
         viewHolder.getTextViewName().setText(mDataSet.get(position).getTitle());
         int i = position%(rainbow.length);
