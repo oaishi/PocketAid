@@ -1,5 +1,6 @@
 package com.example.fariahuq.pocketaid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +19,7 @@ public class CustomAdapterInshot extends RecyclerView.Adapter<CustomAdapterInsho
 
     private ArrayList<DailyInshot> mDataSet;
     private int[] rainbow;
+    Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -62,26 +64,25 @@ public class CustomAdapterInshot extends RecyclerView.Adapter<CustomAdapterInsho
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.cards_layout_alarm, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(v);
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(viewGroup.getContext(), NotificationWindowInshot.class);
-                viewGroup.getContext().startActivity(intent);
-            }
-        });
+        this.context = viewGroup.getContext();
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Log.d("Adapter", "Element " + position + " set.");
         viewHolder.getTextViewName().setText(mDataSet.get(position).getTitle());
         int i = position%(rainbow.length);
+
         viewHolder.getCardView().setBackgroundColor(rainbow[i]);
+
         viewHolder.getZoom().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("p!","yay");
+                Intent intent = new Intent(context, NotificationWindowInshot.class);
+                intent.putExtra("title" , mDataSet.get(position).getTitle());
+                intent.putExtra("desc" , mDataSet.get(position).getDesc());
+                context.startActivity(intent);
             }
         });
 

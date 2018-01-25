@@ -154,7 +154,7 @@ public class MatrixRow {
             }
             else{
             i++;
-           // Log.i("checkup",Integer.toString(matrixRow.getDuration())+Integer.toString(this.getDuration()));
+            Log.i("checkup",Integer.toString(matrixRow.getDuration())+Integer.toString(this.getDuration()));
         }
         if(matrixRow.getIntensity().equals(this.getIntensity())) {
             i++;

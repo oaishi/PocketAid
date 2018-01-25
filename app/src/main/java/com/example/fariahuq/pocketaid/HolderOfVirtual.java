@@ -195,7 +195,7 @@ public class HolderOfVirtual extends Fragment {
                 if(f>50.0)
                 resp = resp + matrixNames.get(i).getName() + " : " + Double.toString(f) + " %\n" ;
                 //resp.concat(matrixNames.get(i).getName() + Double.toString(f)+ "\n");
-                //Log.i("checkup",matrixNames.get(i).getName() + " : " + Double.toString(f));
+                Log.i("checkup",matrixNames.get(i).getName() + " : " + Double.toString(f));
             }
             if(resp.equals("Showing Your Result :\n"))
                 resp = "Hurray ! You Are Completely Fit .";

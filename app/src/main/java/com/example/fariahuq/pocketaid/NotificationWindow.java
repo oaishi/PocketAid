@@ -57,6 +57,7 @@ public class NotificationWindow extends Activity {
         bmOptions.inSampleSize = scaleFactor;
         bmOptions.inPurgeable = true;
 
+        Log.i("alarm","in noti " + mCurrentPhotoPath);
 		/* Decode the JPEG file into a Bitmap */
         Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
         /* Associate the Bitmap to the ImageView */

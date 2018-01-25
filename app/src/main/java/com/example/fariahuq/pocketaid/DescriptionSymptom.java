@@ -55,6 +55,12 @@ public class DescriptionSymptom extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         findViewById(R.id.appbar).setBackgroundColor(rainbow[pos%5]);
         toolbar.setTitle(title);
 
