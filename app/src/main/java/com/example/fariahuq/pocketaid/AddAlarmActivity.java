@@ -112,6 +112,7 @@ public class AddAlarmActivity extends Activity {
     private Bitmap mImageBitmap;
 
     private String mCurrentPhotoPath;
+    private String photopath;
 
     private static final String JPEG_FILE_PREFIX = "IMG_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
@@ -151,7 +152,7 @@ public class AddAlarmActivity extends Activity {
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("MMdd_HHmmss").format(new Date());
-        String imageFileName = JPEG_FILE_PREFIX + "raju" +timeStamp + "_";
+        String imageFileName = JPEG_FILE_PREFIX +timeStamp + "_";
         File albumF = getAlbumDir();
         File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
         return imageF;
@@ -171,7 +172,6 @@ public class AddAlarmActivity extends Activity {
 		/* So pre-scale the target bitmap into which the file is decoded */
 
 		/* Get the size of the ImageView */
-        Log.i("camera",mCurrentPhotoPath);
         int targetW = mImageView.getWidth();
         int targetH = mImageView.getHeight();
 
@@ -195,8 +195,8 @@ public class AddAlarmActivity extends Activity {
 
 		/* Decode the JPEG file into a Bitmap */
         Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-
-		/* Associate the Bitmap to the ImageView */
+        photopath = mCurrentPhotoPath;
+        /* Associate the Bitmap to the ImageView */
         mImageView.setImageBitmap(bitmap);
         //mVideoUri = null;
         mImageView.setVisibility(View.VISIBLE);
@@ -297,6 +297,7 @@ public class AddAlarmActivity extends Activity {
                 MediaStore.ACTION_IMAGE_CAPTURE
         );
         mAlbumStorageDirFactory = new BaseAlbumDirFactory();
+        photopath = "none";
     }
 
     @Override
@@ -491,10 +492,11 @@ public class AddAlarmActivity extends Activity {
 			alarmTime.persist(db);					
 			break;				
 		}
-		
+
+        Log.i("alarm",photopath);
 		Intent service = new Intent(this, AlarmService.class);
 		service.putExtra(AlarmMsg.COL_ALARMID, String.valueOf(alarmId));
-		service.putExtra("photo",mCurrentPhotoPath);
+		service.putExtra("photo",photopath);
 		service.setAction(AlarmService.POPULATE);
 		startService(service);
 
@@ -524,16 +526,19 @@ public class AddAlarmActivity extends Activity {
 			
 		case R.id.fromdate_tv:
 		case R.id.fromdate_lb:
+		    case R.id.fromdate:
 			showDialog(DIALOG_FROMDATE);
 			break;
 			
 		case R.id.todate_tv:
 		case R.id.todate_lb:
+            case R.id.todate:
 			showDialog(DIALOG_TODATE);
 			break;
 			
 		case R.id.attime_tv:
 		case R.id.attime_lb:
+            case R.id.attime:
 			showDialog(DIALOG_ATTIME);
 			break;
 
