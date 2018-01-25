@@ -40,7 +40,7 @@ tools:context="com.example.fariahuq.pocketaid.NotificationWindow">
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/cardview_shadow_end_color"
-                        android:contentDescription=""
+                        android:contentDescription="TODO"
                         android:onClick="onclick"
                         android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
@@ -53,12 +53,12 @@ tools:context="com.example.fariahuq.pocketaid.NotificationWindow">
 
                     <ImageView
                         android:id="@+id/NotiImage"
-                        android:layout_width="150dp"
+                        android:layout_width="match_parent"
+                        android:contentDescription="TODO"
                         android:layout_height="150dp"
-                        android:layout_margin="10dp"
                         android:layout_weight="1"
                         android:scaleType="fitXY"
-                        android:src="@drawable/bitemain" />
+                        app:srcCompat="@drawable/bg_repeat" />
 
                 </LinearLayout>
 

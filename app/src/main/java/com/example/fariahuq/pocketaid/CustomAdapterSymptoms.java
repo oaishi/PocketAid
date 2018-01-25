@@ -85,7 +85,7 @@ public class CustomAdapterSymptoms extends RecyclerView.Adapter<CustomAdapterSym
             holder.getIconholder().setBackgroundResource(R.drawable.ic_fav);
         else
             holder.getIconholder().setBackgroundResource(R.drawable.ic_unfav);
-        /*i = listPosition%5;
+        i = listPosition%5;
         if(i==0)
         holder.getImageViewIcon().setBackgroundResource(R.drawable.item1);
         else if(i==1)
@@ -95,7 +95,7 @@ public class CustomAdapterSymptoms extends RecyclerView.Adapter<CustomAdapterSym
         else if(i==3)
             holder.getImageViewIcon().setBackgroundResource(R.drawable.item4);
         else
-            holder.getImageViewIcon().setBackgroundResource(R.drawable.item5);*/
+            holder.getImageViewIcon().setBackgroundResource(R.drawable.item5);
 
     }
 

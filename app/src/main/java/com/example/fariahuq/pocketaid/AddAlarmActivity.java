@@ -298,6 +298,7 @@ public class AddAlarmActivity extends Activity {
         );
         mAlbumStorageDirFactory = new BaseAlbumDirFactory();
         photopath = "none";
+        mImageView.setBackgroundResource(R.drawable.item4);
     }
 
     @Override
