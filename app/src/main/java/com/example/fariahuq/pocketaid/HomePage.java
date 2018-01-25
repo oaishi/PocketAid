@@ -136,6 +136,16 @@ public class HomePage extends AppCompatActivity
             LoadData();
         }
 
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        HolderOfInshot fragment = new HolderOfInshot();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("arraylist", dailyInshots);
+        fragment.setArguments(bundle);
+
+        transaction.replace(R.id.Fragment_Container, fragment);
+        transaction.commit();
+
     }
 
     private void Loadimageoflist(String imageUri, final int count) {
@@ -577,6 +587,12 @@ public class HomePage extends AppCompatActivity
                     contact.setDesc(phoneNo);
                     Toast.makeText(getApplicationContext(),contact.getDesc()+ " "+contact.getTitle(),Toast.LENGTH_LONG).show();
                     dbHandler.AddProductToContact(contact);
+
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    ContactFragment fragment = new ContactFragment();
+                    transaction.replace(R.id.Fragment_Container, fragment);
+                    transaction.commit();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
