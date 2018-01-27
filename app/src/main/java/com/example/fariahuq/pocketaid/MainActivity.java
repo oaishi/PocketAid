@@ -62,8 +62,8 @@ public class MainActivity extends ListActivity {
         setContentView(R.layout.main);
         findViews();
         db = RemindMe.db;
-        font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Semibold.ttf");
-        headingText.setTypeface(font);
+        /*font = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Semibold.ttf");
+        headingText.setTypeface(font);*/
         monthArr = getResources().getStringArray(R.array.spinner3_arr);
         
         int r = RemindMe.getDateRange();

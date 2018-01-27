@@ -82,6 +82,7 @@ public class CustomAdapterTestFav extends RecyclerView.Adapter<CustomAdapterTest
                 intent.putExtra("position",listPosition);
                 intent.putExtra("favourite", dataSet.get(listPosition).getFavourite());
                 intent.putExtra("headline", dataSet.get(listPosition).getTitle());
+                intent.putExtra("tofav","tofav");
                 context.startActivity(intent);
             }
         });

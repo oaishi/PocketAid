@@ -51,14 +51,14 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 		Intent notify = new Intent(context, NotificationWindow.class);
 		notify.putExtra("photo",image);
-		//notify.putExtra("id", alarmId);
+		notify.putExtra("id", alarm.getName());
 		PendingIntent pi = PendingIntent.getActivity(context, (int)alarmId, notify, 0);
 
 		//@formatter:off
 		Notification status = new NotificationCompat.Builder(context)
-				.setContentTitle(alarm.getName())
-				.setContentText("this is a message")
-				.setSmallIcon(R.drawable.ic_launcher)
+				.setContentTitle("Did You Take Your Medicine ?")
+				.setContentText(alarm.getName())
+				.setSmallIcon(R.drawable.iconnoti)
 				.setContentIntent(pi)
 				.setAutoCancel(true)
 				.setOngoing(true)

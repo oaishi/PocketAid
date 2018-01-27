@@ -52,13 +52,10 @@ tools:context="com.example.fariahuq.pocketaid.NotificationWindow">
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/NotiImage"
-                        android:layout_width="match_parent"
-                        android:contentDescription="TODO"
                         android:layout_height="150dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        app:srcCompat="@drawable/bg_repeat" />
+                        android:layout_width="match_parent"
+                        android:visibility="visible"
+                        android:id="@+id/NotiImage" />
 
                 </LinearLayout>
 

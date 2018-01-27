@@ -52,8 +52,7 @@
                 <ImageView
                     android:id="@+id/iconholder"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:srcCompat="@drawable/ic_unfav" />
+                    android:layout_height="50dp"/>
 
             </LinearLayout>
 

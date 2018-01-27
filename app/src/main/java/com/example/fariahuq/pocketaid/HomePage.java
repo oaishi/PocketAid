@@ -489,25 +489,7 @@ public class HomePage extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         int id = item.getItemId();
 
-        if (id == R.id.nav_profile) {
-            drawer.closeDrawer(GravityCompat.START);
-           /* FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            HolderOfContact fragment = new HolderOfContact();*/
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            HolderOfInshot fragment = new HolderOfInshot();
-
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("arraylist", dailyInshots);
-            fragment.setArguments(bundle);
-
-            transaction.replace(R.id.Fragment_Container, fragment);
-            transaction.commit();
-            getSupportActionBar().setTitle("Daily Inshots");
-            //transaction.replace(R.id.Fragment_Container, fragment);
-            //transaction.commit();
-            frag = "profile";
-        } else if (id == R.id.nav_checkup) {
+        if (id == R.id.nav_checkup) {
             drawer.closeDrawer(GravityCompat.START);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             HolderOfVirtual fragment = new HolderOfVirtual();
@@ -522,7 +504,7 @@ public class HomePage extends AppCompatActivity
             HolderOfAidList fragment = new HolderOfAidList();
             transaction.replace(R.id.Fragment_Container, fragment);
             transaction.commit();
-            getSupportActionBar().setTitle("First Aid Activity");
+            getSupportActionBar().setTitle("First Aid");
             frag = "aid";
         } else if (id == R.id.nav_symptoms) {
             drawer.closeDrawer(GravityCompat.START);
@@ -548,13 +530,10 @@ public class HomePage extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             ContactFragment fragment = new ContactFragment();
-            transaction.replace(R.id.Fragment_Container, fragment);
+            transaction.replace(R.id.Fragment_Container, fragment , "MSG");
             transaction.commit();
             getSupportActionBar().setTitle("Emergency Contact");
             frag = "message";
-        } else if (id == R.id.nav_hospitals) {
-            drawer.closeDrawer(GravityCompat.START);
-            frag = "hospitals";
         } else if (id == R.id.nav_fav) {
             drawer.closeDrawer(GravityCompat.START);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -612,11 +591,6 @@ public class HomePage extends AppCompatActivity
                     contact.setDesc(phoneNo);
                     Toast.makeText(getApplicationContext(),contact.getDesc()+ " "+contact.getTitle(),Toast.LENGTH_LONG).show();
                     dbHandler.AddProductToContact(contact);
-
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    ContactFragment fragment = new ContactFragment();
-                    transaction.replace(R.id.Fragment_Container, fragment);
-                    transaction.commit();
 
                 } catch (Exception e) {
                     e.printStackTrace();

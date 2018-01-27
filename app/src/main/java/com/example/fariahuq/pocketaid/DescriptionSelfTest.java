@@ -31,7 +31,7 @@ public class DescriptionSelfTest extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private int []rainbow;
-    private int pos,fav;
+    private int pos,fav,tofav;
     private static ArrayList<SelfTestItem> selfTests;
     private static int count;
     private String title;
@@ -42,12 +42,14 @@ public class DescriptionSelfTest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_description);
-
+        tofav = 0;
         rainbow =(this.getResources().getIntArray(R.array.array));
         Bundle extras = getIntent().getExtras();
         pos = extras.getInt("position");
         fav = extras.getInt("favourite");
         title = extras.getString("headline");
+        if(extras.getString("tofav")!=null)
+            tofav = 1;
         myDBHandler = new MyDBHandler(this,null,null,1);
         selfTests = myDBHandler.DatabaseToStringTestItem(pos+1);
         count = selfTests.size();
@@ -94,7 +96,10 @@ public class DescriptionSelfTest extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(getApplicationContext(),HomePage.class);
-        intent.putExtra("name","test");
+        if(tofav==0)
+            intent.putExtra("name","test");
+        else
+            intent.putExtra("name","totest");
         startActivity(intent);
         finish();
     }

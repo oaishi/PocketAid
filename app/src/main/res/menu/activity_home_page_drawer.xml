@@ -4,10 +4,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_profile"
-            android:icon="@drawable/profile"
-            android:title="Your Profile" />
-        <item
             android:id="@+id/nav_checkup"
             android:icon="@android:drawable/ic_input_get"
             android:title="Virtual CheckUp" />
@@ -33,11 +29,6 @@
             android:id="@+id/nav_message"
             android:icon="@drawable/ic_menu_send"
             android:title="Emergency Contact" />
-
-        <item
-            android:id="@+id/nav_hospitals"
-            android:icon="@drawable/ic_local_hospital_black_24dp"
-            android:title="Nearby Hopspitals" />
 
         <item
             android:id="@+id/nav_fav"

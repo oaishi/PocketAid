@@ -98,6 +98,7 @@ public class CustomAdapterSymptomsFav extends RecyclerView.Adapter<CustomAdapter
                 intent.putExtra("position",dataSet.get(listPosition).getId());
                 intent.putExtra("favourite",dataSet.get(listPosition).getFavourite());
                 intent.putExtra("headline",dataSet.get(listPosition).getTitle());
+                intent.putExtra("tofav","tofav");
                 context.startActivity(intent);
             }
         });

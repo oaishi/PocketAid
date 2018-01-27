@@ -264,6 +264,8 @@ public class AddAlarmActivity extends Activity {
         super.onCreate(savedInstanceState);
         setTitle("New Reminder");
         setContentView(R.layout.activity_add_alarm);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("New Alarm");
 
         findViews();
         db = RemindMe.db;
