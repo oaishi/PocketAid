@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-	android:gravity="center">
+	android:layout_height="fill_parent"
+	android:background="@color/White"
+	android:gravity="center"
+	android:orientation="vertical">
 
 	<LinearLayout
 		android:id="@+id/menu_bar"
@@ -18,8 +19,8 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="10dp"
-			android:text="Reminder"
 			android:layout_weight="1"
+			android:text="Reminder"
 			android:textColor="@color/White"
 			android:textSize="22sp" />
 
@@ -106,9 +107,9 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end"
 		android:layout_margin="@dimen/fab_margin"
+		android:onClick="onClick"
 		android:tint="@color/Teal"
 		app:backgroundTint="@color/TealDark"
-		android:onClick="onClick"
 		app:srcCompat="@android:drawable/ic_popup_reminder" />
 
 </LinearLayout>

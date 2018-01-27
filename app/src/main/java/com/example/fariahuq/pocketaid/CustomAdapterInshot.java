@@ -82,6 +82,7 @@ public class CustomAdapterInshot extends RecyclerView.Adapter<CustomAdapterInsho
                 Intent intent = new Intent(context, NotificationWindowInshot.class);
                 intent.putExtra("title" , mDataSet.get(position).getTitle());
                 intent.putExtra("desc" , mDataSet.get(position).getDesc());
+                intent.putExtra("image" , mDataSet.get(position).getImage());
                 context.startActivity(intent);
             }
         });

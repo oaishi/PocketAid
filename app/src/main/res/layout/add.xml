@@ -3,7 +3,7 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="@color/Background">
+	android:background="@color/White">
 
 	<android.support.design.widget.CoordinatorLayout
 		android:layout_width="match_parent"
@@ -15,223 +15,223 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="bottom|end"
 			android:layout_margin="@dimen/fab_margin"
-			android:tint="@color/TealDark"
-			app:backgroundTint="@color/Teal"
 			android:clickable="true"
 			android:onClick="create"
-			app:srcCompat="@android:drawable/star_off"/>
+			android:tint="@color/TealDark"
+			app:backgroundTint="@color/Teal"
+			app:srcCompat="@android:drawable/ic_popup_reminder" />
 
-
-	<LinearLayout
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_margin="5dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Alarm Type :"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textSize="18sp" />
-
-            <RadioGroup
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_centerHorizontal="true"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radio_button_selector"
-                    android:button="@null"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="Medication"
-                    android:textSize="14sp"
-                    android:textColor="@drawable/radio_button_text_selector" />
-
-                <RadioButton
-                    android:id="@+id/button1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radio_button_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:textSize="14sp"
-                    android:text="Appointment"
-                    android:textColor="@drawable/radio_button_text_selector" />
-            </RadioGroup>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_margin="5dp">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Alarm Picture :"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_margin="5dp">
-
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_weight="1"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/bg_repeat" />
-
-            <Button
-                android:id="@+id/btnIntend"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/radio_button_selector"
-                android:text="Change"
-                android:textColor="@drawable/radio_button_text_selector"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_margin="5dp"
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:background="@color/Teal"/>
-
-
-        <EditText
-			android:id="@+id/msg_et"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:ems="10"
-			android:hint="Message"
-			android:maxLines="2">
-        </EditText>
 
 		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal">
-		<CheckBox
-			android:id="@+id/sound_cb"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Play ringtone" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Repeat :"
-                android:gravity="center_vertical"
-                android:textColor="@color/common_google_signin_btn_text_dark_focused"
-                android:textSize="18sp"
-                android:padding="5dp"/>
-
-            <RadioGroup
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_centerHorizontal="true"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/yes"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radio_button_selector"
-                    android:button="@null"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="Yes"
-                    android:onClick="onClick"
-                    android:textSize="14sp"
-                    android:textColor="@drawable/radio_button_text_selector" />
-
-                <RadioButton
-                    android:id="@+id/no"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/radio_button_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:textSize="14sp"
-                    android:text="No"
-                    android:onClick="onClick"
-                    android:textColor="@drawable/radio_button_text_selector" />
-            </RadioGroup>
-
-
-        </LinearLayout>
-
-		<ViewSwitcher
-			android:id="@+id/view_switcher"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:paddingLeft="5dip"
-			android:paddingRight="5dip"
-			android:paddingTop="10dip">
+			android:orientation="vertical">
 
-			<include
-				layout="@layout/include_onetime"
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_margin="5dp"
+				android:gravity="center"
+				android:orientation="horizontal">
+
+				<TextView
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="0.5"
+					android:text="Alarm Type :"
+					android:textColor="@color/common_google_signin_btn_text_dark_focused"
+					android:textSize="18sp" />
+
+				<RadioGroup
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_centerHorizontal="true"
+					android:layout_weight="1"
+					android:orientation="horizontal">
+
+					<RadioButton
+						android:id="@+id/button"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_margin="10dp"
+						android:layout_weight="1"
+						android:background="@drawable/radio_button_selector"
+						android:button="@null"
+						android:checked="true"
+						android:gravity="center"
+						android:padding="10dp"
+						android:text="Medication"
+						android:textColor="@drawable/radio_button_text_selector"
+						android:textSize="14sp" />
+
+					<RadioButton
+						android:id="@+id/button1"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_margin="10dp"
+						android:layout_weight="1"
+						android:background="@drawable/radio_button_selector"
+						android:button="@null"
+						android:gravity="center"
+						android:padding="10dp"
+						android:text="Appointment"
+						android:textColor="@drawable/radio_button_text_selector"
+						android:textSize="14sp" />
+				</RadioGroup>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_margin="5dp"
+				android:orientation="horizontal">
+
+				<TextView
+					android:id="@+id/textView"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Alarm Picture :"
+					android:textColor="@color/common_google_signin_btn_text_dark_focused"
+					android:textSize="18sp" />
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_margin="5dp"
+				android:orientation="horizontal">
+
+
+				<ImageView
+					android:id="@+id/imageView1"
+					android:layout_width="150dp"
+					android:layout_height="150dp"
+					android:layout_weight="1"
+					android:scaleType="fitXY"
+					app:srcCompat="@drawable/bg_repeat" />
+
+				<Button
+					android:id="@+id/btnIntend"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom"
+					android:layout_margin="5dp"
+					android:layout_weight="1"
+					android:background="@drawable/radio_button_selector"
+					android:text="Change"
+					android:textColor="@drawable/radio_button_text_selector"
+					android:textSize="18sp" />
+			</LinearLayout>
+
+			<View
 				android:layout_width="fill_parent"
-				android:layout_height="fill_parent" />
+				android:layout_height="2dp"
+				android:layout_margin="5dp"
+				android:background="@color/Teal" />
 
-			<include
-				layout="@layout/include_repeating"
+
+			<EditText
+				android:id="@+id/msg_et"
 				android:layout_width="fill_parent"
-				android:layout_height="fill_parent" />
+				android:layout_height="wrap_content"
+				android:ems="10"
+				android:hint="Message"
+				android:maxLines="2"></EditText>
 
-		</ViewSwitcher>
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
 
-	</LinearLayout>
+				<CheckBox
+					android:id="@+id/sound_cb"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Play ringtone" />
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:orientation="horizontal">
+
+				<TextView
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="0.5"
+					android:gravity="center_vertical"
+					android:padding="5dp"
+					android:text="Repeat :"
+					android:textColor="@color/common_google_signin_btn_text_dark_focused"
+					android:textSize="18sp" />
+
+				<RadioGroup
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_centerHorizontal="true"
+					android:layout_weight="1"
+					android:orientation="horizontal">
+
+					<RadioButton
+						android:id="@+id/yes"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_margin="10dp"
+						android:layout_weight="1"
+						android:background="@drawable/radio_button_selector"
+						android:button="@null"
+						android:checked="true"
+						android:gravity="center"
+						android:onClick="onClick"
+						android:padding="10dp"
+						android:text="Yes"
+						android:textColor="@drawable/radio_button_text_selector"
+						android:textSize="14sp" />
+
+					<RadioButton
+						android:id="@+id/no"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_margin="10dp"
+						android:layout_weight="1"
+						android:background="@drawable/radio_button_selector"
+						android:button="@null"
+						android:gravity="center"
+						android:onClick="onClick"
+						android:padding="10dp"
+						android:text="No"
+						android:textColor="@drawable/radio_button_text_selector"
+						android:textSize="14sp" />
+				</RadioGroup>
+
+
+			</LinearLayout>
+
+			<ViewSwitcher
+				android:id="@+id/view_switcher"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:paddingLeft="5dip"
+				android:paddingRight="5dip"
+				android:paddingTop="10dip">
+
+				<include
+					layout="@layout/include_onetime"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent" />
+
+				<include
+					layout="@layout/include_repeating"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent" />
+
+			</ViewSwitcher>
+
+		</LinearLayout>
 	</android.support.design.widget.CoordinatorLayout>
 
 </ScrollView>

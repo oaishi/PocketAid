@@ -60,6 +60,8 @@ public class HomePage extends AppCompatActivity
     private String frag = "null";
     static final int PICK_CONTACT_REQUEST = 1;
     private ArrayList<DailyInshot> dailyInshots = new ArrayList<>();
+    private ImageLoaderConfiguration config;
+    private ImageLoader imageLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +117,19 @@ public class HomePage extends AppCompatActivity
                         };
                         //Get map of users in datasnapshot to load aid
                         dailyInshots = dataSnapshot.getValue(t);
+                        if(dailyInshots.size()>0) {
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                            HolderOfInshot fragment = new HolderOfInshot();
+
+                            Bundle bundle = new Bundle();
+                            bundle.putParcelableArrayList("arraylist", dailyInshots);
+                            fragment.setArguments(bundle);
+
+                            transaction.replace(R.id.Fragment_Container, fragment);
+                            transaction.commit();
+                        }
+
+
                     }
 
                     @Override
@@ -124,11 +139,14 @@ public class HomePage extends AppCompatActivity
                     }
                 });
 
-
         boolean mboolean = false;
         SharedPreferences settings = getSharedPreferences("com.example.fariahuq.pocketaid", 0);
         mboolean = settings.getBoolean("FIRST_RUN", false);
         if (!mboolean) {
+            config = new ImageLoaderConfiguration.Builder(this).build();
+            ImageLoader.getInstance().init(config);
+            imageLoader = ImageLoader.getInstance();
+
             settings = getSharedPreferences("com.example.fariahuq.pocketaid", 0);
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("FIRST_RUN", true);
@@ -136,27 +154,19 @@ public class HomePage extends AppCompatActivity
             LoadData();
         }
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        HolderOfInshot fragment = new HolderOfInshot();
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("arraylist", dailyInshots);
-        fragment.setArguments(bundle);
-
-        transaction.replace(R.id.Fragment_Container, fragment);
-        transaction.commit();
-
     }
 
     private void Loadimageoflist(String imageUri, final int count) {
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        /*ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
-        ImageLoader imageLoader = ImageLoader.getInstance();
+        ImageLoader imageLoader = ImageLoader.getInstance();*/
+        Log.i("photo" , "aid image entered"  );
         imageLoader.loadImage(imageUri, targetSize, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 String pathname = path + "aid" + Integer.toString(count) + ".jpg";
                 File file = new File(pathname);
+                Log.i("photo" , "aid image" + pathname );
                 if (file.exists() == false) {
                     File mypath = new File(directoryaid, "/" + "aid" + Integer.toString(count) + ".jpg");
                     FileOutputStream fos = null;
@@ -178,20 +188,23 @@ public class HomePage extends AppCompatActivity
     }
 
     private void Loadimageofsymptoms(String imageUri, final int count) {
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        /*ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
-        ImageLoader imageLoader = ImageLoader.getInstance();
+        ImageLoader imageLoader = ImageLoader.getInstance();*/
+        Log.i("photo" , "Symptom image entered"  );
         imageLoader.loadImage(imageUri, targetSize, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                String pathname = path + "symp" + Integer.toString(count) + ".jpg";
+                String pathname = path + "symptoms" + Integer.toString(count) + ".jpg";
                 File file = new File(pathname);
+                Log.i("photo" , "Symptom image" + pathname );
                 if (file.exists() == false) {
-                    File mypath = new File(directoryaid, "/" + "symp" + Integer.toString(count) + ".jpg");
+                    File mypath = new File(directoryaid, "/" + "symptoms" + Integer.toString(count) + ".jpg");
                     FileOutputStream fos = null;
                     try {
                         fos = new FileOutputStream(mypath);
                         loadedImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                        Log.i("photo" , "Symptom image" + mypath.getAbsolutePath());
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
@@ -207,14 +220,16 @@ public class HomePage extends AppCompatActivity
     }
 
     private void Loadimageofitem(String imageUri, final int count , final int holder) {
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        /*ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
-        ImageLoader imageLoader = ImageLoader.getInstance();
+        ImageLoader imageLoader = ImageLoader.getInstance();*/
+        Log.i("photo" , "aid item image entered"  );
         imageLoader.loadImage(imageUri, targetSize, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 String pathname = path + "aiditem" + Integer.toString(holder) + Integer.toString(count) + ".jpg";
                 File file = new File(pathname);
+                Log.i("photo" , "aid item image" + pathname );
                 if (file.exists() == false) {
                     File mypath = new File(directoryaid, "/" + "aiditem" + Integer.toString(holder) + Integer.toString(count) + ".jpg");
                     FileOutputStream fos = null;
@@ -236,20 +251,23 @@ public class HomePage extends AppCompatActivity
     }
 
     private void Loadimageofsymptomsitem(String imageUri, final int count , final int holder) {
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
+        /*ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
-        ImageLoader imageLoader = ImageLoader.getInstance();
+        ImageLoader imageLoader = ImageLoader.getInstance();*/
+        Log.i("photo" , "Symptom item image entered "  );
         imageLoader.loadImage(imageUri, targetSize, options, new SimpleImageLoadingListener() {
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                 String pathname = path + "sympitem" + Integer.toString(holder) + Integer.toString(count) + ".jpg";
                 File file = new File(pathname);
+                Log.i("photo" , "Symptom item image " + pathname );
                 if (file.exists() == false) {
                     File mypath = new File(directoryaid, "/" + "sympitem" + Integer.toString(holder) + Integer.toString(count) + ".jpg");
                     FileOutputStream fos = null;
                     try {
                         fos = new FileOutputStream(mypath);
                         loadedImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                        Log.i("photo" , "Symptom item image" + mypath.getAbsolutePath());
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
@@ -260,6 +278,7 @@ public class HomePage extends AppCompatActivity
                         }
                     }
                 }
+
             }
         });
     }
@@ -269,6 +288,50 @@ public class HomePage extends AppCompatActivity
         refsymp = FirebaseDatabase.getInstance().getReference().child("Symptoms Checker");
         refcheck = FirebaseDatabase.getInstance().getReference().child("Virtual Checkup");
         reftest = FirebaseDatabase.getInstance().getReference().child("SelfTest");
+
+        refsymp.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        GenericTypeIndicator<ArrayList<Symptoms>> t = new GenericTypeIndicator<ArrayList<Symptoms>>() {
+                        };
+                        //Get map of users in datasnapshot to load aid
+                        ArrayList<Symptoms> symptoms = dataSnapshot.getValue(t);
+                        int count;
+                        for (count = 0; count < symptoms.size(); count++) {
+                            Symptoms symptom = symptoms.get(count);
+                            //Log.i("Firebase!", symptom.getImage());
+                            /*if (symptom.getImage().equals("null") == false) {
+                                Log.i("photo" , "Symptom image set " + symptom.getImage());
+                                Loadimageofsymptoms(symptom.getImage(), count);
+                                symptom.setImage("symptoms"+Integer.toString(count) + ".jpg");
+                                Log.i("photo" , "Symptom image set " + symptom.getImage());
+                            } else*/
+                                symptom.setImage("null");
+                            long i = dbHandler.AddProductToSymptoms(symptom);
+                            GenericTypeIndicator<ArrayList<SymptomsItem>> ti = new GenericTypeIndicator<ArrayList<SymptomsItem>>() {
+                            };
+                            ArrayList<SymptomsItem> ai = dataSnapshot.child(Integer.toString(count) + "/Steps").getValue(ti);
+                            for (int countitem = 0; countitem < ai.size(); countitem++) {
+                                SymptomsItem symptomsItem = ai.get(countitem);
+                                if (symptomsItem.getImage().equals("null") == false) {
+                                    Log.i("photo" , "Symptom item image set " + symptomsItem.getImage());
+                                    Loadimageofsymptomsitem(symptomsItem.getImage(), countitem , count);
+                                    symptomsItem.setImage("sympitem"+Integer.toString(count)+Integer.toString(countitem) + ".jpg");
+                                    Log.i("photo" , "Symptom item image set " + symptomsItem.getImage());
+                                } else
+                                    symptomsItem.setImage("null");
+                                dbHandler.AddProductToSymptomsItem(symptomsItem, i);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.i("p!","done");
+                        //handle databaseError
+                    }
+                });
 
         ref.addListenerForSingleValueEvent(
                 new ValueEventListener() {
@@ -283,6 +346,7 @@ public class HomePage extends AppCompatActivity
                             Aid aid = aids.get(count);
                             //Log.i("Firebase!", aid.getImage());
                             if (aid.getImage().equals("null") == false) {
+                                Log.i("photo" , "aid image set " + aid.getImage());
                                 Loadimageoflist(aid.getImage(), count);
                                 aid.setImage("aid"+Integer.toString(count) + ".jpg");
                             } else
@@ -294,51 +358,12 @@ public class HomePage extends AppCompatActivity
                             for (int countitem = 0; countitem < ai.size(); countitem++) {
                                 AidItem aiditem = ai.get(countitem);
                                 if (aiditem.getImage().equals("null") == false) {
+                                    Log.i("photo" , "aid item image set " + aiditem.getImage());
                                     Loadimageofitem(aiditem.getImage(), countitem , count);
                                     aiditem.setImage("aiditem"+Integer.toString(count)+Integer.toString(countitem) + ".jpg");
                                 } else
                                     aiditem.setImage("null");
                                 dbHandler.AddProductToAidItem(aiditem, i);
-                            }
-                        }
-                        }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.i("p!","done");
-                        //handle databaseError
-                    }
-                });
-
-        refsymp.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        GenericTypeIndicator<ArrayList<Symptoms>> t = new GenericTypeIndicator<ArrayList<Symptoms>>() {
-                        };
-                        //Get map of users in datasnapshot to load aid
-                        ArrayList<Symptoms> symptoms = dataSnapshot.getValue(t);
-                        int count;
-                        for (count = 0; count < symptoms.size(); count++) {
-                            Symptoms symptom = symptoms.get(count);
-                            //Log.i("Firebase!", symptom.getImage());
-                            if (symptom.getImage().equals("null") == false) {
-                                Loadimageofsymptoms(symptom.getImage(), count);
-                                symptom.setImage("symp"+Integer.toString(count) + ".jpg");
-                            } else
-                                symptom.setImage("null");
-                            long i = dbHandler.AddProductToSymptoms(symptom);
-                            GenericTypeIndicator<ArrayList<SymptomsItem>> ti = new GenericTypeIndicator<ArrayList<SymptomsItem>>() {
-                            };
-                            ArrayList<SymptomsItem> ai = dataSnapshot.child(Integer.toString(count) + "/Steps").getValue(ti);
-                            for (int countitem = 0; countitem < ai.size(); countitem++) {
-                                SymptomsItem symptomsItem = ai.get(countitem);
-                                if (symptomsItem.getImage().equals("null") == false) {
-                                    Loadimageofsymptomsitem(symptomsItem.getImage(), countitem , count);
-                                    symptomsItem.setImage("sympitem"+Integer.toString(count)+Integer.toString(countitem) + ".jpg");
-                                } else
-                                    symptomsItem.setImage("null");
-                                dbHandler.AddProductToSymptomsItem(symptomsItem, i);
                             }
                         }
                     }
